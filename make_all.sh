@@ -12,4 +12,9 @@ cd LEOPACK_linons2
 make linons2
 cd ..
 #
-
+# Compile blscnlsc
+#
+cd LEOPACK_blscnlsc
+make blscnlsc
+cd ..
+#
