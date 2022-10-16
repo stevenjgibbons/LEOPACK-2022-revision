@@ -6,3 +6,10 @@ cd LEOPACK_linons1
 make linons1
 cd ..
 #
+# Compile linons2
+#
+cd LEOPACK_linons2
+make linons2
+cd ..
+#
+
