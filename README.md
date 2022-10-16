@@ -41,3 +41,4 @@ This README file will be adapted with every directory I add.
 Directories:
 
 LEOPACK_linons1 (added 2022-10-16: Linear Onset of Thermal Convection 1)
+LEOPACK_linons2 (added 2022-10-16: Linear Onset of Thermal Convection 2)
