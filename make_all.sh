@@ -18,3 +18,9 @@ cd LEOPACK_blscnlsc
 make blscnlsc
 cd ..
 #
+# Compile blscnlsic
+#
+cd LEOPACK_blscnlsic
+make blscnlsic
+cd ..
+#
