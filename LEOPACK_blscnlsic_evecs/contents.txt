@@ -1,0 +1,8 @@
+blscnlsic_evecs.f
+boundary_coeffs.txt
+clean.sh
+debug.h
+example_a.input
+LEOPACK_blscnlsic_evecs.pdf
+Makefile
+stat.h
