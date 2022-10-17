@@ -45,3 +45,5 @@ LEOPACK_linons1 (added 2022-10-16: Linear Onset of Thermal Convection 1)
 LEOPACK_linons2 (added 2022-10-16: Linear Onset of Thermal Convection 2)
 
 LEOPACK_blscnlsc (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution Calculate)
+
+LEOPACK_blscnlsic (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate)
