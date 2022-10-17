@@ -1,0 +1,26 @@
+* input file for blscnlsic_evecs
+*
+boundary_coeffs.txt                    : INHOMOG TEMP. FILE
+example_aOUTPUT                        : ROOT
+0.666666666   1.666666666  2   1   45  : RI, RO, IVELBC, ITHEBC, LU
+  12   0.001   10.0   4    14          : MXATT CTOL DRSV, NEV, NCV
+*--------------------------------------------------------------------------
+*NR  ISP  LH  SYM  MLOW   MINC  MMAX  IOF   CC   CB1   CB2    CA   CE
+*  CD   CF     CG     CH       CI   EPS_in  EPS_out  DCH  NCH  MFLOQ
+*--------------------------------------------------------------------------
+ 60   2   14   1    0      6    12      4   7.0   1.0   0.0   7.0  1.0
+   1.0  1.0  447.2136   7500.0   1.0   0.0  0.0070898154     500.0  1   1
+*--------------------------------------------------------------------------
+*
+* In Zhang and Gubbins (1996), Phys Fluids, v8 p1141-1148,
+* epsilon is set to 0.001 for the calculation which is performed
+* in Table 1.
+* 
+* Their spherical harmonics have normalisation \int_S (Y_l^m)^2 = 4 \pi
+* Our function is normalised so that \int_S g(theta,phi)^2 = 1
+* Our epsilon must be 2.0 * sqrt( 4.0 * pi ) multiplied by the epsilon
+* quoted by Zhang and Gubbins.
+*
+* Hence eps = 0.001 --> eps = 0.0070898154
+*
+*--------------------------------------------------------------------------
