@@ -1,0 +1,17 @@
+cicibcdts2.f
+clean.sh
+e0_10_y22_cic_Ra75000.input
+e0_30_y22_cic_Ra75000.input
+e0_30_y22_cic_Ra75000.vecsm
+e0_30_y22_cic_Ra75000.vecsv
+LEOPACK_cicibcdts2.pdf
+Makefile
+y22_boundary_temp.ints
+y22_boundary_temp.vecs
+y22_boundary_temp.xarr
+y22_cic_Ra75000.intsm
+y22_cic_Ra75000.intsv
+y22_cic_Ra75000.vecsm
+y22_cic_Ra75000.vecsv
+y22_cic_Ra75000.xarrm
+y22_cic_Ra75000.xarrv
