@@ -24,3 +24,15 @@ cd LEOPACK_blscnlsic
 make blscnlsic
 cd ..
 #
+# Compile blscnlsic_evecs
+#
+cd LEOPACK_blscnlsic_evecs
+make blscnlsic_evecs
+cd ..
+#
+# Compile cicibcdts2
+#
+cd LEOPACK_cicibcdts2
+make cicibcdts2
+cd ..
+#
