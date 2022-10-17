@@ -50,3 +50,4 @@ LEOPACK_blscnlsic (added 2022-10-16: Boundary Locked Steady Convection Non-Linea
 
 LEOPACK_blscnlsic_evecs (added 2022-10-17: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate with Eigenvectors)
 
+LEOPACK_cicibcdts2 (added 2022-10-17: Conducting Innter Core Inhomogeneous Boundary Convective Dynamo Time-Step code
