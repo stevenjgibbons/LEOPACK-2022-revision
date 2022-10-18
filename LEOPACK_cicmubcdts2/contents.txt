@@ -1,4 +1,3 @@
-cicmubcdts2
 cicmubcdts2.f
 cicmubcdts2.input
 clean.sh
