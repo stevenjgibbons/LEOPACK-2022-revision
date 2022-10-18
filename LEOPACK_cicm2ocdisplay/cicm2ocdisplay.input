@@ -1,0 +1,14 @@
+*
+* Input file for cicm2ocdisplay
+*
+junkfilesOUTPUT                : Stem for output filenames
+y22_cic_Ra75000.intsv          : Name of velocity/temperature harms file
+y22_cic_Ra75000.vecsv          : Name of velocity/temperature vector file
+y22_cic_Ra75000.xarrv          : Name of velocity/temperature xarr file
+y22_cic_Ra75000.intsm          : Name of magnetic field harms file
+y22_cic_Ra75000.vecsm          : Name of magnetic field vector file
+y22_cic_Ra75000.xarrm          : Name of magnetic field xarr file
+  0.1                          : SCAL (Strength of boundary heating)
+y22_boundary_temp.ints         : Name of inhomog. temperature harms file
+y22_boundary_temp.vecs         : Name of inhomog. temperature vector file
+y22_boundary_temp.xarr         : Name of inhomog. temperature xarr file
