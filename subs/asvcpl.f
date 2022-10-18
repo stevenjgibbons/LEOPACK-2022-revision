@@ -1,0 +1,191 @@
+C*********************************************************************
+C subroutine Adapted Solution Vector ComPLete ************************
+C            -       -        -      -  --    ************************
+C Steve Gibbons Wed Oct 27 14:10:12 GMT 1999                         C
+C____________________________________________________________________C
+C                                                                    C
+C A solution vector whose end nodes are defined implicitly by the    C
+C boundary conditions rather than given explicitly may have 1 or 2   C
+C nodes 'missing' at each boundary.                                  C
+C                                                                    C
+C ASVCPL uses the finite difference coefficients in SVFDC to fill in C
+C these points. It is not usually necessary to do this when further  C
+C calculations are required as ASVDR will disregard all such values. C
+C However, it is preferable when observing a solution that all       C
+C elements are present.                                              C
+C                                                                    C
+C____________________________________________________________________C
+C                                                                    C
+C Input variables :-                                                 C
+C ===============                                                    C
+C  Integer                                                           C
+C  -------                                                           C
+C                                                                    C
+C     NR        : Number of radial grid nodes.                       C
+C     NDCS      : Maximum distinct finite difference schemes         C
+C                  stored by the array SVFDC.                        C
+C     INARR     : Int. parameter array corresponding to ASV          C
+C                 Dim ( * ) but the following must be true.          C
+C                                                                    C
+C                 INARR( 1 ) = IFORMF                                C
+C                 INARR( 2 ) = NR      See INDFUN for details        C
+C                 INARR( 3 ) = NH                                    C
+C                                                                    C
+C     MHP       : Array length ( * ) - atleast length NH             C
+C                  Pointer array to finite difference coefficients.  C
+C                  MHP( ih ) = is, which is the 4th index of         C
+C                  array SVFDC - indicates f.d. scheme used.         C
+C                                                                    C
+C     MHIBC     : MHIBC( is ) describes the inner boundary           C
+C                  condition for scheme IS.                          C
+C                                                                    C
+C  MHIBC( is ) = 1 --> No condition is to be assumed at the bndry.   C
+C  MHIBC( is ) = 2 --> Function must vanish at the bndry.            C
+C  MHIBC( is ) = 3 --> First derivative must vanish at the bndry.    C
+C  MHIBC( is ) = 4 --> Function must vanish at the bndry AND         C
+C                       first derivative must vanish at the bndry.   C
+C  MHIBC( is ) = 5 --> Function must vanish at the bndry AND         C
+C                       second derivative must vanish at the bndry.  C
+C  MHIBC( is ) = 6 --> r df/dr - f(r) = 0   at the bndry.            C
+C  MHIBC( is ) = 7 --> insulating magnetic field.                    C
+C                                                                    C
+C     MHOBC     : MHOBC( is ) describes the outer boundary           C
+C                  condition for scheme IS. (See above for key.)     C
+C                                                                    C
+C     NFDCM     : Leading order of the array SVFDC.                  C
+C                 This must be atleast (2*NBN + 1)                   C
+C     NDRVS     : Number of derivatives stored in SVFDC.             C
+C     NDRVM     : Limit on NDRVS. Array bound for SVFDC.             C
+C                                                                    C
+C     NBN       : Number of bounding nodes as supplied to SVFDCF.    C
+C                                                                    C
+C  Double Precision                                                  C
+C  ----------------                                                  C
+C                                                                    C
+C     ASV       : Solution vector. Dim ( * )                         C
+C                 Length must be atleast NRI*NH                      C
+C                                                                    C
+C     SVFDC     : Finite difference coefficient matrix.              C
+C                  Dimension ( NFDCM, NR, NDRVM+1, NDCS ).           C
+C                   Array is generated by the routine svfdcf         C
+C                 See documentation for SVFDCF for details.          C
+C                                                                    C
+C____________________________________________________________________C
+C
+C*********************************************************************
+      SUBROUTINE ASVCPL( ASV, NR, NDCS, INARR, MHP, MHIBC, MHOBC,
+     1                   NFDCM, NDRVS, NDRVM, NBN, SVFDC )
+      IMPLICIT NONE
+C____________________________________________________________________C
+C Variable declarations - Parameters ................................C
+      INTEGER NR, NDCS, INARR( * ), MHP( * ), MHIBC( NDCS ),
+     1        MHOBC( NDCS ), NFDCM, NDRVS, NDRVM, NBN
+      DOUBLE PRECISION ASV( * ), SVFDC( NFDCM, NR, NDRVM+1, NDCS )
+C____________________________________________________________________C
+C Variable declarations - Working variables .........................C
+C
+      INTEGER IH, IS, IR, ISN, IEN, NH, IND, INDFUN, IHD, IBC
+      DOUBLE PRECISION DERV( 1 )
+C____________________________________________________________________C
+C START OF PROGRAM **************************************************C
+C____________________________________________________________________C
+C
+      IHD = 0
+      NH  = INARR( 3 )
+C     .
+C     . Loop around harmonics
+C     .
+      DO IH = 1, NH
+        IS = MHP( IH )
+        IF ( IS.LT.1 .OR. IS.GT.NDCS ) THEN
+          PRINT *,' Subroutine ASVCPL.'
+          PRINT *,' Harmonic ', IH
+          PRINT *,' IS    = ', IS
+          PRINT *,' NDCS  = ', NDCS
+          PRINT *,' Program aborted.'
+          STOP
+        ENDIF
+C
+C Inner boundary
+C
+        IBC = MHIBC( IS )
+        IF ( IBC.EQ.1 ) GOTO 50
+C       .
+        IF ( IBC.EQ.2 .OR. IBC.EQ.3 .OR. IBC.EQ.6
+     1         .OR. IBC.EQ.7 ) THEN
+           ISN = 1
+           IEN = 1
+           GOTO 51
+        ENDIF
+C       .
+        IF ( IBC.EQ.4 .OR. IBC.EQ.5 ) THEN
+           ISN = 1
+           IEN = 2
+           GOTO 51
+        ENDIF
+C       .
+        PRINT *,' Subroutine ASVCPL'
+        PRINT *,' MHIBC(',IS,') = ', IBC
+        PRINT *,' Program aborted.'
+        STOP
+C       .
+ 51     CONTINUE
+        DO IR = ISN, IEN
+C         .
+C         . Find index of element
+C         .
+          IND = INDFUN( IR, IH, INARR )
+C         .
+          CALL ASVDR ( ASV, IR, IS, IH, NBN, IHD, NFDCM, NR, NDRVS,
+     1                 NDRVM, DERV, INARR, SVFDC, NDCS )
+C         .
+          ASV( IND ) = DERV( 1 )
+C         .
+        ENDDO
+C       .
+ 50     CONTINUE
+C
+C Outer boundary
+C
+        IBC = MHOBC( IS )
+        IF ( IBC.EQ.1 ) GOTO 60
+C       .
+        IF ( IBC.EQ.2 .OR. IBC.EQ.3 .OR. IBC.EQ.6
+     1         .OR. IBC.EQ.7 ) THEN
+           ISN = NR
+           IEN = NR
+           GOTO 61
+        ENDIF
+C       .
+        IF ( IBC.EQ.4 .OR. IBC.EQ.5 ) THEN
+           ISN = NR-1
+           IEN = NR
+           GOTO 61
+        ENDIF
+C       .
+        PRINT *,' Subroutine ASVCPL'
+        PRINT *,' MHOBC(',IS,') = ', IBC
+        PRINT *,' Program aborted.'
+        STOP
+C       .
+ 61     CONTINUE
+        DO IR = ISN, IEN
+C         .
+C         . Find index of element
+C         .
+          IND = INDFUN( IR, IH, INARR )
+C         .
+          CALL ASVDR ( ASV, IR, IS, IH, NBN, IHD, NFDCM, NR, NDRVS,
+     1                 NDRVM, DERV, INARR, SVFDC, NDCS )
+C         .
+          ASV( IND ) = DERV( 1 )
+C         .
+        ENDDO
+C       .
+ 60     CONTINUE
+C
+      ENDDO
+C     .
+      RETURN
+      END
+C*********************************************************************
