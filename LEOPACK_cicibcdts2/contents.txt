@@ -1,3 +1,5 @@
+LEOPACK_cicibcdts2 (added 2022-10-17: Conducting Inner Core Inhomogeneous Boundary Convective Dynamo Time-Step code
+
 cicibcdts2.f
 clean.sh
 e0_10_y22_cic_Ra75000.input
