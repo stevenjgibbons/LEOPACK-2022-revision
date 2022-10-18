@@ -1,0 +1,12 @@
+cicmubcdts2
+cicmubcdts2.f
+cicmubcdts2.input
+clean.sh
+condic_case1.intsm
+condic_case1.intsv
+condic_case1.vecsm
+condic_case1.vecsv
+condic_case1.xarrm
+condic_case1.xarrv
+LEOPACK_cicmubcdts2.pdf
+Makefile
