@@ -48,6 +48,14 @@ This README file will be adapted with every directory I add.
 
 Directories:
 
+linalg (added 2022-10-18: contains all the BLAS, LAPACK, and ARPACK routines needed)
+
+subs (added 2022-10-18: contains all the FORTRAN77 subroutines needed for the codes)
+
+gsubs (added 2022-10-18: contains all the graphics subroutines that call PGPLOT routines)
+
+lib, bin (added 2022-10-18: made to contain the libraries and graphics code binaries on compilation)
+
 LEOPACK_linons1 (added 2022-10-16: Linear Onset of Thermal Convection 1)
 
 LEOPACK_linons2 (added 2022-10-16: Linear Onset of Thermal Convection 2)
