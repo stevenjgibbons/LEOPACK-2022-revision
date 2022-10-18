@@ -1,6 +1,8 @@
 #!/bin/sh
 #
 for dir in \
+	bin \
+	lib \
 	LEOPACK_linons1 \
 	LEOPACK_linons2 \
 	LEOPACK_blscnlsc \
