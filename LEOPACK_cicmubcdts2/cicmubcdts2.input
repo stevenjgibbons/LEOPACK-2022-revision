@@ -1,0 +1,19 @@
+cicmubcdts2_OUTPUT
+condic_case1.intsv                       : ints file velocity
+condic_case1.vecsv                       : vecs file velocity
+condic_case1.xarrv                       : xarr file velocity
+condic_case1.intsm                       : ints file magnetic field
+condic_case1.vecsm                       : vecs file magnetic field
+condic_case1.xarrm                       : xarr file magnetic field
+   -2             : NTHP (-1 --> LH+2, -2 --> 3*LH/2 )
+ 1.0   0.0   0.8284023     1.0   1.0    : CA  CB1  CB2   CC   CD
+ 1.0     1.0     2000.0   75000.0   1.0 : CE   CF   CG   CH   CI
+ 200.0   1.0      0.2      1.0          : CJ   CK   CL   CM
+ 0.4     0.0001    1.0000               : CFAC    DELTAT   STIME
+* ioutf is set to 0 for no output, 1 for file and 6 for screen
+* nts is the total number of time-steps required
+* ntsbb is the number of time-steps between backups
+* ntsbs is the number of time-steps between snapshots
+   0       10   40  20000               : IOUTF  NTS NTSBB NTSBS
+  10     0.1000                         : ITMX   DTOL
+  25     1000    1000                   : NTSBSE NTSBLE NTSBME
