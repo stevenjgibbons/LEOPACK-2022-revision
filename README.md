@@ -72,5 +72,5 @@ LEOPACK_cicmubcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Uniform 
 
 LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
 
-LEOPACK_cicmubcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Inhomogeneous Boundary Convective Dynamo Time-Step code)
+LEOPACK_cicmibcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Inhomogeneous Boundary Convective Dynamo Time-Step code)
 
