@@ -1,1 +1,2 @@
-This directory should contain compiled executables 
+clean.sh
+Makefile
