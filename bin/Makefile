@@ -1,0 +1,4 @@
+#
+clean:
+	sh clean.sh
+#
