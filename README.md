@@ -32,6 +32,14 @@ https://sites.astro.caltech.edu/~tjp/pgplot/
 As of today's date, I can obtain and compile the PGPLOT software from this source
 and it still works (tested on Ubuntu 20 Linux).
 
+To compile the graphics programs, make sure that the line
+PGPLOT_LIB= [location of libpgplot.a]
+in the file gprograms/Makefile
+is set correctly prior to running the script
+compile_graphics_programs.sh
+and make sure that the environment variable PGPLOT_FONT is set to the location
+of the file grfont.dat when you run any of the graphics programs.
+
 I will add directories as and when I can test and document them.
 I want each code to have its own pdf document, rather than the 600 page document
 that came with the original package. I found this rather difficult to navigate
