@@ -1,0 +1,11 @@
+Makefile
+clean.sh
+
+If the graphics programs are to be compiled then it should also contain the libraries after execution of the compile_graphics_programs.sh script
+Note that PGPLOT must be installed for this to work.
+
+bllib.a
+lalib.a
+arlib.a
+subslib.a
+pgslib.a
