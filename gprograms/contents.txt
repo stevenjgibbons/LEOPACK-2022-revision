@@ -1,1 +1,13 @@
-
+arrows_const_r3.f
+arrows_z_eq_merid4.f
+arr_rm_mean.f
+cic_arrows_z_eq_merid4.f
+cicm_arrows_z_eq_merid4.f
+compile_all.sh
+continent_arrows_const_r3.f
+continent_full_sphere_plot.f
+cutout_sphere_plot.f
+full_sphere_plot.f
+Makefile
+ps_2plot_z_eq_merid2.f
+shc_sphere_plot.f
