@@ -36,3 +36,9 @@ cd LEOPACK_cicibcdts2
 make cicibcdts2
 cd ..
 #
+# Compile cicmubcdts2
+#
+cd LEOPACK_cicmubcdts2
+make cicmubcdts2
+cd ..
+#

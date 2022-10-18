@@ -6,7 +6,8 @@ for dir in \
 	LEOPACK_blscnlsc \
 	LEOPACK_blscnlsic  \
 	LEOPACK_blscnlsic_evecs \
-	LEOPACK_cicibcdts2
+	LEOPACK_cicibcdts2 \
+	LEOPACK_cicmubcdts2
 do
     cd $dir
     pwd
