@@ -1,0 +1,7 @@
+* input file for iic2cicsc
+*
+./case1.ints                                : Harmonics file
+./case1.vecs                                : Vector file
+./case1.xarr                                : Radial spacings file
+example_aOUTPUT                             : File name stem
+  18             3                          : NRIC  ISPIC
