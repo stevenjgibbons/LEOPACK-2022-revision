@@ -9,6 +9,8 @@ for dir in \
 	LEOPACK_blscnlsic  \
 	LEOPACK_blscnlsic_evecs \
 	LEOPACK_cicibcdts2 \
+	LEOPACK_cicubcdts2 \
+	LEOPACK_cicmibcdts2 \
 	LEOPACK_cicmubcdts2
 do
     cd $dir

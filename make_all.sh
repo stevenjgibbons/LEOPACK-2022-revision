@@ -30,6 +30,12 @@ cd LEOPACK_blscnlsic_evecs
 make blscnlsic_evecs
 cd ..
 #
+# Compile cicubcdts2
+#
+cd LEOPACK_cicubcdts2
+make cicubcdts2
+cd ..
+#
 # Compile cicibcdts2
 #
 cd LEOPACK_cicibcdts2
@@ -40,5 +46,11 @@ cd ..
 #
 cd LEOPACK_cicmubcdts2
 make cicmubcdts2
+cd ..
+#
+# Compile cicmibcdts2
+#
+cd LEOPACK_cicmibcdts2
+make cicmibcdts2
 cd ..
 #
