@@ -54,3 +54,9 @@ cd LEOPACK_cicmibcdts2
 make cicmibcdts2
 cd ..
 #
+# Compile iic2cicsc
+#
+cd LEOPACK_iic2cicsc
+make iic2cicsc
+cd ..
+#
