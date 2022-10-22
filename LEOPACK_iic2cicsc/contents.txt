@@ -1,0 +1,9 @@
+ase1.ints
+case1.vecs
+case1.xarr
+clean.sh
+example_a.input
+example_b.input
+iic2cicsc.f
+LEOPACK_iic2cicsc.pdf
+Makefile
