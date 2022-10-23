@@ -1,0 +1,21 @@
+* input file for o2ibtctsc2
+*
+example_aOUTPUT                            : Filename stem
+example_a.ints                             : indices file for homog. soln.
+example_a.vecs                             : vector file for homog. soln.
+example_a.xarr                             : radial file for homog. soln.
+example_aHEATFLUX.ints                     : boundary temp. harms
+example_aHEATFLUX.vecs                     : boundary temp. vecs
+example_aHEATFLUX.xarr                     : boundary temp. xarrs
+  0.30                                     : SCAL
+   -2             : NTHP (-1 --> LH+2, -2 --> 3*LH/2 )
+ 1.0   1.0   0.0           1.0   1.0       : CA  CB1  CB2   CC   CD
+ 1.66666666   1.66666666 200.0 1200.0  1.0 : CE   CF   CG   CH   CI
+ 0.5     0.0005    0.0000                  : CFAC    DELTAT   STIME
+* ioutf is set to 0 for no output, 1 for file and 6 for screen
+* nts is the total number of time-steps required
+* ntsbb is the number of time-steps between backups
+* ntsbs is the number of time-steps between snapshots
+   0     10   1000  1000                : IOUTF  NTS NTSBB NTSBS
+   6     10.0                           : ITMX   DTOL
+   1     10    10                       : NTSBSE NTSBLE NTSBME

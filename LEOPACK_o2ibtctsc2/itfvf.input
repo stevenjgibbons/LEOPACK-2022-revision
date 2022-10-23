@@ -1,0 +1,6 @@
+* input file for itfvf
+*
+example_aHEATFLUX                       : Output filename stem
+itfvf.coeffs                            : File containing coeff.s
+ 60  2   4   0.66666666   1.66666666 2  : nr isp ifrmf ri ro ithebc
+ 0.0     1.0                            : epsi  epso
