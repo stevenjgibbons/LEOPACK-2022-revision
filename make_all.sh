@@ -78,3 +78,9 @@ cd LEOPACK_o2ubtctsc2
 make o2ubtctsc2
 cd ..
 #
+# Compile o2ubcdts2
+#
+cd LEOPACK_o2ubcdts2
+make o2ubcdts2
+cd ..
+#
