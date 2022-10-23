@@ -4,6 +4,8 @@ for dir in \
 	bin \
 	lib \
 	LEOPACK_itfvf \
+	LEOPACK_o2ubtctsc2 \
+	LEOPACK_o2ibtctsc2 \
 	LEOPACK_iic2cicsc \
 	LEOPACK_linons1 \
 	LEOPACK_linons2 \

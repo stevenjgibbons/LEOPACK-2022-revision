@@ -66,3 +66,15 @@ cd LEOPACK_itfvf
 make itfvf
 cd ..
 #
+# Compile o2ibtctsc2
+#
+cd LEOPACK_o2ibtctsc2
+make o2ibtctsc2
+cd ..
+#
+# Compile o2ubtctsc2
+#
+cd LEOPACK_o2ubtctsc2
+make o2ubtctsc2
+cd ..
+#
