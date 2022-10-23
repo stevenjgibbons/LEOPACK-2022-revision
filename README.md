@@ -77,3 +77,5 @@ LEOPACK_cicmibcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Inhomoge
 LEOPACK_cicubcdts2 (added 2022-10-22: Conducting Inner Core Uniform Boundary Convective Dynamo Time-Step code)
 
 LEOPACK_iic2cicsc (added 2022-10-22: Insulating Inner Core 2 Conducting Inner Core Solution Convert)
+
+LEOPACK_itfvf (added 2022-10-23: Inhomogeneous Temperature Function Vector Form)
