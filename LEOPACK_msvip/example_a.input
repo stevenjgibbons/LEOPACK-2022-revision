@@ -1,0 +1,24 @@
+* input file for msvip
+*
+example_aOUTPUT                        : File-name stem
+ 40     4      4                       : nr  iformf  nnds
+ 0.6666666 1.6666666           1  0.0  : ri   ro   insf   fac
+ 24     1     0     2     1     12     : lhv isv lhm ism minc mmax
+ 2           2                         : ivelbc ithebc
+*
+* We now add FAC2 times the following solution vector to
+* FAC1 times the existing solution vector.
+*
+   0.0   0.3                           : FAC1  FAC2
+Y22_flux_function.ints
+Y22_flux_function.vecs
+Y22_flux_function.xarr
+*
+* We now add FAC2 times the following solution vector to
+* FAC1 times the existing solution vector.
+*
+   1.0   1.0                           : FAC1  FAC2
+Pr0.6_cg200_ch1200_e0.30.ints
+Pr0.6_cg200_ch1200_e0.30.vecs
+Pr0.6_cg200_ch1200_e0.30.xarr
+*
