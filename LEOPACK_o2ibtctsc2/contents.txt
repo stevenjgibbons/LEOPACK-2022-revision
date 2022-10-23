@@ -1,0 +1,14 @@
+clean.sh
+example_aHEATFLUX.ints
+example_aHEATFLUX.vecs
+example_aHEATFLUX.xarr
+example_a.input
+example_a.ints
+example_a.vecs
+example_a.xarr
+itfvf.coeffs
+itfvf.input
+LEOPACK_o2ibtctsc2.pdf
+Makefile
+o2ibtctsc2.f
+README_o2ibtctsc2.txt
