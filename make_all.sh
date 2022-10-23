@@ -60,3 +60,9 @@ cd LEOPACK_iic2cicsc
 make iic2cicsc
 cd ..
 #
+# Compile itfvf
+#
+cd LEOPACK_itfvf
+make itfvf
+cd ..
+#
