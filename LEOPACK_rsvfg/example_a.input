@@ -1,0 +1,6 @@
+* example file for rsvfg
+example_aOUTPUT                           : File-name stem
+ 50     4                                 : nr  iformf
+ 0.6666666666    1.6666666666  2  0.001   : ri   ro   insf   fac
+ 26     1     0     2     6     24        : lhv isv lhm ism minc mmax
+ 2           1                            : ivelbc ithebc
