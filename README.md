@@ -30,7 +30,9 @@ The only additional requirements are from those codes which make
 graphical displays as these rely on the PGPLOT library:
 https://sites.astro.caltech.edu/~tjp/pgplot/
 As of today's date, I can obtain and compile the PGPLOT software from this source
-and it still works (tested on Ubuntu 20 Linux).
+and it still works (tested on Ubuntu 20 Linux). (In the original programs you could choose
+gif, png, and postscript as output. I currently only get the postscript output to work.
+I have not yet understood why the other formats are not working.)
 
 To compile the graphics programs, make sure that the line
 PGPLOT_LIB= [location of libpgplot.a]
