@@ -1,0 +1,12 @@
+clean.sh
+example_a.input
+example_a.ints
+example_a.vecs
+example_a.xarr
+example_b.input
+example_b.ints
+example_b.vecs
+example_b.xarr
+LEOPACK_o2ubtctsc2.pdf
+Makefile
+o2ubtctsc2.f
