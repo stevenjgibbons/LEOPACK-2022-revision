@@ -1,0 +1,5 @@
+* input file for itfvf
+example_aOUTPUT                         : Output filename stem
+example_a.coeffs                        : File containing coeff.s
+ 40  2   4   0.53846154   1.5384615  2  : nr isp ifrmf ri ro ithebc
+ 1.0     1.0                            : epsi  epso
