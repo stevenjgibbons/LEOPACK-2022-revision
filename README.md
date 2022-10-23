@@ -85,3 +85,5 @@ LEOPACK_itfvf (added 2022-10-23: Inhomogeneous Temperature Function Vector Form)
 LEOPACK_o2ibtctsc2 (added 2022-10-23: Inhomog. Boundary Thermal Conv. Time Step Code 2 )
 
 LEOPACK_o2ubtctsc2 (added 2022-10-23: Uniform Boundary Thermal Conv. Time Step Code 2 )
+
+LEOPACK_o2ubcdts2 (added 2022-10-23: Uniform Boundary Convective Dynamo Time Step Code 2)
