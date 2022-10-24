@@ -58,6 +58,9 @@ gsubs (added 2022-10-18: contains all the graphics subroutines that call PGPLOT 
 
 lib, bin (added 2022-10-18: made to contain the libraries and graphics code binaries on compilation)
 
+(Programs for the linear onset of thermal convection)
+=====================================================
+
 LEOPACK_linons1 (added 2022-10-16: Linear Onset of Thermal Convection 1)
 
 LEOPACK_linons2 (added 2022-10-16: Linear Onset of Thermal Convection 2)
@@ -66,34 +69,46 @@ LEOPACK_sbrlinons1 (added 2022-10-24: Solid Body Rotation Linear Onset of Therma
 
 LEOPACK_sbrlinonsd (added 2022-10-24: Solid Body Rotation Linear Onset of Thermal Convection Drift Rate Solve)
 
+(Programs for boundary locked convection)
+=========================================
+
 LEOPACK_blscnlsc (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution Calculate)
 
 LEOPACK_blscnlsic (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate)
 
 LEOPACK_blscnlsic_evecs (added 2022-10-17: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate with Eigenvectors)
 
+(Programs for full dynamo problem)
+==================================
+
+LEOPACK_o2ubcdts2 (added 2022-10-23: Uniform Boundary Convective Dynamo Time Step Code 2)
+
 LEOPACK_cicibcdts2 (added 2022-10-17: Conducting Inner Core Inhomogeneous Boundary Convective Dynamo Time-Step code)
 
 LEOPACK_cicmubcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Uniform Boundary Convective Dynamo Time-Step code)
 
-LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
+LEOPACK_cicubcdts2 (added 2022-10-22: Conducting Inner Core Uniform Boundary Convective Dynamo Time-Step code)
 
 LEOPACK_cicmibcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Inhomogeneous Boundary Convective Dynamo Time-Step code)
 
-LEOPACK_cicubcdts2 (added 2022-10-22: Conducting Inner Core Uniform Boundary Convective Dynamo Time-Step code)
-
-LEOPACK_iic2cicsc (added 2022-10-22: Insulating Inner Core 2 Conducting Inner Core Solution Convert)
-
-LEOPACK_itfvf (added 2022-10-23: Inhomogeneous Temperature Function Vector Form)
+(Programs for non-magnetic thermal convection)
+==============================================
 
 LEOPACK_o2ibtctsc2 (added 2022-10-23: Inhomog. Boundary Thermal Conv. Time Step Code 2 )
 
 LEOPACK_o2ubtctsc2 (added 2022-10-23: Uniform Boundary Thermal Conv. Time Step Code 2 )
 
-LEOPACK_o2ubcdts2 (added 2022-10-23: Uniform Boundary Convective Dynamo Time Step Code 2)
+(Programs for manipulation of solution vectors)
+===============================================
+
+LEOPACK_itfvf (added 2022-10-23: Inhomogeneous Temperature Function Vector Form)
 
 LEOPACK_msvip (added 2022-10-23: Multiple Solution Vector Ingestion Program)
 
 LEOPACK_rsvfg (added 2022-10-23: Random Solution Vector File Generate)
 
+LEOPACK_iic2cicsc (added 2022-10-22: Insulating Inner Core 2 Conducting Inner Core Solution Convert)
+
 LEOPACK_svenspec (added 2022-10-24: Solution Vector Energy SPECtrum)
+
+LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
