@@ -1,0 +1,8 @@
+#!/bin/sh
+for file in *OUTPUT* sbrlinonsd
+do
+    if test -r $file
+    then
+        rm $file
+    fi
+done
