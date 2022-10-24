@@ -1,0 +1,16 @@
+#
+# Makefile for PROGRAMS directory.
+#
+OPTIM=   -O3
+FORTRAN= gfortran
+#
+all:	\
+        sbrlinons1
+#
+sbrlinons1:	sbrlinons1.f
+	$(FORTRAN) -o ./sbrlinons1 sbrlinons1.f $(OPTIM)
+	\rm -f *.o
+#
+clean:
+	sh clean.sh
+#
