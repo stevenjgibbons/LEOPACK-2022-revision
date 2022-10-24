@@ -95,3 +95,5 @@ LEOPACK_o2ubcdts2 (added 2022-10-23: Uniform Boundary Convective Dynamo Time Ste
 LEOPACK_msvip (added 2022-10-23: Multiple Solution Vector Ingestion Program)
 
 LEOPACK_rsvfg (added 2022-10-23: Random Solution Vector File Generate)
+
+LEOPACK_svenspec (added 2022-10-24: Solution Vector Energy SPECtrum)
