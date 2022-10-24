@@ -49,6 +49,7 @@ and, in the years that followed, I soon lost track of which programs were presen
 This README file will be adapted with every directory I add.
 
 Directories:
+============
 
 linalg (added 2022-10-18: contains all the BLAS, LAPACK, and ARPACK routines needed)
 
