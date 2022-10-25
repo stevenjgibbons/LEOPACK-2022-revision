@@ -1,0 +1,5 @@
+clean.sh
+example_a.input
+example_b.input
+example_c.input
+output_coeffs.shc
