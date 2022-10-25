@@ -1,0 +1,12 @@
+clean.sh
+example_a.input
+example_b.input
+example_c.input
+example_d.input
+example_e.input
+solution.intsm
+solution.intsv
+solution.vecsm
+solution.vecsv
+solution.xarrm
+solution.xarrv
