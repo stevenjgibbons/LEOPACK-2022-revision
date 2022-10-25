@@ -1,0 +1,10 @@
+* input file for cutout_sphere_plot
+*
+  0.0    0.0    0.0                      : alpha beta gamma
+example_cOUTPUT_cutout_sphere_plot       : Filename stem
+case1.ints        : integers
+case1.vecs   : vectorfile
+case1.xarr        : radialfile
+ 165.0 290.0  1.0   1.00   1         : huepos, hueneg, csat, scal, iw
+ 16   6   3   8.0     6              : nlev idev nnds papwidth  icomp
+ 30   40   40    80   40   0.0  1.00 : NRAD NTHE NTHEP NPHI NPHIP PHIV1 RADV2
