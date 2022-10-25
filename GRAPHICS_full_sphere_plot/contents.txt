@@ -1,0 +1,7 @@
+case1.ints
+case1.vecs
+case1.xarr
+clean.sh
+example_a.input
+example_b.input
+example_c.input
