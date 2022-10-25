@@ -1,0 +1,9 @@
+* input file for continent_full_sphere_plot
+ 85.0   10.0      0.0                       : alpha beta gamma
+example_bOUTPUT_continent_full_sphere_plot  : Filename stem
+swave_temp.ints    : integers
+swave_temp.vecs    : vectorfile
+swave_temp.xarr    : radialfile
+ 0.0   120.0  1.0   1.00                    : huepos, hueneg, csat, scal
+ 16   6   3   8.0     7                     : nlev idev nnds papwidth  icomp
+ 40   80   1.50                             : NTHE NPHI RADV2
