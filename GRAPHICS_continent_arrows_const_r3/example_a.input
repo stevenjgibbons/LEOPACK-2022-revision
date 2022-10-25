@@ -1,0 +1,16 @@
+*
+* input file for continent_arrows_const_r3
+*
+example_aOUTPUT_continent_arrows_const_r3  :  Filename stem
+case1.ints                              : Name of integers file
+case1.vecs                              : Name of vectors file
+case1.xarr                              : Name of xarr file
+-180.0  180.0   -88.0    88.0   0.98        : LONG1, LONG2, LAT1, LAT2, RAD
+  80  160   3                               : NTHE  NPHI   NNDS
+ 0.10  0.90   0.20   1.00   8.0   0.6    : xleft xright ybot ytop rwidth rratio
+ 20   6    3    7   0                    : nlev idev  icont  icomp   ias
+ 120.0   0.0  1.0   0.85   1             : huepos, hueneg, csat, scal, iwcont
+ 120.0   0.0   0.75  3    1              : rphue rpsat rplight ipw ips
+   0.0   0.0   0.75  3    4              : rnhue rnsat rnlight inw ins
+  3   0.15   0.9     2                   : npba  rlong  rhead  iwarrow
+   1        0.0       0.0                : icontour  valmin   valmax
