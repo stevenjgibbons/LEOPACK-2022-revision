@@ -1,0 +1,9 @@
+* input file for full_sphere_plot
+ 70.0   20.0  -45.0                      : alpha beta gamma
+example_cOUTPUT_full_sphere_plot         : Filename stem
+case1.ints   : integers
+case1.vecs   : vectorfile
+case1.xarr   : radialfile
+ 155.0   275.0  0.8   1.00             : huepos, hueneg, csat, scal
+ 14   6   3   4.0     1              : nlev idev nnds papwidth  icomp
+ 60  140   1.213                     : NTHE NPHI RADV2
