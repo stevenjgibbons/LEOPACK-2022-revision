@@ -1,0 +1,12 @@
+* input file for ps_2plot_z_eq_merid2
+*
+example_bOUTPUT_ps_2plot_z_eq_merid2     : Filename stem
+case1.ints   : integers
+case1.vecs   : vectorfile
+case1.xarr   : radialfile
+ 60    60   3                            : NRAD  NTHE   NNDS
+  -0.5    0.5        2    0.5            : tfirst  tlast  iview  coord
+ 14   6    3    1   7   0                : nlev idev  icont  icomp1 icomp2 ias
+ 120.0 240.0  1.0   1.00   3             : huepos, hueneg, csat, scal, iw
+  1      0.0     0.0                     : icontour1  valmin1   valmax1
+  1      0.0     0.0                     : icontour2  valmin2   valmax2
