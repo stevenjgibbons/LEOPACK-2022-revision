@@ -1,0 +1,8 @@
+clean.sh
+condic_case1.intsm
+condic_case1.intsv
+condic_case1.vecsm
+condic_case1.vecsv
+condic_case1.xarrm
+condic_case1.xarrv
+example_a.input
