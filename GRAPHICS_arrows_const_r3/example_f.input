@@ -1,0 +1,14 @@
+* input file for arrows_const_r3
+example_fOUTPUT_arrows_const_r3          : Filename stem
+case1.ints   : integers
+case1.vecs   : vectorfile
+case1.xarr   : radialfile
+   0.0  360.0    -88.0    88.0   0.96    : LONG1, LONG2, LAT1, LAT2, RAD
+  60  140   3                            : NTHE  NPHI   NNDS
+ 0.05  0.95   0.05   0.95   6.0   0.8    : xleft xright ybot ytop rwidth rratio
+ 16   6    4    4   0                    : nlev idev  icont  icomp   ias
+ 120.0   0.0  1.0   0.85   1             : huepos, hueneg, csat, scal, iw
+ 120.0   0.0   0.00  2    1              : rphue rpsat rplight ipw ips
+   0.0   0.0   0.00  2    3              : rnhue rnsat rnlight inw ins
+ 200  0.10   0.9                         : npba  rlong  rhead 
+   1        0.0       0.0                : icontour  valmin   valmax
