@@ -1,0 +1,18 @@
+* Input file for cic_arrows_z_eq_merid4
+*
+example_cOUTPUT_cic_arrows_z_eq_merid4   : Filename stem
+solution.intsv            : vel integers
+solution.vecsv            : vel vectorfile
+solution.xarrv            : vel radialfile
+solution.intsm            : mag integers
+solution.vecsm            : mag vectorfile
+solution.xarrm            : mag radialfile
+ 60  100    3                            : NRAD  NTHE   NNDS
+ 0.05  0.45   0.10   0.90    7.0   1.0   : xleft xright ybot ytop rwidth rratio
+ 0.4999  -0.4999     1    0.25           : tfirst  tlast  iview  coord
+ 12   6    4     6    0                  : nlev idev  icont  icomp   ias
+  120.0   0.0 1.0   1.00   3             : huepos, hueneg, csat, scal, iw
+ 120.0   0.0   0.75  5    1              : rphue rpsat rplight ipw ips
+   0.0   0.0   0.75  5    4              : rnhue rnsat rnlight inw ins
+  4   0.15   1.4                         : npba  rlong  rhead
+   1        0.0       0.0                : icontour  valmin   valmax
