@@ -1,0 +1,7 @@
+* input file for shc_sphere_plot
+ 20.0   45.0  -135.0                        : alpha beta gamma
+example_bOUTPUT_shc_sphere_plot            : Filename stem
+output_coeffs.shc                          : SHC coefficient file
+ 305.0  50.0  1.0   1.00                   : huepos, hueneg, csat, scal
+ 15   6   6.0    0                         : nlev idev papwidth  ias
+ 80  120                                   : NTHE NPHI 
