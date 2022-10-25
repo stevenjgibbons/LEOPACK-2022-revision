@@ -1,0 +1,14 @@
+* input file for arrows_z_eq_merid4
+example_bOUTPUT_arrows_z_eq_merid4       : Filename stem
+case1.ints   : integers
+case1.vecs   : vectorfile
+case1.xarr   : radialfile
+ 40   100   3                            : NRAD  NTHE   NNDS
+ 0.10  0.90   0.10   0.90    4.0   2.0   : xleft xright ybot ytop rwidth rratio
+ -0.500    0.500     2    0.5            : tfirst  tlast  iview  coord
+ 14   6    4    7   0                    : nlev idev  icont  icomp   ias
+   20.0 165.0 1.0   1.00   4             : huepos, hueneg, csat, scal, iw
+ 120.0   0.0   0.65  4    1              : rphue rpsat rplight ipw ips
+   0.0   0.0   0.65  4    4              : rnhue rnsat rnlight inw ins
+  4   0.16   2.0                         : npba  rlong  rhead
+   1        0.0       0.0                : icontour  valmin   valmax
