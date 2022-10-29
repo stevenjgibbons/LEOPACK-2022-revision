@@ -12,3 +12,4 @@ example_d.input
 example_e.input
 example_f.input
 example_g.input
+GRAPHICS_arrows_z_eq_merid4.pdf
