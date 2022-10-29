@@ -6,3 +6,4 @@ condic_case1.vecsv
 condic_case1.xarrm
 condic_case1.xarrv
 example_a.input
+cicm_arrows_z_eq_merid4.pdf
