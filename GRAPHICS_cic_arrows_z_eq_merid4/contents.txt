@@ -10,3 +10,4 @@ solution.vecsm
 solution.vecsv
 solution.xarrm
 solution.xarrv
+cic_arrows_z_eq_merid4.pdf
