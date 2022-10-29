@@ -5,3 +5,4 @@ clean.sh
 example_a.input
 example_b.input
 example_c.input
+cutout_sphere_plot.pdf
