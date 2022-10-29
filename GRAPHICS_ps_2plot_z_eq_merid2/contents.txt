@@ -5,3 +5,4 @@ clean.sh
 example_a.input
 example_b.input
 example_c.input
+GRAPHICS_ps_2plot_z_eq_merid2.pdf
