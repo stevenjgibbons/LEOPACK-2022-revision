@@ -113,3 +113,26 @@ LEOPACK_iic2cicsc (added 2022-10-22: Insulating Inner Core 2 Conducting Inner Co
 LEOPACK_svenspec (added 2022-10-24: Solution Vector Energy SPECtrum)
 
 LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
+
+(Programs for displaying solutions)
+===================================
+
+GRAPHICS_arrows_const_r3 (added 2022-10-29: Constant radius plot with arrows)
+
+GRAPHICS_arrows_z_eq_merid4 (added 2022-10-29: Constant z or meridian plot with arrows)
+
+GRAPHICS_cic_arrows_z_eq_merid4 (added 2022-10-29: Conducting Inner Core Constant z or meridian plot with arrows)
+
+GRAPHICS_cicm_arrows_z_eq_merid4 (added 2022-10-29: Conducting Inner Core and Mantle Constant z or meridian plot with arrows)
+
+GRAPHICS_continent_arrows_const_r3 (added 2022-10-29: Constant radius plot with arrows with Continents)
+
+GRAPHICS_continent_full_sphere_plot (added 2022-10-29: Full Sphere Plot with Continents)
+
+GRAPHICS_cutout_sphere_plot (added 2022-10-29: Cut Out Sphere Plot)
+
+GRAPHICS_full_sphere_plot (added 2022-10-29: Full Sphere Plot)
+
+GRAPHICS_ps_2plot_z_eq_merid2 (added 2022-10-29: Side-by-side Constant z or meridian plots)
+
+GRAPHICS_shc_sphere_plot (added 2022-10-29: Spherical Harmonic Coefficient Sphere Plot)
