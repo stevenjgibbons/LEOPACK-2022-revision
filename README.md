@@ -114,6 +114,9 @@ LEOPACK_svenspec (added 2022-10-24: Solution Vector Energy SPECtrum)
 
 LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
 
+LEOPACK_svpnsmap (added 2022-10-30: Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
+
+
 (Programs for displaying solutions)
 ===================================
 
