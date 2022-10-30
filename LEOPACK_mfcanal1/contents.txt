@@ -1,0 +1,7 @@
+clean.sh
+example_a.input
+example_a.ints
+example_a.vecs
+example_a.xarr
+Makefile
+mfcanal1.f
