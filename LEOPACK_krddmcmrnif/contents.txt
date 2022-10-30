@@ -1,0 +1,6 @@
+clean.sh
+debug.h
+example_a.input
+krddmcmrnif.f
+Makefile
+stat.h
