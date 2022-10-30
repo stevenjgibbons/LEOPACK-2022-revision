@@ -116,6 +116,8 @@ LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Out
 
 LEOPACK_svpnsmap (added 2022-10-30: Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
 
+LEOPACK_cicsvpnsmap (added 2022-10-30: Conducting Inner Core Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
+
 
 (Programs for displaying solutions)
 ===================================
