@@ -120,6 +120,8 @@ LEOPACK_cicsvpnsmap (added 2022-10-30: Conducting Inner Core Solution Vector Per
 
 LEOPACK_cicmsvpnsmap (added 2022-10-30: Conducting Inner Core and Mantle Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
 
+LEOPACK_mfcanal1 (added 2022-10-30: Magnetic Field Component Analysis version 1)
+
 
 (Programs for displaying solutions)
 ===================================
