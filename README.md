@@ -90,6 +90,8 @@ LEOPACK_krcmrnif (added 2022-10-30: Kumar Roberts velocity Critical Magnetic Rey
 
 LEOPACK_krddmcmrnif (added 2022-10-30: Kumar Roberts velocity Diamond DM parametrization Critical Magnetic Reynolds Number Iterative Find)
 
+LEOPACK_krssgeps (added 2022-10-30: Kumar Roberts velocity Steady Solution Generalized Eigenvalue Problem Solve)
+
 (Programs for full dynamo problem)
 ==================================
 
