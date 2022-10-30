@@ -1,0 +1,11 @@
+condic_case1.intsv                   : Harmonics file
+condic_case1.vecsv                   : Vector file
+condic_case1.xarrv                   : Radial grid nodes
+condic_case1.intsm                   : Harmonics file
+condic_case1.vecsm                   : Vector file
+condic_case1.xarrm                   : Radial grid nodes
+example_aOUTPUT                      : Filename stem
+ 40  2  20  3   4     4     0.00001  : NRVNW ISPV NRICNW ISPIC IFORMF NNDS DMAG
+ 2.0    15    3                      : RCM   NRCM  ISPCM
+ 36    36    36   36    36           : LH1   LH2   LH3   LH4   LH5
+ 1    2   4    20                    : ISV ISM MINC MMAX
