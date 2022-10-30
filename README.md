@@ -84,6 +84,8 @@ LEOPACK_blscnlsic_evecs (added 2022-10-17: Boundary Locked Steady Convection Non
 
 LEOPACK_djiepgrf (added 2022-10-30: Dudley James velocity Instability Eigenvalue Problem Growth Rate Find)
 
+LEOPACK_kriepgrf (added 2022-10-30: Kumar Roberts velocity Instability Eigenvalue Problem Growth Rate Find)
+
 (Programs for full dynamo problem)
 ==================================
 
