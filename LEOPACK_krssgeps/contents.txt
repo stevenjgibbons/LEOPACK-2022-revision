@@ -5,3 +5,4 @@ example_b.input
 krssgeps.f
 Makefile
 stat.h
+LEOPACK_krssgeps.pdf
