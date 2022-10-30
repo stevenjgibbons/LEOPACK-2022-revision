@@ -59,6 +59,10 @@ gsubs (added 2022-10-18: contains all the graphics subroutines that call PGPLOT 
 
 lib, bin (added 2022-10-18: made to contain the libraries and graphics code binaries on compilation)
 
+gprograms (source code for each of the GRAPHICS programs)
+
+programs (source code for each of the non-graphics programs: these need to be compiled with the subroutine libraries and are not self-contained like the stand-alone codes in the directories LEOPACK_xxxx )
+
 (Programs for the linear onset of thermal convection)
 =====================================================
 
