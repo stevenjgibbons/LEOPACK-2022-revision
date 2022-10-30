@@ -1,0 +1,8 @@
+* input file for svpnsmap.exe
+*
+example_a.ints                       : Harmonics file
+example_a.vecs                       : Vector file
+example_a.xarr                       : Radial grid node spacings
+example_aOUTPUT                      : Filename stem
+ 50    2     4     6     0.0         : NRNEW  ISP   IFORMF NNDS DMAG
+ 36    1    -1   2   1    24         : LHV ISV LHM ISM MINC MMAX
