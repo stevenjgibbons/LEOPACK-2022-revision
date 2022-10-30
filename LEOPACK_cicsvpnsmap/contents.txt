@@ -8,3 +8,4 @@ cicsvpnsmap.f
 clean.sh
 example_a.input
 Makefile
+LEOPACK_cicsvpnsmap.pdf
