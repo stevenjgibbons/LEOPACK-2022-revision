@@ -1,0 +1,38 @@
+* input file for krddmcmrnif
+*
+example_aOUTPUT                           : ROOT
+0.0    1.0     10.0   4   20   7   0.001  : RI, RO, DRSV, NEV, NCV, NOITM, DTOL
+*-------------------------------------------------------------------------
+* NR LH ITRI ISF IOF ISP NBN0     DD          DM      RM1     RM2     
+*-------------------------------------------------------------------------
+*
+* All of the following lines are for the Kumar Roberts
+* velocity. This velocity has eps0 = 1.0
+*                             eps1 = 0.03
+*                             eps2 = 0.04
+*                             eps3 = 0.04
+*
+* The equivalent (D,M) parameters are
+* D = 0.98349148 and M = 0.00016327 which correspond to
+*
+* eps0 = 75.0, eps1 = 2.25, eps2 = 3.0 and eps3 = 3.0
+*
+* Therefore, the critical magnetic Reynolds number used for epsilon
+* programs (such as krssgeps.exe or krcmrnif.exe) has to be divided
+* by 75.0.
+*
+* For the following truncation, the program krssgeps.exe gave
+*  Rmc = 3877.796: This should correspond to RMC = 51.703847
+*-------------------------------------------------------------------------
+  50  8   0   1   0   1   4    0.98349148  0.00016327  51.466667  51.866667
+*-------------------------------------------------------------------------
+* For the following truncation, the program krssgeps.exe gave
+*  Rmc = 3878.208: This should correspond to RMC = 51.70944
+*-------------------------------------------------------------------------
+  50 10  0    1   0   1   4    0.98349148  0.00016327  51.45      51.86
+*-------------------------------------------------------------------------
+* For the following truncation, the program krssgeps.exe gave
+*  Rmc = 3878.224: This should correspond to RMC = 51.709653
+*-------------------------------------------------------------------------
+  50 12  0    1   0   1   4    0.98349148  0.00016327  51.45      51.86
+*-------------------------------------------------------------------------
