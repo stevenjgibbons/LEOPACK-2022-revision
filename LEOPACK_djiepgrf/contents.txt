@@ -1,0 +1,6 @@
+clean.sh
+debug.h
+djiepgrf.f
+example_a.input
+Makefile
+stat.h
