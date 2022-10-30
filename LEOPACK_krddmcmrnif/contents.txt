@@ -4,3 +4,4 @@ example_a.input
 krddmcmrnif.f
 Makefile
 stat.h
+LEOPACK_krddmcmrnif.pdf
