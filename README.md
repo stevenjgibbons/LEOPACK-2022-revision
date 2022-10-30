@@ -118,6 +118,8 @@ LEOPACK_svpnsmap (added 2022-10-30: Solution Vector Perturbation and New Spatial
 
 LEOPACK_cicsvpnsmap (added 2022-10-30: Conducting Inner Core Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
 
+LEOPACK_cicmsvpnsmap (added 2022-10-30: Conducting Inner Core and Mantle Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
+
 
 (Programs for displaying solutions)
 ===================================
