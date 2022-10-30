@@ -79,6 +79,11 @@ LEOPACK_blscnlsic (added 2022-10-16: Boundary Locked Steady Convection Non-Linea
 
 LEOPACK_blscnlsic_evecs (added 2022-10-17: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate with Eigenvectors)
 
+(Programs for the Kinematic Dynamo Problem)
+===========================================
+
+LEOPACK_djiepgrf (added 2022-10-30: Dudley James velocity Instability Eigenvalue Problem Growth Rate Find)
+
 (Programs for full dynamo problem)
 ==================================
 
