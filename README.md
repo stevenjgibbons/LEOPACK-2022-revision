@@ -86,6 +86,8 @@ LEOPACK_djiepgrf (added 2022-10-30: Dudley James velocity Instability Eigenvalue
 
 LEOPACK_kriepgrf (added 2022-10-30: Kumar Roberts velocity Instability Eigenvalue Problem Growth Rate Find)
 
+LEOPACK_krcmrnif (added 2022-10-30: Kumar Roberts velocity Critical Magnetic Reynolds Number Iterative Find)
+
 (Programs for full dynamo problem)
 ==================================
 
