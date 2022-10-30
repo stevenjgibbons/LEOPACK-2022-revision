@@ -1,0 +1,5 @@
+* input file for mfcanal1
+example_a.ints         : Ints File
+example_a.vecs    : Harmonics File
+example_a.xarr         : XARR File
+example_aOUTPUT.mfca                            : Output file name
