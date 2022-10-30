@@ -1,0 +1,13 @@
+*
+* Input file for cicsvpnsmap
+*
+cicRa75000.intsv                     : Harmonics file
+cicRa75000.vecsv                     : Vector file
+cicRa75000.xarrv                     : Radial grid nodes
+cicRa75000.intsm                     : Harmonics file
+cicRa75000.vecsm                     : Vector file
+cicRa75000.xarrm                     : Radial grid nodes
+example_aOUTPUT                      : Filename stem
+ 40  2  20  3   4     4     0.00000  : NRVNW ISPV NRICNW ISPIC IFORMF NNDS DMAG
+ 36    36    36   36    36           : LH1   LH2   LH3   LH4   LH5
+ 1    2   2    20                    : ISV ISM MINC MMAX
