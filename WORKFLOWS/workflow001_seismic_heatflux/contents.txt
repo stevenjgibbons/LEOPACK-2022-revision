@@ -3,7 +3,6 @@ continent_arrows_const_r3.input
 gmshcc.f
 lower_mantle_coefs.txt
 Makefile
-output_coeffs.txt
 README.md
 run_step2.sh
 shc2itfvf.f
