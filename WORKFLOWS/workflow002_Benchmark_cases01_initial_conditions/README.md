@@ -44,8 +44,13 @@ Step3: Generate the input file for the Case 1 dynamo calculation.
 ./dbpisvecf < case1_init.dbpisvecf.input
 
 This should generate the three files
-case1_init.xarr case1_init.ints case1_init.vecs
 
-The dynamo simulation can be executed with the program o2ubcdts2 using
-o2ubcdts2 < case1_o2ubcdts2.input
+case1_init.xarr 
+case1_init.ints 
+case1_init.vecs
+
+The dynamo simulation can be executed with the program o2ubcdts2 using 
+
+o2ubcdts2 < case1_o2ubcdts2.input 
+
 where the parameters in the o2ubcdts2 input file are adjusted as necessary.
