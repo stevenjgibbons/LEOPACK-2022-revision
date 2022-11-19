@@ -1,0 +1,4 @@
+ 40   0.3500   2      : NR  ASP  ISP
+ 32    0     4   20   : LHV  LHM  MINC  MMAX
+ 1    2               : ISYMV, ISYMM
+case0_init            : ROOT
