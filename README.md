@@ -168,5 +168,8 @@ WORKFLOWS
 
 A directory containing a set of procedures for addressing diverse problems with these codes.
 
-workflow001_seismic_heatflux (added 2022/11/19) Generate a seismic-based heat-flux pattern
+workflow001_seismic_heatflux 
 ----------------------------
+
+(added 2022/11/19) 
+Generate a seismic-based heat-flux pattern
