@@ -1,0 +1,7 @@
+This directory contains a number of subdirectories, each containing a short workflow to generate some kind of output using the LEOPACK programs.
+
+They are as follows:
+workflow001_seismic_heatflux  (added 2022/11/19)
+
+Generate a thermal boundary condition vector from Guy Masters' spherical harmonic coefficient file.
+
