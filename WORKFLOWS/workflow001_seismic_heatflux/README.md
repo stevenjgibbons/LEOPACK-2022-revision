@@ -10,7 +10,7 @@ codes to make the set of files needed.
 
 Step1: Convert Guy's file to the LEOPACK format spherical harmonic coefficients.
 
-make gmshcc
+make gmshcc  
 ./gmshcc
 
 This should generate a file called "output_coeffs.txt"
