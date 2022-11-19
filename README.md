@@ -162,3 +162,11 @@ GRAPHICS_full_sphere_plot (added 2022-10-29: Full Sphere Plot)
 GRAPHICS_ps_2plot_z_eq_merid2 (added 2022-10-29: Side-by-side Constant z or meridian plots)
 
 GRAPHICS_shc_sphere_plot (added 2022-10-29: Spherical Harmonic Coefficient Sphere Plot)
+
+WORKFLOWS
+=========
+
+A directory containing a set of procedures for addressing diverse problems with these codes.
+
+workflow001_seismic_heatflux (added 2022/11/19) Generate a seismic-based heat-flux pattern
+----------------------------
