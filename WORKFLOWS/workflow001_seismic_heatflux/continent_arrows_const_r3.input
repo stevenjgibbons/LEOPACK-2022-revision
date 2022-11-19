@@ -1,0 +1,13 @@
+swave_temp                          : Filename stem
+swave_temp.ints     : integers
+swave_temp.vecs     : vectorfile
+swave_temp.xarr     : radialfile
+   0.0  360.0    -88.0    88.0   0.84      : LONG1, LONG2, LAT1, LAT2, RAD
+  60  140   3                            : NTHE  NPHI   NNDS
+ 0.05  0.95   0.05   0.95   7.0   0.7    : xleft xright ybot ytop rwidth rratio
+ 16   6    1    7   0                    : nlev idev  icont  icomp   ias
+ 120.0   0.0  1.0   0.85   1             : huepos, hueneg, csat, scal, iwcont
+ 120.0   0.0   0.75  3    1              : rphue rpsat rplight ipw ips
+   0.0   0.0   0.75  3    4              : rnhue rnsat rnlight inw ins
+  3   0.16   0.9     4                   : npba  rlong  rhead  iwarrow
+   1        0.0       0.0                : icontour  valmin   valmax
