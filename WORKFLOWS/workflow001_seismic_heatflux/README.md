@@ -34,3 +34,6 @@ for the geometry we specify in the run_step2.sh script.
 Step3: (optional) Display our heat-flux pattern at the outer boundary
 by running the graphics program continent_arrows_const_r3 with
 the input file continent_arrows_const_r3.input
+
+![image](https://user-images.githubusercontent.com/74380921/202858163-1df13d19-17fa-47e8-b267-f2785fec4e37.png)
+
