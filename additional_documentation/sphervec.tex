@@ -1,0 +1,579 @@
+\clearpage
+\section{ Vector spherical harmonics }
+\label{app:sphervec}
+
+This appendix is essentially taken straight out of my thesis,
+\cite{gibbonsthesis}. However, I think it is a helpful reference
+in terms of understanding how the codes work, given that all of
+these relations are applied throughout, and therefore worth the
+additional space.
+
+\section{ The ${\mathcal {D} }_l$ operator }
+\label{sec:dloperator}
+
+The spherical harmonic $Y_{\alpha}$ is defined by
+\beq
+Y_{\alpha}( \theta, \phi ) = P_{l_{\alpha}}^{m_{\alpha}}( \cos \theta )
+\CS_{\alpha} m_{\alpha} \phi,
+\label{eq:ylmdef}
+\eeq
+where the Associated Legendre Function,
+$P_{l_{\alpha}}^{m_{\alpha}}( \cos \theta )$, satisfies
+\beq
+\fr{d}{d \theta} \left( \sin \theta
+ \fr{d P_{l_{\alpha}}^{m_{\alpha}}( \cos \theta ) }{ d \theta }
+\right) + \left[
+l_{\alpha}(l_{\alpha}+1) - \fr{ (m_{\alpha})^2 }{ \sin^2 \theta }
+\right]
+P_{l_{\alpha}}^{m_{\alpha}}( \cos \theta ) = 0
+\label{eq:alpeq}
+\eeq
+and $Y_{\alpha}$ is Schmidt quasi-normalised with
+\beq
+\int_0^{2 \pi} \int_0^{\pi} Y_{\alpha} Y_{\alpha_1} \sin \theta
+d\theta d\phi= \left\{
+\begin{array}{ll}
+\fr{ 4 \pi }{ 2 l_{\alpha} + 1 } & \alpha = \alpha_1 \\
+0  & \alpha \neq \alpha_{1}  \\
+\end{array}
+\right\}.
+\eeq
+The associated Legendre functions, $P^m_l( \cos \theta )$,
+satisfy
+\beq
+\int_{0}^{\pi}
+\left[ P_l^m ( \cos \theta )
+\right]^2
+\sin \theta d\theta = \fr{ 2( 2 - \delta_{m0}) }{ 2l + 1 }.
+\eeq
+The Laplacian operator, $\Lap$, which arises in the heat, momentum
+and induction equations, is written for a scalar, $\psi$,
+in spherical coordinates
+\beq
+\Lap \psi = \fr{1}{r^2} \pdiff{}{r}
+\left( r^2 \pdiff{ \psi }{ r } \right)
++ \fr{1}{r^2 \sin \theta} \pdiff{}{\theta}
+\left( \sin \theta \pdiff{ \psi }{ \theta } \right)
++ \fr{1}{ r^2 \sin^2 \theta } \pdifftw{ \psi }{ \phi }
+\eeq
+and by virtue of Equation (\ref{eq:alpeq}),
+\beq
+\Lap Y_{\alpha} = - \fr{l_{\alpha}(l_{\alpha}+1)}{r^2} Y_{\alpha}.
+\eeq
+If the scalar function, $\Theta(r, \theta, \phi)$, is
+expanded in a series of spherical harmonics:
+\beq
+\Theta(r, \theta, \phi) = \sum_{\alpha} \Theta_{\alpha}(r)
+Y_{\alpha},
+\eeq
+then
+\beq
+\Lap \Theta = \begin{array}{l}
+\sum_{\alpha} \left[
+\fr{1}{r^2} \pdiff{}{r}
+\left( r^2 \pdiff{ \Theta_{\alpha}(r) }{ r } \right)
+- \fr{l_{\alpha}(l_{\alpha}+1)}{r^2} \Theta_{\alpha}(r) \right]
+Y_{\alpha} \\
+\sum_{\alpha} {\mathcal {D} }_{l_{\alpha}} \Theta_{\alpha}(r) Y_{\alpha}
+\end{array}
+\eeq
+The ordinary differential operator,
+${\mathcal {D} }_l$, can be written in the
+following equivalent forms,
+\begin{eqnarray}
+{\mathcal {D} }_l f &=& \fr{1}{r} \fr{d^2}{dr^2}
+\left( r f \right) - \fr{ l(l+1) }{ r^2 } f 
+\label{eq:dldefone} \\
+   &=& \fr{1}{r^2} \fr{d}{dr} 
+\left( r^2 \fr{ d f }{ dr } \right) - \fr{ l(l+1) }{ r^2 } f 
+\label{eq:dldeftwo} \\
+   &=& \fr{d^2 f }{dr^2 } + \fr{2}{r} \fr{d f}{dr}
+- \fr{ l(l+1) }{ r^2 } f,
+\label{eq:dldefthree}
+\end{eqnarray}
+and the composite operator ${\mathcal {D} }_l^2$, which
+is found in the viscosity term of the vorticity
+equation, is given by
+\beq
+{\mathcal {D} }_l^2 f = f^{\prime \prime \prime \prime }
++ 4 \fr{ f^{\prime \prime \prime} }{ r }
+- 2l(l+1) \fr{ f^{\prime \prime } }{ r^2 }
++ (l+2)(l+1)l(l-1) \fr{ f }{ r^4 },
+\label{eq:dltwodef}
+\eeq
+where $^{\prime}$ denotes differentiation with respect to $r$.
+
+\section{ Poloidal and Toroidal decomposition of a solenoidal vector }
+
+In the formalism of \cite{bullgell54}, a vector ${\bm v}$
+satisfying
+\beq
+\nabla . {\bm v} = 0,
+\eeq
+can be decomposed into a toroidal and a poloidal component
+\beq
+{\bm v } = \sum_{\alpha} \left[
+{\bm T}_{\alpha} + {\bm P}_{\alpha} \right]
+\label{eq:ptseries}
+\eeq
+with
+\beq
+\begin{array}{rcll}
+{\bm T}_{\alpha} &=&       &  \curl \left[ \tau_{\alpha} (r)
+           P^{m_{\alpha}}_{l_{\alpha}}( \cos \theta )
+           \CS_{\alpha} m \phi ~~ {\bm r } \right] \\
+{\bm P}_{\alpha} &=& \curl &  \curl \left[ p_{\alpha} (r)
+           P^{m_{\alpha}}_{l_{\alpha}}( \cos \theta )
+           \CS_{\alpha} m \phi ~~ {\bm r } \right].
+\end{array}
+\label{eq:genpoltorvecs}
+\eeq
+%Such a representation will be referred to here as
+%a 'PT-decomposition'.
+As both the magnetic field and velocity (in the
+Boussinesq approximation) are solenoidal vectors,
+the treatment given here is general to both.
+It can be easily verified that the vector
+components of ${\bm T}_{\alpha}$ and 
+${\bm P}_{\alpha}$ in Equation (\ref{eq:genpoltorvecs})
+are given by
+\beq
+\begin{array}{rcl}
+\left[ {\bm T}_{\alpha} \right]_r & = & 0 \\
+\left[ {\bm T}_{\alpha} \right]_{\theta} & = & 
+\fr{ \tau_{\alpha} (r) }{ \sin \theta }
+\pdiff{ Y_{\alpha} }{ \phi }  \\
+\left[ {\bm T}_{\alpha} \right]_{\phi} & = & -
+ \tau_{\alpha} (r) \pdiff{ Y_{\alpha} }{ \theta } \\
+& {\rm and } & \\
+\left[ {\bm P}_{\alpha} \right]_r & = & 
+l_{\alpha} ( l_{\alpha} + 1 ) \fr{ p_{\alpha} (r) }{ r }
+Y_{\alpha} \\
+\left[ {\bm P}_{\alpha} \right]_{\theta} & = & 
+\left[ \fr{ p_{\alpha} (r) }{ r } + \fr{ d p_{\alpha} (r) }{d r } 
+\right] \pdiff{ Y_{\alpha} }{ \theta } \\
+\left[ {\bm P}_{\alpha} \right]_{\phi} & = &  
+\fr{ 1 }{ \sin \theta }
+\left[ \fr{ p_{\alpha} (r) }{ r } + \fr{ d p_{\alpha} (r) }{d r } 
+\right] \pdiff{ Y_{\alpha} }{ \phi }.
+\end{array}
+\label{eq:ptcomps}
+\eeq
+A general vector (not necessarily solenoidal) can be represented
+in a decomposition of scaloidal, spheroidal and toroidal
+vector harmonics (see \cite{53morfes})
+\beq
+{\bm v } = \sum_{\alpha} \left[
+q_{\alpha}( r ) {\bm q }_{\alpha} +
+s_{\alpha}( r ) {\bm s }_{\alpha} +
+t_{\alpha}( r ) {\bm t }_{\alpha}
+\right]
+\label{eq:qstseries}
+\eeq
+with
+\beq
+\begin{array}{ccccc}
+{\bm q }_{\alpha} &=& Y_{\alpha} {\hat{\bm r}} &=&
+\left[ ~~Y_{\alpha}~~,~~ 0~~,~~ 0~~ \right] \\
+{\bm s }_{\alpha} &=& \fr{ 1 }{ \sqrt{ 
+l_{\alpha} ( l_{\alpha} + 1 ) } }
+\nabla_h ( r Y_{\alpha} ) &=&
+\fr{ 1 }{ \sqrt{ 
+l_{\alpha} ( l_{\alpha} + 1 ) } } \left[
+0, \pdiff{ Y_{\alpha} }{ \theta } ,
+\fr{ 1 }{ \sin \theta } \pdiff{ Y_{\alpha} }{ \phi }
+\right] \\
+{\bm t }_{\alpha} &=& \fr{ 1 }{ \sqrt{ 
+l_{\alpha} ( l_{\alpha} + 1 ) } } {\bm r } \times
+\nabla_h ( Y_{\alpha} ) &=&
+\fr{ 1 }{ \sqrt{ 
+l_{\alpha} ( l_{\alpha} + 1 ) } } \left[
+0, - \fr{ 1 }{ \sin \theta } \pdiff{ Y_{\alpha} }{ \phi } ,
+\pdiff{ Y_{\alpha} }{ \theta }
+\right].
+\end{array}
+\label{eq:qstcomps}
+\eeq
+This representation will be referred to here as a
+'qst-decomposition' and is used for calculating
+the ${\bm k} \times {\bm v }$ term and non-linear
+terms in the momentum and induction equations. 
+Even though ${\bm v }$ and ${\bm B }$ are solenoidal,
+the cross products are generally not, although because
+$\curl$ is applied, the final result can be treated
+as a PT-decomposed vector.
+
+If ${\bm v}$ is a solenoidal vector, conditions on
+the radial functions $q_{\alpha}(r)$, $s_{\alpha}(r)$ and
+$t_{\alpha}(r)$ can be obtained to make the expansions in
+(\ref{eq:ptseries}) and (\ref{eq:qstseries}) equivalent.
+A direct comparison of Equations (\ref{eq:ptcomps}) and
+(\ref{eq:qstcomps}) reveals
+\beqar
+ q_{\alpha}( r ) &=& l_{\alpha} ( l_{\alpha} + 1 ) 
+\fr{ p_{\alpha}( r ) }{ r } 
+\label{eq:qequiv}  \\
+% \nabla . {\bm v } = 0 & \Longleftrightarrow & 
+s_{\alpha}( r ) &=& \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\fr{ 1 }{ r } \fr{d}{dr} \left[ r p_{\alpha}( r ) \right] 
+\label{eq:sequiv}  \\
+ t_{\alpha}( r ) &=&  - \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\tau_{\alpha}( r ) 
+\label{eq:tequiv} 
+\eeqar
+when $\nabla . {\bm v } = 0$.
+
+\section{ Curls of Vectors }
+
+Firstly we shall deal with vectors of the scaloidal,
+spheroidal and toroidal type.
+
+\subsection{ Curl of scaloidal vectors }
+Let ${\bm v} = q_{\alpha} ( r ) {\bm q }_{\alpha}$.
+We use the vector identity
+\beq
+\curl ( \psi {\bm a} ) = \psi \curl {\bm a}
+- {\bm a } \times ( \nabla \psi ),
+\eeq
+and set the general scalar $\psi$ to be $q_{\alpha} ( r ) Y_{\alpha} / r$
+and the general vector ${\bm a }$ to be the radial vector ${\bm r }$.
+Hence
+\beq
+\curl ( q_{\alpha} ( r ) {\bm q }_{\alpha} ) = 
+- {\bm r } \times \nabla_h \left( \fr{ q_{\alpha} ( r ) Y_{\alpha} }{ r }
+\right)
+\eeq
+and comparing with the definition of the toroidal vector
+in Equation (\ref{eq:qstcomps}) shows
+\beq
+\curl ( q_{\alpha} ( r ) {\bm q }_{\alpha} ) = 
+- \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\fr{ q_{\alpha} ( r )}{ r } {\bm t }_{\alpha}.
+\label{eq:scalcurl}
+\eeq
+
+\subsection{ Curl of spheroidal vectors }
+Let ${\bm v} = s_{\alpha} ( r ) {\bm s }_{\alpha}$.
+Now
+\beq
+\curl ( s_{\alpha} ( r ) {\bm s }_{\alpha} ) = 
+\fr{1}{\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+\curl \left[ s_{\alpha} ( r ) \nabla_h ( r Y_{\alpha} ) \right]
+\eeq
+and
+\beq
+s_{\alpha} ( r ) \nabla_h ( r Y_{\alpha} ) =
+\nabla \left[ r Y_{\alpha} s_{\alpha} ( r ) \right]
+- {\hat {\bm r } } \left[ r s_{\alpha} ( r ) \right]^{ \prime }
+Y_{\alpha}.
+\eeq
+Since $\curl \nabla = 0$,
+\beq
+\curl ( s_{\alpha} ( r ) {\bm s }_{\alpha} ) = 
+- \fr{1}{\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+\curl \left[ 
+\fr{ \left( r s_{\alpha} \right)^{ \prime } }{ r } Y_{\alpha}
+{\bm r } \right]
+\eeq
+By the definition (\ref{eq:genpoltorvecs}), this is
+clearly a toroidal vector with 
+\bedisp
+\tau_{\alpha}( r ) = -\fr{1}{\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+\fr{1}{r} \fr{d}{dr} \left[ r s_{\alpha} ( r ) \right]
+\eedisp
+and applying equivalence relation (\ref{eq:tequiv}) gives
+\beq
+\curl ( s_{\alpha} ( r ) {\bm s }_{\alpha} ) =
+\fr{1}{r} \fr{d}{dr} \left[ r s_{\alpha} ( r ) \right]
+{\bm t }_{\alpha}.
+\label{eq:sphercurl}
+\eeq
+
+\subsection{ Curl of toroidal vectors }
+
+Let ${\bm v} = t_{\alpha}( r ) {\bm t }_{\alpha}$.
+It follows from Equation (\ref{eq:tequiv}) that
+\beq
+\curl \left[ t_{\alpha}( r ) {\bm t}_{\alpha} \right]
+= \curl \curl \left[ - \fr{t_{\alpha}( r ) }
+{\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+Y_{\alpha} {\bm r } \right]
+\eeq
+which is a poloidal vector spherical harmonic with
+\bedisp
+p_{\alpha}( r ) = - \fr{t_{\alpha}( r ) }
+{\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }.
+\eedisp
+Using the results (\ref{eq:qequiv}) and (\ref{eq:sequiv})
+gives the scaloidal and spheroidal presentation of this
+vector:
+\beq
+\curl \left[ t_{\alpha}( r ) {\bm t }_{\alpha} \right]
+= - {\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+\fr{ t_{\alpha} ( r ) }{ r } {\bm q }_{\alpha}
+- \fr{1}{r} \fr{d}{dr} \left[ r t_{\alpha} ( r ) \right]
+{\bm s }_{\alpha}
+\label{eq:torcurl}
+\eeq
+
+\subsection{ Curl of poloidal vectors }
+
+Let ${\bm v} = \curl \curl \left[ p_{\alpha} ( r ) 
+Y_{\alpha} {\bm r } \right] $.
+
+We proceed by expressing ${\bm v}$ as a
+scaloidal and a spheroidal harmonic, and
+applying results (\ref{eq:scalcurl}) and
+(\ref{eq:sphercurl}).
+\beq
+{\bm v} = l_{\alpha} ( l_{\alpha} + 1 )
+\fr{ p_{\alpha}( r ) }{ r } {\bm q }_{\alpha}
++ \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\fr{1}{r} \fr{d}{dr} \left[ r p_{\alpha} ( r ) \right]
+{\bm s }_{\alpha}
+\eeq
+and
+\beq
+\curl {\bm v} = \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\left[ \fr{1}{r} \fr{d^2}{dr^2} \left( r p_{\alpha} ( r ) \right) -
+l_{\alpha} ( l_{\alpha} + 1 ) \fr{ p_{\alpha} ( r ) }{ r^2 }
+\right] {\bm t }_{\alpha}.
+\eeq
+Using (\ref{eq:dldefone}) and (\ref{eq:tequiv}) shows
+that this purely toroidal vector can be written
+\beq
+\curl \left[ \curl \curl \left( p_{\alpha} ( r )
+Y_{\alpha} {\bm r } \right) \right] =
+\curl \left[
+- {\mathcal {D} }_{l_{\alpha}} p_{\alpha} ( r )
+Y_{\alpha} {\bm r }
+\right]
+\label{eq:pollapeq}
+\eeq
+
+\section{ The Laplacian }
+
+The Laplacian of a scalar function has already been
+dealt with in the introduction of the 
+${\mathcal {D} }_l$ operator. For a general
+vector ${\bm v} = ( v_r , v_{\theta} , v_{\phi} )$,
+the Laplacian in spherical polar coordinates
+(see for example \cite{95arfkenweber}) is given by
+\beqar
+%\begin{array}{rcl}
+\left[ \Lap {\bm v } \right]_r & = &  
+\Lap v_r - \fr{2}{r^2} v_r - \fr{2}{r^2} \pdiff{ v_{\theta} }{ \theta}
+- \fr{ 2 \cos \theta}{ r^2 \sin \theta } v_{\theta}
+- \fr{ 2 }{ r^2 \sin \theta } 
+\pdiff{ v_{\phi} }{ \phi }
+\label{eq:genlaprad}  \\
+\left[ \Lap {\bm v } \right]_{\theta} & = & 
+\Lap v_{\theta} - \fr{ 1 }{ r^2 \sin^2 \theta } v_{\theta}
++ \fr{ 2 }{ r^2 } \pdiff{ v_r }{ \theta }
+- \fr{ 2 \cos \theta }{ r^2 \sin^2 \theta }
+\pdiff{ v_{\phi} }{ \phi }
+\label{eq:genlapthe}
+   \\
+\left[ \Lap {\bm v } \right]_{\phi} & = &    
+\Lap v_{\phi} - \fr{ 1 }{ r^2 \sin^2 \theta } v_{ \phi }
++ \fr{2}{r^2 \sin \theta } \pdiff{ v_r }{ \phi }
++ \fr{ 2 \cos \theta }{ r^2 \sin^2 \theta }
+\pdiff{ v_{\theta } }{ \phi }
+%\end{array}
+\label{eq:genlapphi}
+\eeqar
+This general formula will be used in many of the
+derivations in this section.
+Firstly we shall
+deal with the Laplacian of vectors in the
+qst-decomposition.
+
+\subsection{ Laplacian of scaloidal vectors }
+
+Let ${\bm v} = q_{\alpha}( r ) {\bm q }_{\alpha}$.
+We use the preliminary result
+\beq
+\Lap \left[ \psi {\bm a } \right] =
+(\Lap \psi) {\bm a } +
+2 ( \nabla \psi  . \nabla ) {\bm a } +
+\psi \Lap {\bm a }
+\label{eq:lapprodrule}
+\eeq
+with the general scalar $\psi$ and general vector ${\bm a }$
+replaced with $q_{\alpha}( r )$ and ${\bm q }_{\alpha}$ 
+respectively. Since $q_{\alpha}( r )$ depends only upon $r$
+and $Y_{\alpha}$ only on $\theta$ and $\phi$, the
+cross terms are zero and so
+\beq
+\Lap \left[ q_{\alpha}( r ) {\bm q }_{\alpha} \right] =
+\Lap \left[ q_{\alpha}( r ) \right] {\bm q }_{\alpha}
++ q_{\alpha}( r ) \Lap \left[ {\bm q }_{\alpha} \right].
+\label{eq:fred}
+\eeq
+Being dependent only on $r$,
+\beq
+\Lap \left[ q_{\alpha}( r ) \right] =
+\fr{ d^2 q_{\alpha}( r )}{ d r^2 } + \fr{2}{r} \fr{ d q_{\alpha}( r )}{ d r}
+\label{eq:barney}
+\eeq
+and from (\ref{eq:genlaprad} - \ref{eq:genlapphi}),
+\beq
+\begin{array}{rcl}
+\Lap \left[ {\bm q }_{\alpha} \right] &=&
+\left[ \Lap - \fr{2}{r^2} \right] Y_{\alpha} \hat{\bm r}
++ \fr{2}{r} \nabla_h Y_{\alpha}.
+\end{array}
+\label{eq:wilma}
+\eeq
+Substituting (\ref{eq:barney}) and (\ref{eq:wilma}) into
+(\ref{eq:fred}), and applying (\ref{eq:dldefthree}) and
+(\ref{eq:qstcomps}), gives the relation
+\beq
+\Lap \left[ q_{\alpha}( r ) {\bm q }_{\alpha} \right] =
+\left( {\mathcal {D}}_{l_{\alpha}} - \fr{2}{r^2} \right)
+q_{\alpha}( r ) {\bm q }_{\alpha} +
+2 \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\fr{ q_{\alpha}( r ) }{ r^2 } {\bm s }_{\alpha}
+\eeq
+
+\subsection{ Laplacian of spheroidal vectors }
+Let ${\bm v } = s_{\alpha}( r ) {\bm s }_{\alpha}$.
+Using the result (\ref{eq:lapprodrule}), the
+expression
+\beq
+\Lap \left[ s_{\alpha}( r ) {\bm s }_{\alpha} \right] =
+\Lap \left[ s_{\alpha}( r ) \right] {\bm s }_{\alpha}
++ s_{\alpha}( r ) \Lap \left[ {\bm s }_{\alpha} \right].
+\label{eq:pooh}
+\eeq
+is obtained. The Laplacian of the radial function has
+exactly the same form as in (\ref{eq:barney}). For
+the $\Lap \left[ {\bm s }_{\alpha} \right]$ term, 
+we apply the general vector identity
+\bedisp
+\Lap {\bm V} = -\curl \curl {\bm V} + \nabla ( \nabla . {\bm V} ).
+\eedisp
+to the vector ${\bm s}_{\alpha}$:
+\beq
+\Lap {\bm s}_{\alpha} =
+ -\curl \curl {\bm s}_{\alpha} 
++ \nabla ( \nabla . {\bm s}_{\alpha} ).
+\label{eq:laststage}
+\eeq
+From the definition (\ref{eq:qstcomps}), 
+\beq
+\nabla . {\bm s}_{\alpha} = - \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\fr{ Y_{\alpha} }{ r }
+\label{eq:insone}
+\eeq
+and with
+\beq
+\begin{array}{rcl}
+\nabla ( r Y_{\alpha} ) &=&
+\left( Y_{\alpha}, \pdiff{ Y_{\alpha} }{ \theta },
+\fr{ 1 }{ \sin \theta }
+\pdiff{ Y_{\alpha} }{ \phi } \right) \\
+&=& {\bm q }_{\alpha} +
+\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+{\bm s }_{\alpha},
+\end{array}
+\eeq
+we obtain
+\beq
+\curl \curl {\bm s }_{\alpha} =
+- \fr{ \curl \curl {\bm q }_{\alpha} }{ 
+\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+} .
+\label{eq:instwo}
+\eeq
+Substituting (\ref{eq:insone}) and (\ref{eq:instwo}) back into
+Equation (\ref{eq:laststage}) gives
+\beq
+\Lap {\bm s}_{\alpha} =
+ \fr{ \curl \curl {\bm q}_{\alpha} }{ 
+\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+- \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) }
+\nabla ( \fr{ Y_{\alpha} }{ r } ).
+\label{eq:newstagelap}
+\eeq
+and therefore
+\beq
+\Lap {\bm s}_{\alpha} =
+ \fr{ 2 \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }{ r^2 }
+{\bm q}_{\alpha} -
+\fr{ l_{\alpha} ( l_{\alpha} + 1 ) }{ r^2 }
+{\bm s}_{\alpha}.
+\eeq
+Replacing this result back into (\ref{eq:pooh}) gives
+\beq
+\Lap \left[ s_{\alpha}( r ) {\bm s }_{\alpha} \right] =
+{\mathcal {D} }_{l_{\alpha}} s_{\alpha}( r )
+{\bm s}_{\alpha} +
+2 \sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } 
+\fr{ s_{\alpha}( r ) }{ r^2 }
+{\bm q}_{\alpha}.
+\eeq
+
+\subsection{ Laplacian of toroidal vectors }
+
+Let ${\bm v} = t_{\alpha} ( r ) {\bm t }_{\alpha}$.
+Then
+\beq
+{\bm v} = \curl \left[
+- \fr{ t_{\alpha}( r ) }{
+\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+Y_{\alpha}
+{\bm r } \right],
+\eeq
+and since the toroidal vector is solenoidal,
+\beq
+\Lap {\bm v} = - \curl \curl {\bm v}
+\eeq
+and we proceed by taking the curl. From Equation
+(\ref{eq:genpoltorvecs}) it is clear
+that 
+\bedisp
+\curl {\bm v} = \curl \curl \left[
+- \fr{ t_{\alpha}( r ) }{
+\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+Y_{\alpha}
+{\bm r } \right],
+\eedisp
+and so from (\ref{eq:pollapeq}), 
+\beq
+\curl \curl {\bm v} = \curl \left[
+- \fr{ {\mathcal {D}}_{l_{\alpha}} t_{\alpha}( r ) }{
+\sqrt{ l_{\alpha} ( l_{\alpha} + 1 ) } }
+Y_{\alpha}
+{\bm r } \right].
+\eeq
+Using (\ref{eq:tequiv}),
+we then have the expression for the Laplacian of both
+types of toroidal vectors:
+\beqar
+\Lap t_{\alpha} ( r ) {\bm t }_{\alpha} &=& 
+{\mathcal {D}}_{l_{\alpha}} t_{\alpha} ( r ) {\bm t }_{\alpha} \\
+\Lap \left[ \curl ( \tau_{\alpha}(r) Y_{\alpha} {\bm r } ) \right]
+&=& \curl ( {\mathcal {D}}_{l_{\alpha}} \tau_{\alpha}(r) Y_{\alpha} {\bm r } )
+\label{eq:laptorvec}
+\eeqar
+The Laplacian of a toroidal vector then only involves
+taking derivatives of the radial function for the same vector harmonic.
+
+\subsection{ Laplacian of poloidal vectors }
+Let ${\bm v} = \curl \curl \left[
+p_{\alpha} ( r ) Y_{\alpha} {\bm r } \right]$.
+Again, since the poloidal vector is solenoidal,
+the $\Lap$ operator may be replaced with 
+$ - \curl \curl $. Applying the $\curl$ operator twice to
+${\bm v}$ and using Equation (\ref{eq:pollapeq}) gives
+the result
+\beq
+\Lap \left[ \curl 
+\curl ( p_{\alpha}(r) Y_{\alpha} {\bm r } ) \right]
+= \curl 
+\curl ( {\mathcal {D}}_{l_{\alpha}} p_{\alpha}(r) Y_{\alpha} {\bm r } ).
+\label{eq:lappolvec}
+\eeq
+
+

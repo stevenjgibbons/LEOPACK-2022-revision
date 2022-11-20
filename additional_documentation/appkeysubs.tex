@@ -1,0 +1,879 @@
+\clearpage
+\section{Information on key subroutines}
+\label{app:appkeysubs}
+
+\subsection{SUBROUTINE FDCMBD}
+\label{sec:fdcmbdinfo}
+
+{\bf F}inite {\bf D}ifference
+{\bf C}oefficient {\bf M}atrix {\bf B}uil{\bf D}. \newline
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+FDCMBD( NR, NBN, NLMN, NRMN, NLMC, NRMC, NCFM,
+        NFDCM, NDRVS, NDRVM, IWORK, XARR, FDCM,
+        COEFM, WORK1, WORK2 )
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+If \verb+XARR+ is a double precision array of length
+\verb+NR+ such that \verb+XARR( j )+$=x_j$, then
+{\bf FDCMBD } builds a double precision array, \verb+FDCM+,
+of dimension \newline
+\verb+( NFDCM, NR, NDRVM )+ such that
+for a given node number, $j$, the $n^{\rm th}$
+derivative of $f(x)$ is given by
+\bed
+f^{(n)}( x_j ) = \sum_{i= {\rm LN}}^{\rm RM}
+{\rm FDCM}( k, j, n ) f( x_i )
+\eed
+where
+\begin{verbatim}
+LN = MAX( NLMC, j - NBN )
+RN = MIN( NRMC, j + NBN ),
+\end{verbatim}
+\verb+NBN+ is the number of nodes on each side
+for central difference formulae,
+\begin{verbatim}
+k = i - j + NBN + 1,
+\end{verbatim}
+and \verb+NLMC+ and \verb+NRMC+ are respectively the
+left most and right most nodes which may be used to
+obtain a finite difference formula.
+The {\rm FDCM}$( k, j, n )$ are calculated for all
+$j$ with \verb+NLMN+$ \leq j \leq$
+\verb+NRMN+. Elements corresponding to other
+$j$ are not referred to.
+
+The leading dimension of \verb+FDCM+ must be atleast
+\verb+(2*NBN+$+$\verb+1)+ as must the dimension
+\verb+NCFM+.
+
+The maximum value of $n$ calculated is specified by
+the parameter \verb+NDRVS+ which must be equal to or
+less than the value \verb+NDRVM+. The value of
+\verb+NDRVS+ is limited by the bandwidth as specified
+by \verb+NBN+. Let
+\begin{verbatim}
+NLCS = NLMN - NLMC
+NRCS = NRMC - NRMN
+\end{verbatim}
+and let
+\begin{verbatim}
+I = MIN( NLCS, NRCS) + NBN.
+\end{verbatim}
+\verb+NDRVS+ must then be no greater than \verb+I+.
+
+The maximum value of $n$ calculated is specified by
+the parameter \verb+NDRVS+ which must be equal to or
+less than the value \verb+NDRVM+. The value of
+\verb+NDRVS+ is limited by the bandwidth as specified
+by \verb+NBN+. Let
+\begin{verbatim}
+NLCS = NLMN - NLMC
+NRCS = NRMC - NRMN
+\end{verbatim}
+and let
+\begin{verbatim}
+I = MIN( NLCS, NRCS) + NBN.
+\end{verbatim}
+\verb+NDRVS+ must then be no greater than \verb+I+.
+
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ NR  + & Int. scal. & Number of radial grid nodes. \\
+\hline
+\verb+ NBN   + & Int. scal. & Number of bounding nodes. \\
+\hline
+\verb+ NLMN + & Int. scal. & Left-most (row) node. See above.\\
+\hline
+\verb+ NRMN + & Int. scal. & Right-most (row) node. See above.\\
+\hline
+\verb+ NLMC + & Int. scal. & Left-most (column) node. See above.\\
+\hline
+\verb+ NRMC + & Int. scal. & Right-most (column) node. See above.\\
+\hline
+\verb+ NCFM + & Int. scal. & Leading dimension of
+\verb+COEFM+. \\
+& & Must be atleast (2*NBN+1). \\
+\hline
+\verb+ NFDCM + & Int. scal. & Leading dimension of
+\verb+FDCM+. \\
+& & Must be atleast (2*NBN+1). \\
+\hline
+\verb+ NDVRS + & Int. scal. & Highest derivative to be calculated. \\
+& & Must not exceed \verb+NDVRM+ and see above. \\
+\hline
+\verb+ NDVRM + & Int. scal. & Maximum number of derivatives \\
+& & which can be stored in memory. \\
+\hline
+\verb+ IWORK + & Int. arr. & Dimension ( NCFM ). Work array. \\
+\hline
+\verb+ XARR + & D.p. arr. & Values of $x$. Dimension( NR ). \\
+\hline
+\verb+ FDCM + & D.p. arr. & Finite difference coefficients. \\
+& & Dimension( NFDCM, NR, NDRVM ). See above. \\
+\hline
+\verb+ COEFM + & D.p. arr. & Dimension (NCFM, NCFM ). Work array. \\
+\hline
+\verb+ WORK1 + & D.p. arr. & Dimension (NCFM). Work array. \\
+\hline
+\verb+ WORK2 + & D.p. arr. & Dimension (NCFM). Work array. \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+GFDCFD+.
+
+\clearpage
+\subsection{SUBROUTINE GFDCFD}
+\label{sec:gfdcfdinfo}
+
+{\bf G}eneral {\bf F}inite {\bf D}ifference
+{\bf C}oefficient {\bf F}in{\bf D}. \newline
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+GFDCFD ( X0, XARR, NNDS, COEFM, NCFM, IPCM, WORK)
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+If the double precision array \verb+XARR+ contains
+\verb+NNDS+ distinct values of $x$  \newline
+(\verb+XARR( j ) =+ $x_j$) then, for a
+given value $x_0$, {\bf GFDCFD } returns the coefficients
+$c^n_{j, x_0}$ such that if $f$ is a function of $x$,
+then
+\bed
+f^n( x_0 ) \approx  \sum_{j = 1}^{\rm NNDS}
+\left(
+c^n_{j, x_0} f( x_j )
+\right).
+\eed
+Here, $f^n( x_0 )$ denotes the $n^{\rm th}$ derivative
+of $f$ with respect to $x$, evaluated at $x_0$.
+The coefficient $c^n_{j, x_0}$ is returned in
+the array element
+\verb+COEFM( n +$+$\verb+ 1, J )+.
+The $n=0$ coefficients are returned in the first
+row of the matrix and, although these are not
+very useful if $x_0$ corresponds to one of the
+$x_j$, they allow a useful way of interpolating
+a function $f$ to $x=x_0$, if $x_0$ is distinct
+from all the $x_j$.
+
+The higest derivative obtainable from
+\verb+NNDS+ distinct values of $x$ is \verb+NNDS-1+
+although this estimate is likely to be highly
+inaccurate. For arbitrarily spaced $x$, there is
+no easy way of quantifying the size of the error.
+
+The routine checks to ensure that the
+\verb+XARR( j )+ are all distinct, otherwise
+it would be attempted to solve a singular matrix.
+
+
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ X0  + & D.p. scal. & Value of $x_0$ where deriv.s are
+                            required. \\
+\hline
+\verb+ XARR  + & D.p. arr. & Dimension (NNDS). See above. \\
+\hline
+\verb+ NNDS + & Int. scal. & Number of grid nodes. \\
+\hline
+\verb+ COEFM + & D.p. arr. & Dimension (NCFM, NCFM ). See above. \\
+\hline
+\verb+ NCFM  + & Int. scal. & Leading dimension of matrix COEFM. \\
+& & Must be greater than or equal to \verb+NNDS+. \\
+\hline
+\verb+ IPCM + & Int. arr. & Dimension (NCFM). Work array. \\
+\hline
+\verb+ WORK + & D.p. arr. & Dimension (NCFM). Work array. \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+MATOP+ and the {\bf LAPACK} routines
+\verb+DGETRF+ and \verb+DGETRI+.
+
+\subsection{SUBROUTINE HMFRD}
+\label{sec:hmfrdinfo}
+
+{\bf H}ar{\bf M}onic
+{\bf F}ile
+{\bf R}ea{\bf D}. \newline
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+HMFRD( NH, NHMAX, MHT, MHL, MHM, MHP, NCUDS, NDCS,
+       MHIBC, MHOBC, LARR, LU, FNAME )
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+Reads the indices of the spherical harmonic set (along
+with the boundary conditions) from a file specified by the
+filename \verb+FNAME+.
+
+The first line of the new file will contain only \verb+NH+,
+the number of spherical harmonics.
+The next \verb+NH+ lines will all consist of the 5 integer
+values
+\begin{verbatim}
+MT   ML   MM    IIBF  IOBF
+\end{verbatim}
+
+\verb+MT+ contains one of the following values which describes
+the function :-
+\begin{verbatim}
+MT = 1 for a poloidal velocity harmonic.
+MT = 2 for a toroidal velocity harmonic.
+MT = 3 for a temperature harmonic.
+MT = 4 for a poloidal magnetic field harmonic.
+MT = 5 for a toroidal magnetic field harmonic.
+\end{verbatim}
+
+\verb+ML+ contains the spherical harmonic degree, $l$, and
+\verb+MM+ will contain $m$,
+the spherical harmonic order, for $\cos m \phi$ dependence
+and $-m$ for $\sin m \phi$ dependence.
+
+\verb+IIBF+ and \verb+IOBF+ describe the boundary condition
+required for that radial function at the inner and outer 
+boundaries respectively. (See {\bf SVFDCF},
+section (\ref{sec:svfdcfinfo}), for details.)
+They are the values of \verb+MHIBC+ and \verb+MHOBC+ which
+correspond to the value of \verb+MHP(ih)+.
+
+The arrays \verb+LARR+, \verb+MHIBC+ and \verb+MHOBC+
+required by {\bf SVFDCF} are calculated in situ in the
+program. On input, \verb+NCUDS+ is the number of currently
+used differencing schemes (possibly none) and on output,
+this number will be modified to include those schemes
+demanded by the new set of spherical harmonics.
+All difference schemes which are not yet needed are
+labelled with \verb+LARR( is ) = -1 + as required by
+{\bf SVFDCF}.
+
+\clearpage
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ NH + & Int. scal. & Number of spherical harmonics. \\
+\hline
+\verb+ NHMAX + & Int. scal. & Maximum number of spherical harmonics. \\
+\hline
+\verb+ MHT + & Int. arr. & Dim (NHMAX). \\
+& & \verb+MHT(ih) = MT+ for harmonic number \verb+ih+. \\
+\hline
+\verb+ MHL + & Int. arr. & Dim (NHMAX). \\
+& & \verb+MHL(ih) = ML+ for harmonic number \verb+ih+. \\
+\hline
+\verb+ MHM + & Int. arr. & Dim (NHMAX). \\
+& & \verb+MHM(ih) = MM+ for harmonic number \verb+ih+. \\
+\hline
+\verb+ MHP + & Int. arr. & Dim (NHMAX). \\
+& & \verb+MHP( ih )+ contains the index of the arrays \\
+& & \verb+MHIBC+ and \verb+MHOBC+ which correspond to \\
+& & harmonic \verb+ih+. \\
+\hline
+\verb+ NCUDS + & Int. scal. & Number of currently used finite \\
+& & difference schemes. \\
+\hline
+\verb+ NDCS + & Int. scal. & Maximum distinct finite \\
+& & difference schemes. See {\bf SVFDCF}. \\
+\hline
+\verb+ MHIBC + & Int. arr. & Dimension \verb+( NDCS )+. \verb+MHIBC( is )+
+contains \\
+& & a flag indicating how the inner boundary must \\
+& & be treated in scheme \verb+is+. See {\bf SVFDCF}. \\
+\hline
+\verb+ MHOBC + & Int. arr. & Dimension \verb+( NDCS )+. \verb+MHOBC( is )+
+contains \\
+& & a flag indicating how the outer boundary must \\
+& & be treated in scheme \verb+is+. See {\bf SVFDCF}. \\
+\hline
+\verb+ LARR + & Int. arr. & Dimension \verb+( NDCS )+. \\
+& & Auxilliary array for {\bf SVFDCF}. \\
+\hline
+\verb+ LU + & Int. scal. & Logical file unit number. \\
+\hline
+\verb+ FNAME + & Char(*) & Filename. \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+FOPEN+ and
+\verb+FCLOSE+.
+
+\clearpage
+\subsection{SUBROUTINE HMFWT}
+\label{sec:hmfwtinfo}
+
+{\bf H}ar{\bf M}onic
+{\bf F}ile
+{\bf W}ri{\bf T}e. \newline
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+HMFWT( NH, MHT, MHL, MHM, MHP, NDCS, MHIBC, MHOBC, LU, FNAME )
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+Wries the indices of the spherical harmonic set (along
+with the boundary conditions) to a file specified by the
+filename \verb+FNAME+.
+
+The first line of the new file will contain only \verb+NH+,
+the number of spherical harmonics.
+The next \verb+NH+ lines will all consist of the 5 integer
+values
+\begin{verbatim}
+MT   ML   MM    IIBF  IOBF
+\end{verbatim}
+
+\verb+MT+ contains one of the following values which describes
+the function :-
+\begin{verbatim}
+MT = 1 for a poloidal velocity harmonic.
+MT = 2 for a toroidal velocity harmonic.
+MT = 3 for a temperature harmonic.
+MT = 4 for a poloidal magnetic field harmonic.
+MT = 5 for a toroidal magnetic field harmonic.
+\end{verbatim}
+
+\verb+ML+ contains the spherical harmonic degree, $l$, and
+\verb+MM+ will contain $m$,
+the spherical harmonic order, for $\cos m \phi$ dependence
+and $-m$ for $\sin m \phi$ dependence.
+
+\verb+IIBF+ and \verb+IOBF+ describe the boundary condition
+required for that radial function at the inner and outer 
+boundaries respectively. (See {\bf SVFDCF},
+section (\ref{sec:svfdcfinfo}), for details.)
+They are the values of \verb+MHIBC+ and \verb+MHOBC+ which
+correspond to the value of \verb+MHP(ih)+.
+
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ NH + & Int. scal. & Number of spherical harmonics. \\
+\hline
+\verb+ MHT + & Int. arr. & Dim (*) with length atleast NH. \\
+& & \verb+MHT(ih) = MT+ for harmonic number \verb+ih+. \\
+\hline
+\verb+ MHL + & Int. arr. & Dim (*) with length atleast NH. \\
+& & \verb+MHL(ih) = MT+ for harmonic number \verb+ih+. \\
+\hline
+\verb+ MHM + & Int. arr. & Dim (*) with length atleast NH. \\
+& & \verb+MHM(ih) = MT+ for harmonic number \verb+ih+. \\
+\hline
+\verb+ MHP + & Int. arr. & Dim (*) with length atleast NH. \\
+& & \verb+MHP( ih )+ contains the index of the arrays \\
+& & \verb+MHIBC+ and \verb+MHOBC+ which correspond to \\
+& & harmonic \verb+ih+. \\
+\hline
+\verb+ NDCS + & Int. scal. & Maximum distinct finite \\
+& & difference schemes. See {\bf SVFDCF}. \\
+\hline
+\verb+ MHIBC + & Int. arr. & Dimension \verb+( NDCS )+. \verb+MHIBC( is )+
+contains \\
+& & a flag indicating how the inner boundary must \\
+& & be treated in scheme \verb+is+. See {\bf SVFDCF}. \\
+\hline
+\verb+ MHOBC + & Int. arr. & Dimension \verb+( NDCS )+. \verb+MHOBC( is )+
+contains \\
+& & a flag indicating how the outer boundary must \\
+& & be treated in scheme \verb+is+. See {\bf SVFDCF}. \\
+\hline
+\verb+ LU + & Int. scal. & Logical file unit number. \\
+\hline
+\verb+ FNAME + & Char(*) & Filename. \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+FOPEN+ and
+\verb+FCLOSE+.
+
+\subsection{SUBROUTINE LDGNMF}
+\label{sec:ldgnmfinfo}
+
+{\bf L}inear
+{\bf D}ependence of
+{\bf G}rid
+{\bf N}ode
+{\bf M}atrix
+{\bf F}orm. \newline
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+LDGNMF( NR, NNDS, NALF, NARF, L, IIBC, IOBC, NCFM, 
+        XARR, AMAT, WMAT, WORK1, WORK2, IPCM )
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+Let $f_j$ denote the function $f$ evaluated
+at $x_j$, the value stored in \verb+XARR( j )+. \newline
+Let $f_j^{(m)}$ denote the $m^{\rm th}$ derivative
+with respect to $x$ evaluated at $x_j$. \newline
+Then a finite difference scheme may be formulated
+such that
+\bed
+\left(
+\begin{array}{c}
+f_j^{(0)} \\
+f_j^{(1)} \\
+\vdots \\
+f_j^{(n-1)} \\
+\end{array}
+\right)
+= 
+\left(
+\begin{array}{cccc}
+ c^{(0)}_{k+1}  &  c^{(0)}_{k+2}  &  \cdots  &  c^{(0)}_{k+n}  \\
+ c^{(1)}_{k+1}  &  c^{(1)}_{k+2}  &  \cdots  &  c^{(1)}_{k+n}  \\
+ \vdots  & \vdots   &  \cdots  &    \vdots \\
+ c^{(n-1)}_{k+1}  &  c^{(n-1)}_{k+2}  &  \cdots  &  c^{(n-1)}_{k+n}  \\
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+f_{k+1} \\
+f_{k+2} \\
+\vdots \\
+f_{k+n} \\
+\end{array}
+\right).
+\eed
+The matrix ${\bm C}$ above, containing the elements
+$c^{(m)}_{k+i}$, may be formed by a call to {\bf GFDCFD}
+with the calling sequence
+\begin{verbatim}
+CALL GFDCFD ( XJ, XA, NNDS, COEFM, NCFM, IPCM, WORK)
+\end{verbatim}
+where \verb+XJ+ gives the value of $x_j$,
+\verb+XA( i )+  gives the value of $x_{k+i}$,
+\verb+NNDS+ is $n$ and
+\verb+COEFM( +$m + 1$\verb+, i )+ gives the
+value of $c^{(m)}_{k+i}$.
+
+However, if boundary conditions must be satisfied
+at $x_1$ and $x_{\rm NR}$ (\verb+XARR( 1 )+
+and \verb+XARR( NR )+ respectively) then the
+values $f_{k+1}$, $f_{k+2}$, $\cdots$, $f_{k+n}$
+may not be linearly independent. In other words,
+the equation above becomes
+\bed
+\left(
+\begin{array}{c}
+f_j^{(0)} \\
+f_j^{(1)} \\
+\vdots \\
+f_j^{(n-1)} \\
+\end{array}
+\right)
+= 
+\left(
+{\bm C}
+\right)
+\left(
+{\bm A}
+\right)
+\left(
+\begin{array}{c}
+f_{k+1} \\
+f_{k+2} \\
+\vdots \\
+f_{k+n} \\
+\end{array}
+\right),
+\eed
+where the matrix ${\bm A}$ defines the dependency between
+the different $f_{k+i}$. If the boundary condition does
+not effect the nodes $k+1$, $k+2$ to $k+n$ (to the
+accuracy of the finite differencing scheme) then
+${\bm A}$ is clearly the identity matrix. 
+Otherwise, ${\bm A}$ is a matrix of Rank $ < n $,
+and the purpose of {\bf LDGNMF} is to calculate this
+matrix.
+The element $f_{k+i}$ is expressed in terms of the
+$f_s$ (with $s \in \{ k+1, k+2, \cdots , k+n \}$) by
+\bed
+f_{k+i} = \sum_{s=1}^n d_{i,s} f_{k+s}.
+\eed
+
+The integer values \verb+NALF+ and \verb+NARF+ are
+respectively the number of nodes at the left and
+the right for which the value is a linear combination of
+the values at the other nodes. 
+Both \verb+NALF+ and \verb+NARF+ {\bf MUST} take one
+of the values \verb+0+, \verb+1+ or \verb+2+.
+(This is because there is no case in the standard
+MHD equations where we need to apply more than 2
+boundary conditions at a particular boundary.)
+If both \verb+NALF+ and \verb+NARF+ are zero then
+${\bm A}$ is returned as ${\bm I}_n$.
+If either \verb+NALF+ or \verb+NARF+ is non-zero
+then the other must be zero! (Otherwise the
+finite difference scheme is not going to work). \newline
+If \verb+NALF = 1+ then $f_{k+1}$ is a
+linear sum of $\{ f_{k+2}, \cdots , f_{k+n} \}$. \newline
+If \verb+NALF = 2+ then $f_{k+1}$ and $f_{k+2}$ are both 
+linear sums of $\{ f_{k+3}, \cdots , f_{k+n} \}$. \newline
+If \verb+NARF = 1+ then $f_{k+n}$ is a
+linear sum of $\{ f_{k+1}, \cdots , f_{k+n-1} \}$. \newline
+If \verb+NARF = 2+ then $f_{k+n}$ and $f_{k+n-1}$ are both 
+linear sums of $\{ f_{k+1}, \cdots , f_{k+n-2} \}$. \newline
+
+Now the actual form of the boundary condition
+can be one of many different cases. This is 
+determined by the flags \verb+IIBC+ and 
+\verb+IOBC+, which specify the inner and outer
+boundary condition respectively.
+
+The following table gives the possibilities for
+\verb+IIBC+ :- \newline
+
+\begin{tabular}{|c|l|}
+\hline
+\verb+IIBC+ & Inner boundary condition. \\
+\hline
+\hline
+\verb+1+ & None imposed \\
+\hline
+\verb+2+ & Function must vanish at boundary. \\
+\hline
+\verb+3+ & First derivative must vanish at boundary. \\
+\hline
+\verb+4+ & Both function and first derivative must vanish. \\
+\hline
+\verb+5+ & Both function and second derivative must vanish. \\
+\hline
+\verb+6+ & $rdf/dr - f(r) = 0$ \\
+\hline
+\verb+7+ & $r df/dr - l f(r) = 0$ with $l=$\verb+L+. \\
+\hline
+\end{tabular} \newline
+
+The following table gives the possibilities for
+\verb+IOBC+ :- \newline
+
+\begin{tabular}{|c|l|}
+\hline
+\verb+IOBC+ & Outer boundary condition. \\
+\hline
+\hline
+\verb+1+ & None imposed \\
+\hline
+\verb+2+ & Function must vanish at boundary. \\
+\hline
+\verb+3+ & First derivative must vanish at boundary. \\
+\hline
+\verb+4+ & Both function and first derivative must vanish. \\
+\hline
+\verb+5+ & Both function and second derivative must vanish. \\
+\hline
+\verb+6+ & $rdf/dr - f(r) = 0$ \\
+\hline
+\verb+7+ & $r df/dr + (l+1) f(r) = 0$ with $l=$\verb+L+. \\
+\hline
+\end{tabular} \newline
+
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ NR + & Int. scal. & Total number of radial grid nodes. \\
+\hline
+\verb+ NNDS + & Int. scal. & Number of nodes which are used \\
+& & to take derivative ($n$ above). \\
+\hline
+\verb+ NALF + & Int. scal. & Number of nodes at the left \\
+& & which are a linear combination of the others. \\
+\hline
+\verb+ NARF + & Int. scal. & Number of nodes at the right\\
+& & which are a linear combination of the others. \\
+\hline
+\verb+ L + & Int. scal. & Spherical harmonic degree, $l$. \\
+& & Only relevant for magnetic field b.c.s \\
+\hline
+\verb+ IIBC + & Int. scal. & Inner boundary condition flag. See above. \\
+\hline
+\verb+ IOBC + & Int. scal. & Outer boundary condition flag. See above. \\
+\hline
+\verb+ NCFM + & Int. scal. & Leading dimension of matrix \verb+AMAT+. \\
+\hline
+\verb+ XARR  + & D.p. arr. & Dimension \verb+(NR)+. See above. \\
+\hline
+\verb+ AMAT + & D.p. arr. & Dimension \verb+(NCFM,NCFM)+. Returns matrix \\
+& &  ${\bm A}$ above. \\
+\hline
+\verb+ WMAT + & D.p. arr. & Dimension \verb+(NCFM,NCFM)+. Work array. \\
+\hline
+\verb+ WORK1 + & D.p. arr. & Dimension \verb+(NCFM)+. Work array
+for {\bf GFDCFD}. \\
+\hline
+\verb+ WORK2 + & D.p. arr. & Dimension \verb+(NCFM)+. Work array
+for {\bf GFDCFD}. \\
+\hline
+\verb+ IPCM + & Int. arr. & Dimension \verb+(NCFM)+. Work array
+for {\bf GFDCFD}. \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+MATOP+, \verb+GFDCFD+.
+
+\subsection{SUBROUTINE SCHNLA}
+\label{sec:schnlainfo}
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+SCHNLA ( PA, DPA, GAUX, LH, NTHPTS )
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+To evaluate an array of all the associated Legendre Polynomials,
+$P_l^m$, up to and including degree $l$=\verb+LH+ at \verb+NTHPTS+
+different values of $\theta$.
+The derivatives with respect to $\theta$ are also calculated.
+
+\verb+GAUX+ is a double precision array of length
+\verb+NTHPTS+ with \verb+GAUX( i )+ containing the
+element $\cos \theta_i$.
+
+\verb+PA+ is an array with dimensions
+{\bf ( ( LH + 1 )*( LH + 2 )/2 , NTHPTS)} and $P_l^m( \cos \theta_i )$
+is stored in the element \verb+PA( K, I )+ where the value of
+\verb+K+ is given by the function \verb+KLM( L, M )+:
+i.e. \verb.KLM = L*(L+1)/2+M+1..
+
+\verb+DPA+ is arranged identically except that its elements
+contain $d P_l^m( \cos \theta_i )/ d\theta$.
+
+$P_l^m$ satisfies the normalisation
+\bed
+\int_{-1}^{1} \left[ P_l^m(x) \right]^2 dx = \fr{ 2 ( 2 -
+\delta_{m0} ) }{ 2 l + 1 }.
+\eed
+
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ PA + & D.p. arr. & See above. \\
+& Dim. {\bf ( N1 , NTHPTS)} & \\
+& with {\bf N1 = ( LH + 1 )*( LH + 2 )/2 } & \\
+\hline
+\verb+ DPA + & D.p. arr. & See above. \\
+& Dim. {\bf ( N1 , NTHPTS)} & \\
+& with {\bf N1 = ( LH + 1 )*( LH + 2 )/2 } & \\
+\hline
+\verb+ GAUX + & D.p. arr. & See above \\
+& Dim. {\bf ( NTHPTS )} & \\
+\hline
+\verb+ LH + & Int. scal. & Maximum degree, $l$ \\
+\hline
+\verb+ NTHPTS + & Int. scal. & Number of $\theta$ points \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+PMM+, \verb+PMM1+ and \verb+PLM+;
+\verb+DPMM+, \verb+DPMM1+ and \verb+DPLM+;
+\verb+KLM+.
+
+\subsection{SUBROUTINE SVFDCF}
+\label{sec:svfdcfinfo}
+
+{\bf S}olution
+{\bf V}ector
+{\bf F}inite
+{\bf D}ifference
+{\bf C}oefficient
+{\bf F}ind. \newline
+
+{\bf Calling sequence}:-
+\begin{verbatim}
+SVFDCF( NR, NDCS, NBN, NLMR, NRMR, MHIBC, MHOBC,
+        LARR, NCFM, NFDCM, NDRVS, NDRVM, XARR,
+        IWORK, SVFDC, COEFM1, COEFM2, WORK1, WORK2 )
+\end{verbatim}
+
+{\bf Purpose}:- \newline
+
+Let $f$ be a function of $x$ with \verb+NR+ discrete
+values $x_j$ being stored in \verb+XARR( j )+.
+{\bf SVFDCF} builds a double precision matrix
+\verb+SVFDC+ of dimension \newline
+\verb+(NFDCM, NR, NDRVM+$+$\verb+1, NDCS )+
+such that for a given node number, $j$, the $n^{\rm th}$
+derivative of $f(x)$ is given by
+\bed
+f^{(n)}( x_j ) = \sum_{i= {\rm LN}}^{\rm RM}
+{\rm SVFDC}( k, j, n+1, S ) f( x_i )
+\eed
+where
+\begin{verbatim}
+LN = MAX(  1, j - NBN )
+RN = MIN( NR, j + NBN ),
+\end{verbatim}
+\verb+NBN+ is the number of nodes on each side
+for central difference formulae,
+\begin{verbatim}
+k = i - j + NBN + 1,
+\end{verbatim}
+and $S$ is an integer value describing one of several
+different finite-differencing schemes which may
+all be stored in \verb+SVFDC+.
+The properties of the scheme $S$ (\verb+is+) is described by two
+integer parameters, \verb+MHIBC( is )+ and \verb+MHOBC( is )+.
+Their values are given in the following two tables.
+
+The possibilities for \verb+MHIBC( is )+ are :- \newline
+
+\begin{tabular}{|c|l|}
+\hline
+\verb+MHIBC( is )+ & Inner boundary condition. \\
+\hline
+\hline
+\verb+1+ & None imposed \\
+\hline
+\verb+2+ & Function must vanish at boundary. \\
+\hline
+\verb+3+ & First derivative must vanish at boundary. \\
+\hline
+\verb+4+ & Both function and first derivative must vanish. \\
+\hline
+\verb+5+ & Both function and second derivative must vanish. \\
+\hline
+\verb+6+ & $rdf/dr - f(r) = 0$ \\
+\hline
+\verb+7+ & $r df/dr - l f(r) = 0$ with $l=$\verb+L+. \\
+\hline
+\end{tabular} \newline
+
+The possibilities for \verb+MHOBC( is )+ are :- \newline
+
+\begin{tabular}{|c|l|}
+\hline
+\verb+MHOBC( is )+ & Outer boundary condition. \\
+\hline
+\hline
+\verb+1+ & None imposed \\
+\hline
+\verb+2+ & Function must vanish at boundary. \\
+\hline
+\verb+3+ & First derivative must vanish at boundary. \\
+\hline
+\verb+4+ & Both function and first derivative must vanish. \\
+\hline
+\verb+5+ & Both function and second derivative must vanish. \\
+\hline
+\verb+6+ & $rdf/dr - f(r) = 0$ \\
+\hline
+\verb+7+ & $r df/dr + (l+1) f(r) = 0$ with $l=$\verb+L+. \\
+\hline
+\end{tabular} \newline
+
+In schemes with \verb+MHIBC( is ) = 1+, all nodes near
+the inner boundary are required for taking derivatives.
+In schemes with \verb+MHIBC( is ) = +2, 3, 6 and 7,
+the first grid node is essentially omitted from the
+solution vector and only nodes $2, 3, \cdots$ are
+used for taking derivatives.
+In schemes with \verb+MHIBC( is ) = +4 and 5,
+the first two grid nodes are omitted and only nodes $3, 4, \cdots$ are
+used for taking derivatives.
+A similar situation applies at the outer boundary.
+
+Set \verb+LARR( is )+ to the spherical harmonic degree, $l$,
+for poloidal magnetic field (insulating boundaries) finite
+difference schemes and to \verb+-1+ to make {\bf SVFDCF}
+overlook scheme \verb+is+ altogether (maybe to be filled
+using a different set of parameters).
+
+{\bf Arguments}:- \newline
+
+\begin{tabular}{|l|l|l|}
+\hline
+\verb+ NR + & Int. scal. & Total number of radial grid nodes. \\
+\hline
+\verb+ NDCS + & Int. scal. & Number of distinct differencing \\
+& & schemes to be stored in the array \verb+SVFDC+. \\
+\hline
+\verb+ NBN + & Int. scal. & Maximum number of nodes to left or \\
+& & right which may be used to calculate derivatives. \\
+\hline
+\verb+ NLMR + & Int. scal. & The lowest $j$ for which terms are \\
+& & to be calculated for \verb+SVFDC(i,j,ND+$+$\verb+1,K)+. \\
+\hline
+\verb+ NRMR + & Int. scal. & The highest $j$ for which terms are \\
+& & to be calculated for \verb+SVFDC(i,j,ND+$+$\verb+1,K)+. \\
+\hline
+\verb+ MHIBC + & Int. arr. & Dimension \verb+( NDCS )+. \verb+MHIBC( is )+
+contains \\
+& & a flag indicating how the inner boundary must \\
+& & be treated in scheme \verb+is+. See above list. \\
+\hline
+\verb+ MHOBC + & Int. arr. & Dimension \verb+( NDCS )+. \verb+MHOBC( is )+
+contains \\
+& & a flag indicating how the outer boundary must \\
+& & be treated in scheme \verb+is+. See above list. \\
+\hline
+\verb+ LARR + & Int. arr. & Dimension \verb+( NDCS )+. \verb+LARR( is )+
+contains \\
+& & the spherical harmonic degree, $l$, for scheme \verb+is+. \\
+& & If \verb+LARR( is ) = -1+, scheme \verb+is+ is ignored. \\
+\hline
+\verb+ NCFM + & Int. scal. & Leading dimension of work arrays. \\
+& & Must be atleast $2*NBN + 1$. \\
+\hline
+\verb+ NFDCM + & Int. scal. & Leading dimension of array \verb+SVFDC+. \\
+& & Must be atleast $2*NBN + 1$. \\
+\hline
+\verb+ NDRVS + & Int. scal. & Number of derivatives to be calculated. \\
+\hline
+\verb+ NDRVM + & Int. scal. & Maximum no. of deriv. coefficients \\
+& & which may be stored in \verb+SVFDC+. \\
+\hline
+\verb+ XARR + & D.p. arr. & Dimension \verb+(NR)+. Radial grid values. \\
+\hline
+\verb+ IWORK + & Int. arr. & Dimension \verb+(NCFM)+. Work array. \\
+\hline
+\verb+ SVFDC + & D.p. arr. & Dimension
+\verb+(NFDCM, NR, NDRVM+$+$\verb+1, NDCS )+. \\
+& & Coefficients. See above \\
+\hline
+\verb+ COEFM1 + & D.p. arr. & Dimension \verb+( NCFM, NCFM )+. Work array. \\
+\hline
+\verb+ COEFM2 + & D.p. arr. & Dimension \verb+( NCFM, NCFM )+. Work array. \\
+\hline
+\verb+ WORK1 + & D.p. arr. & Dimension \verb+( NCFM )+. Work array. \\
+\hline
+\verb+ WORK2 + & D.p. arr. & Dimension \verb+( NCFM )+. Work array. \\
+\hline
+\end{tabular} \newline
+
+{\bf Subroutines and functions called}:- \newline
+
+\verb+LDGNMF+, \verb+GFDCFD+, \verb+EMMULT+.

@@ -1,0 +1,2694 @@
+\section{Fundamentals}
+\label{chap:fundamentals}
+
+\section{ The basic equations }
+
+The programs in {\bf LEOPACK} do not specifically
+refer to any physical quantities (e.g. kinematic viscosity, $\nu$,
+magnetic diffusivity, $\eta$, or thermal expansivity, $\alpha$)
+or indeed any dimensionless numbers (e.g. Rayleigh number, $R$,
+Ekman number, $E$, or Prandtl number, $Pr$).
+Instead, in order to accomodate the widest possible range of
+scalings, the programs multiply terms in the MHD equations by
+arbitrarily named constants which are described below and
+must be carefully specified by the user.
+The aim of this section is to explain how these
+scalings relate to physical quantities.
+
+\subsection{ The heat equation }
+\label{subsec:heateq}
+
+The equation defining the advection of heat is
+(see \cite{gubrob87})
+\beq
+\pdiff{ T }{ t } + {\bm u} . \nabla T = \kappa \Lap T 
+                                        + \fr{ q }{ C_p \rho }
+\label{eq:gubrobheat}
+\eeq
+where ${\bm u}$ is the fluid flow, $T$ the
+temperature, $\kappa$ the thermal diffusivity
+(${\rm m}^2{\rm s}^{-1}$),
+$q$ the rate of local heating
+(${\rm J}{\rm m}^{-3}{\rm s}^{-1}$),
+$C_{p}$ the specific heat capacity (${\rm J}{\rm kg}^{-1}{\rm K}^{-1}$)
+and $\rho$ the density (${\rm kg}{\rm m}^{-3}$).
+
+The convection codes assume that the temperature, $T$,
+is expressed as follows:-
+\beq
+T( r, t, \theta, \phi ) =
+T_0( r ) +
+T_1( r, t, \theta, \phi )
+\label{eq:tempexpression}
+\eeq
+The steady, basic state temperature distribution, $T_0( r )$,
+is given the form
+\beq
+T_0( r ) =
+-\half b_1 r^2 + \fr{ b_2 }{ r } + b_3
+\label{eq:basicstatedef}
+\eeq
+where $b_1$, $b_2$ and $b_3$ are constants.
+Its purpose is to define the temperature profile for
+the sphere or spherical shell,
+incorporating any internal heating sources. It satisfies
+\beq
+\nabla T_0 = - \left( b_1 r + b_2 r^{-2} \right) 
+{\bm e}_r,
+\label{eq:basicstategrad}
+\eeq
+where ${\bm e}_r$ is the unit vector in the radial
+direction, and
+\beq
+\Lap T_0 = - 3 b_1.
+\label{eq:basicstatelap}
+\eeq
+If we substitute the definition (\ref{eq:tempexpression})
+into Equation (\ref{eq:gubrobheat}) and apply
+(\ref{eq:basicstategrad}) and (\ref{eq:basicstatelap})
+we derive
+\beq
+\begin{array}{rcl}
+\pdiff{ T_1 }{ t } &=& \kappa \Lap T_1 -
+                        3 \kappa b_1 + \fr{ q }{ C_p \rho } +
+                       {\bm u} . \left( b_1 r + b_2 r^{-2} \right){\bm e}_r
+                       - {\bm u} . \nabla T_1
+\end{array}
+\label{eq:substituteheat}
+\eeq
+It is now clear that the constant $b_1$ defines the 
+sources of internal heating with
+\beq
+b_1 = \fr{ q }{ 3 C_p \rho \kappa }.
+\eeq
+If there are no internal heating sources, then $q = 0$ and
+hence $b_1 = 0$. The constant $b_2$ is chosen appropriately
+for systems which have a simple temperature gradient from
+the inner to the outer boundary.
+
+For numerical simplicity,
+it is best to solve for temperature functions
+with homogeneous boundary conditions.
+We therefore decompose $T_1$, the perturbation from the basic
+state temperature,
+\beq
+T_1( r, t, \theta, \phi ) =
+\Theta( r, t, \theta, \phi ) + 
+\varepsilon T_{\rm a}( r, \theta, \phi ).
+\label{eq:tonedecomp}
+\eeq
+$\Theta$ is the function which is solved for in all of 
+the calculations. $T_{\rm a}$ is an additional temperature
+which is imposed if, for example, an inhomogeneous heat-flux
+at the outer boundary is required.
+
+If we denote the radial component of the velocity $u_r$,
+then applying Equation (\ref{eq:tonedecomp}) to Equation
+(\ref{eq:substituteheat}) gives us the heat equation
+as applied in all of the programs:
+\beq
+\begin{array}{rcl}
+c_a \pdiff{ \Theta }{ t } &=& c_d \Lap (\Theta + \varepsilon T_{\rm a})
+                              + b_1 u_r r 
+                              + b_2 \fr{ u_r }{ r^2 }
+        - c_c {\bm u} . \nabla (\Theta + \varepsilon T_{\rm a} )
+\end{array}
+\label{eq:programheat}
+\eeq
+The constants $c_a$, $b_1$, $b_2$, $c_c$ and $c_d$ are arbitrarily
+named, with no physical meaning attatched to them. Their use
+simply allows for any scaling to be applied to the equations.
+In the codes, $c_a$ is stored in the double precision variable
+\verb+CA+; and similarly with $b_1$ (\verb+CB1+),
+                              $b_2$ (\verb+CB2+),
+                              $c_c$ (\verb+CC+) and
+                              $c_d$ (\verb+CD+).
+Many of the codes are restricted to uniform thermal
+boundaries and so only work for $\varepsilon = 0$.
+Codes which are designed to implement inhomogeneous
+thermal boundaries usually denote $\varepsilon$ with
+the double precision variable \verb+SCAL+.
+
+
+\subsection{ The momentum equation }
+\label{subsec:momenteq}
+
+In the Boussinesq
+approximation, all density variations except those
+with respect to the buoyancy
+force are considered to be negligible, and following the
+analysis of \cite{gubrob87},
+the
+momentum equation is written
+\beq
+\pdiff{ \bm u }{t} +  {\bm u}. \nabla {\bm u} +
+ 2 {\bm \Omega} \times {\bm u}
+=  - \nabla {\tilde {\omega}}
+  + \fr{ \delta \rho }{ \rho_0 } { \bm g }
+  + \fr{ {\bm J} \times {\bm B} }{ \rho_0 }
+  + \nu \nabla ^2 {\bm u},
+\label{eq:gubrobmom}
+\eeq
+where ${\bm J}$ and ${\bm B}$ are respectively the 
+electric current and magnetic field.
+The scalar function ${\tilde {\omega}}$ combines
+the pressure, $p$, and the centrifugal force such that
+\begin{displaymath}
+{\tilde {\omega}} = \frac{p}{\rho} -
+ \half | {\bm \Omega} \times {\bm r} |^2,
+\end{displaymath}
+and can be removed from the problem by taking the
+curl of Equation (\ref{eq:gubrobmom}).
+The density variation $\delta \rho$ is expressed in terms
+of the thermal expansivity, $\alpha$ (${\rm K}^{-1}$),
+and $T$, the temperature perturbation from a well mixed state
+($\rho = \rho_0$), to give
+\beq
+\fr{ \delta \rho }{ \rho_0 }  = - \alpha T.
+\label{eq:drho}
+\eeq
+The acceleration due to gravity, ${\bm g }$ is written in terms
+of the radial vector ${\bm r }$ as
+\beq
+{\bm g } = - \gamma {\bm r },
+\label{eq:ggamma}
+\eeq
+for a constant $\gamma$, (${\rm s}^{-2}$).
+The linear
+dependence of ${\bm g }$ on $r$ is a good approximation
+for the core (see for example \cite{81dzieand}
+or \cite{89anderson}),
+but would not be appropriate for the mantle.
+$\nu$ is the viscosity (${\rm m}^2{\rm s}^{-1}$) and
+${\bm \Omega } = \Omega {\bm k }$ is the rotation vector,
+in terms of the unit vector, ${\bm k }$.
+The electric current is related to the magnetic field by 
+\beq
+\curl {\bm B} = \mu {\bm J}
+\eeq
+where ${\mu}$ is the magnetic permeability and 
+assumed to equal ${\mu}_0$, the magnetic permeability of
+free space everywhere.
+
+In order to eliminate the pressure gradient from the
+momentum equation, we take the curl of Equation
+(\ref{eq:gubrobmom}) and apply equations
+(\ref{eq:drho}) and (\ref{eq:ggamma}).
+If we denote the vorticity (the curl of ${\bm u}$) by
+${\bm \omega}$, then our vorticity equation becomes
+\beq
+\begin{array}{rcl}
+\pdiff{\bm \omega}{ t } &=&
+- \curl ({\bm u} . \nabla {\bm u})
+- 2 \Omega \curl ({\bm k} \times {\bm u}) \\ & &
++ \alpha \gamma \curl (T {\bm r})
++ \fr{1}{\rho \mu_0} \curl \left[
+     (\curl {\bm B}) \times {\bm B} \right]
++ \nu \Lap {\bm \omega}.
+\end{array}
+\label{eq:firstvort}
+\eeq
+It is assumed here that the kinematic viscosity,
+$\nu$, is not a function of space.
+The basic state temperature, $T_0$, is a function of
+radius alone and therefore cannot contribute to the
+buoyancy term in the vorticity equation.
+Giving arbitrarily defined names to the scalings which
+multiply the terms in our equation (\ref{eq:firstvort}),
+we write the curl of the momentum equation
+\beq
+\begin{array}{rcl}
+c_e \pdiff{\bm \omega}{ t } &=&
+- c_f \curl ({\bm u} . \nabla {\bm u})
+- c_g \curl ({\bm k} \times {\bm u}) \\ & &
++ c_h \curl \left[
+(\Theta + \varepsilon T_{\rm a}) {\bm r} \right]
++ c_j \curl \left[ (\curl {\bm B}) \times {\bm B} \right]
++ c_i \Lap {\bm \omega}.
+\end{array}
+\label{eq:programvort}
+\eeq
+There are two vector quantities in the momentum equation,
+the velocity ${\bm u}$ and the magnetic field ${\bm B}$.
+${\bm B}$ must always satisfy the solenoidal condition
+\beq
+\nabla . {\bm B} = 0
+\label{eq:solenoidal}
+\eeq
+and similarly, for a Boussinesq fluid, ${\bm u}$ must
+satisfy
+\beq
+\nabla . {\bm u} = 0.
+\label{eq:incompress}
+\eeq
+We can therefore express both velocity and magnetic
+field in poloidal/toroidal decompositions
+\beq
+{\bm B} = \curl \curl \left[ ~~~ \polbr( r, t, \theta, \phi )~
+ {\bm r} ~~~ \right] ~~ + ~~
+                \curl \left[ ~~~ \torbr( r, t, \theta, \phi )~
+ {\bm r} ~~~ \right]
+\label{eq:magpoltor}
+\eeq
+and
+\beq
+{\bm u} = \curl \curl \left[ ~~~ \polvr( r, t, \theta, \phi )~
+ {\bm r} ~~~ \right] ~~ + ~~
+                \curl \left[ ~~~ \torvr( r, t, \theta, \phi )~
+ {\bm r} ~~~ \right].
+\label{eq:velpoltor}
+\eeq
+Note that these definitions are different from those of,
+for example Bullard and Gellman -
+\cite{bullgell54}, who use the unit radial
+vector, $\hat{\bm r}$, instead of ${\bm r}$.
+
+\subsection{ The induction equation }
+\label{subsec:inductioneq}
+
+The equation describing the evolution of a magnetic
+field, ${\bm B}$, in a conducting fluid with velocity ${\bm u}$
+is derived from the pre-Maxwell equations
+\beq
+\curl {\bm E } = - \pdiff{ {\bm B} }{t} ~,~~~
+\curl {\bm B } = \mu {\bm J } ~~~{\rm and }~~~
+\nabla . {\bm B} = 0~,
+\label{eq:premax}
+\eeq
+and Ohm's law
+\beq
+{\bm J } = \sigma ( {\bm E} + {\bm u } \times {\bm B} ),
+\label{eq:ohmslaw}
+\eeq
+where ${\bm E}$ is the
+electric field and $\sigma$
+the electrical conductivity.
+The pre-Maxwell forms are used since the displacement
+current, $\partial {\bm E} / \partial t $, will
+be negligible for the relatively slow variations
+appropriate for the Earth.
+Assuming the electrical conductivity to be a constant,
+taking the curl of Equation (\ref{eq:ohmslaw})
+and applying the relations of (\ref{eq:premax})
+together with the vector identity
+\begin{displaymath}
+\curl ( \curl {\bm V } ) = \nabla ( \nabla . {\bm V} )
+- \Lap {\bm V },
+\end{displaymath}
+gives the induction equation
+\beq
+\pdiff{ {\bm B} }{t} = \curl ( {\bm u } \times {\bm B} )
++ \fr{ 1 }{ \mu_0 \sigma } \Lap {\bm B }.
+\label{eq:basicindone}
+\eeq
+The generalised form of the induction equation, as used
+by the programs, is 
+\beq
+c_k \pdiff{ {\bm B} }{t} =
+c_m \curl ( {\bm u } \times {\bm B} )
++ c_l \Lap {\bm B }.
+\label{eq:programind}
+\eeq
+As in equations (\ref{eq:programheat}) and
+(\ref{eq:programvort}), the constants $c_k$, $c_m$ and
+$c_l$ are arbitrarily named with no physical
+implications intended.
+
+\subsection{ EXERCISE: Parameter scalings }
+\label{subsec:parameterscaleex}
+
+The parameters $c_a$, $b_1$, $b_2$, $c_c$, $c_d$, $c_e$,
+$c_f$, $c_g$, $c_h$, $c_i$, $c_j$, $c_k$, $c_l$ and $c_m$
+are all defined by equations (\ref{eq:programheat}),
+(\ref{eq:programvort}) and (\ref{eq:programind}).
+
+The numerical dynamo benchmark study, \cite{bench},
+gives the following information for the Case 1
+(insulating inner core) benchmark study.
+
+\begin{footnotesize}
+The ratio of inner radius $r_{\rm i}$ to outer radius
+$r_{\rm o}$ is set to 0.35. Temperature is fixed to
+$T_{\rm o}$ and $T_{\rm o} + \Delta T$ on the outer and inner
+boundaries respectively.
+The Boussinesq approximation is used and gravity
+varies linearly with radius.
+The equations are scaled with $D = r_{\rm o} - r_{\rm i}$ as the
+fundamental length scale.
+The time-scale is $D^2/\nu$, with $\nu$ the kinematic
+viscosity.
+$\nu/D$ is the scale for the velocity ${\bm u}$,
+and $\Delta T$ for the temperature $T$.
+The scaled temperature on the outer boundary is zero.
+Magnetic induction, ${\bm B}$, is scaled by
+$(\rho \mu \eta \Omega)^{1/2}$, where $\rho$ is the
+density, $\mu$ the magnetic permeability, and
+$\Omega$ the basic rotation rate about the $z$-axis.
+The non-hydrostatic pressure is scaled by
+$\rho\nu\Omega$.
+The scaled equations are
+\beq
+\begin{array}{rcl}
+E( \pdiff{\bm u}{t} +
+{\bm u} . \nabla {\bm u} - \Lap {\bm u} )
++ 2 {\bm k} \times {\bm u} + \nabla P &=&
+Ra \fr{\bm r}{ r_{\rm o} } T +
+\fr{ (\curl {\bm B}) \times {\bm B} }{ Pm }
+\end{array}
+\label{eq:benchmomeq}
+\eeq
+\beq
+\begin{array}{rcl}
+\pdiff{\bm B}{t} &=&
+\curl( {\bm u} \times {\bm B}) +
+\fr{ 1 }{ Pm } \Lap {\bm B}
+\end{array}
+\label{eq:benchindeq}
+\eeq
+\beq
+\begin{array}{rcl}
+\pdiff{T}{t} + {\bm u}.\nabla T &=&
+\fr{ 1 }{ Pr } \Lap T
+\end{array}
+\label{eq:benchheateq}
+\eeq
+\beq
+\nabla . {\bm u} = \nabla . {\bm B} = 0
+\eeq
+Non-dimensional control parameters are the modified
+Rayleigh number
+\beq
+Ra = \fr{ \alpha g_0 \Delta T D}{\nu \Omega}
+\eeq
+where $\alpha$ is the thermal expansion coefficient and
+$g_0$ gravity at the outer radius,
+the Ekman number (note the non-standard definition!)
+\beq
+E = \fr{\nu}{\Omega D^2}
+\eeq
+the Prandtl number
+\beq
+Pr = \fr{\nu}{\kappa}
+\eeq
+where $\kappa$ is the thermal diffusivity, and the
+magnetic Prandtl number
+\beq
+Pm = \fr{\nu}{\eta}.
+\eeq
+\end{footnotesize}
+
+\section{ Representation of spherical functions }
+\label{sec:repspherfunc}
+
+The solutions to equations (\ref{eq:programheat}),
+(\ref{eq:programvort}) and (\ref{eq:programind})
+are all three dimensional functions of radius $r$,
+co-latitude $\theta$ and longitude $\phi$.
+The temperature is obtained via the scalar function
+$\Theta( r, t, \theta, \phi )$ (see Equation \ref{eq:tonedecomp}).
+From equations (\ref{eq:magpoltor}) and (\ref{eq:velpoltor}),
+we see that both velocity and magnetic field are completely
+specified by the four scalar functions
+$\polbr( r, t, \theta, \phi )$, 
+$\torbr( r, t, \theta, \phi )$, 
+$\polvr( r, t, \theta, \phi )$ and
+$\torvr( r, t, \theta, \phi )$. 
+Our solution at any given time, $t$, is then completely
+specified by five scalar functions.
+The dependence in the $\theta$ and $\phi$ directions is
+defined by expanding $\polvr$,
+$\torvr$, $\Theta$, $\polbr$ and
+$\torbr$ in terms of spherical harmonics.
+The truncated expansions are as follows:
+\beqar
+\!\! \!\! \!\! \!\! \!\! \!\!
+\polvr( r, t, \theta, \phi ) &=&
+\sum^{L1}_{l=1} \sum^{M(l)}_{m=0}
+\left[ \polvr^{mc}_l(r,t) \cos m \phi +  ~
+       \polvr^{ms}_l(r,t) \sin m \phi   \right] P^m_l( \cos \theta )
+\label{eq:polvrexp} \\
+\!\! \!\! \!\! \!\! \!\! \!\!
+\torvr( r, t, \theta, \phi ) &=&
+\sum^{L2}_{l=1} \sum^{M(l)}_{m=0}
+\left[ \torvr^{mc}_l(r,t) \cos m \phi +  ~
+       \torvr^{ms}_l(r,t) \sin m \phi   \right] P^m_l( \cos \theta )
+\label{eq:torvrexp} \\
+\!\! \!\! \!\! \!\! \!\! \!\!
+\Theta( r, t, \theta, \phi ) &=&
+\sum^{L3}_{l=0} \sum^{M(l)}_{m=0}
+\left[ \Theta^{mc}_l(r,t) \cos m \phi +  ~
+       \Theta^{ms}_l(r,t) \sin m \phi   \right] P^m_l( \cos \theta )
+\label{eq:Thetaexp} \\
+\!\! \!\! \!\! \!\! \!\! \!\!
+\polbr( r, t, \theta, \phi ) &=&
+\sum^{L4}_{l=1} \sum^{M(l)}_{m=0}
+\left[ \polbr^{mc}_l(r,t) \cos m \phi +  ~
+       \polbr^{ms}_l(r,t) \sin m \phi   \right] P^m_l( \cos \theta )
+\label{eq:polbrexp} \\
+\!\! \!\! \!\! \!\! \!\! \!\!
+\torbr( r, t, \theta, \phi ) &=&
+\sum^{L5}_{l=1} \sum^{M(l)}_{m=0}
+\left[ \torbr^{mc}_l(r,t) \cos m \phi +  ~
+       \torbr^{ms}_l(r,t) \sin m \phi   \right] P^m_l( \cos \theta )
+\label{eq:torbrexp}
+\eeqar
+In all applications dealt with here,
+the associated Legendre function $P^m_l( \cos \theta )$ satisfies
+the Schmidt quasi-normalisation condition
+\beq
+\int_{0}^{\pi}
+\left[ P_l^m ( \cos \theta )
+\right]^2
+\sin \theta d\theta = \fr{ 2( 2 - \delta_{m0}) }{ 2l + 1 }.
+\label{eq:plmschmidt}
+\eeq
+(Further details on spherical harmonics are found in
+the document
+\verb+DOC_sphervec.pdf+ in the 
+\verb+additional_documentation+ folder in the
+\verb+LEOPACK-2022-revision+ github repository.
+Note that only the temperature
+variable, $\Theta$, has an $l=0$ term: this is absent from
+the other terms due to the solenoidal condition
+(\ref{eq:solenoidal}) and the incompressibility 
+condition (\ref{eq:incompress}).
+In addition, the functions $\polvr^{0s}_l$, $\torvr^{0s}_l$,
+$\Theta^{0s}_l$, $\polbr^{0s}_l$ and $\torbr^{0s}_l$ are
+all clearly non-existant.
+If \verb+X+ contains the double precision numerical
+representation of $\cos \theta$, then the value of
+$P_l^m ( \cos \theta )$ is returned by the double
+precision function \verb+SHMPLG( L, M, X )+.
+In more general practical situations, i.e. in the simulation
+codes, arrays of associated Legendre functions are calculated
+by the subroutine \verb+SCHNLA+
+(see file \verb+DOC_appkeysubs.pdf+).
+
+
+The spherical harmonic expansions (\ref{eq:polvrexp}),
+ (\ref{eq:torvrexp}),
+ (\ref{eq:Thetaexp}),
+ (\ref{eq:polbrexp}) and (\ref{eq:torbrexp}) are ofcourse
+infinite and so the the truncation parameters
+$L1$, $L2$, $L3$, $L4$ and $L5$ should be made as large
+as is required to be able to adequately represent the
+actual solution. Larger values for these parameters
+ofcourse lead to a higher computational cost and so
+a certain amount of judgement is required to ensure
+that convergence of the solution at different values
+of $L1$ etc. is acceptable.
+
+\subsection{Representation in longitude, $\phi$}
+
+For a true three-dimensional solution,
+the integer function $M$ is given by
+\beq
+M(l) = l.
+\eeq
+However, there are many cases where it is valid to
+restrict the resolution in the $\phi$ direction.
+If the energy spectra in $m$ decay much faster than
+in $l$, it may be appropriate to impose a maxmimum
+value of $m$, $M_{\rm max}$ for instance, such that
+\beq
+M(l) = min( l, M_{\rm max}).
+\label{eq:mlmmaxdef}
+\eeq
+This can lead to significant time savings by reducing
+the size of the $(r, \theta, \phi)$ grid which needs
+transforming, and especially in reducing the time
+spent in the Fast Fourier Transforms.
+Also, we may impose a fundamental wavenumber, $m_0$,
+such that only $m$ which are integer multiples of
+$m_0$ are included in the solution. In some instances,
+this may actually be valid for the physical solution
+which may display natural symmetry properties. An
+example of this is the dynamo benchmark solution of
+\cite{bench} which displays a four-fold symmetry in
+$\phi$ and can therefore be represented by a
+spherical harmonic expansion containing only $m$ which
+are integer multiples of $4$. A fully three dimensional
+solution for the model parameters described in
+\cite{bench} will integrate towards a solution which is
+zero for all $m$ which are not multiples of $m_0$.
+Care must ofcourse be taken as the symmetry is likely to
+be broken when the physical parameters are changed
+and other symmetries are excited.
+
+Even for cases where the physical solution is not
+exactly described by a limited set of wavenumbers,
+much can be learned from solutions with a reduced
+resolution in the $\phi$-direction.
+Many authors (for example \cite{sarsonjones99} and
+references therein) have obtained great insights
+by restricting the solution to two azimuthal
+wavenumbers: $m=0$ and one non-zero wavenumber.
+These have been termed 2.5D dynamos.
+
+The transform routines are so written that if
+the integer variable \verb+M0+ contains an integer
+greater than 1, the non-linear terms are evaluated 
+in a ``half-space'' which exploits this symmetry
+and thus makes great savings in CPU time.
+For example, if $M_{\rm max} = 24$ and $m_0 = 4$,
+then our solution vector will contain the wavenumbers
+$0$, $4$, $8$, $12$, $16$, $20$ and $24$.
+The transform routines interpret this as evaluating
+the wavenumbers $0$, $1$, $2$, $3$, $4$, $5$ and $6$
+in the half-space $0 \leq \phi \leq 2 \pi / m_0$ as opposed to the
+actual wavenumbers in the space $0 \leq \phi \leq 2 \pi$.
+This reduces significantly the number of points in $\phi$ ($N_{\phi}$)
+necessary to perform an accurate Fast Fourier Transform - FFT.
+(Note that this may or may not be a factor of $m_0$ due
+the requirement that $N_{\phi}$ is a power of $2$. It may be
+more and may be less.)
+
+The routine to use in order to choose an
+appropriate value of $N_{\phi}$ is \verb+NPHPF+:
+\begin{verbatim}
+CALL NPHPF( MMAX, M0, NPHP, NPHMAX )
+\end{verbatim}
+where \verb+MMAX+ is $M_{\rm max}$, the highest
+wavenumber in the spectral expansion, 
+\verb+M0+ is $m_0$, \verb+NPHMAX+ is the limit
+allowed for $N_{\phi}$ in the program's array
+definitions, and $N_{\phi}$ is returned in
+the integer variable \verb+NPHP+ as the smallest
+number which is greater than $2 M_{\rm max} / m_0$ and
+is a power of $2$.
+The condition necessary for the FFT is that
+\beq
+f( \phi ) = f( \phi + \fr{2 \pi}{ m_0 } ).
+\eeq
+The point $\phi_i$ is given by
+\beq
+\phi_i = (i-1) \Delta \phi
+\eeq
+where
+\beq
+\Delta \phi = \fr{ 2 \pi }{ N_{\phi} m_0 }.
+\eeq
+Typically, the wavenumbers
+are of the order $20$ to $30$ in the parameter
+range we have looked at. If $m_0 = M_{\rm max}$, as
+is the case in a 2.5D simulation, then $N_{\phi} = 4$
+will always be sufficient, whichever non-zero wavenumber
+is used.
+
+\subsection{Representation in co-latitude, $\theta$}
+
+The full three-dimensional solution includes all
+the terms in the truncated expansions (\ref{eq:polvrexp}),
+(\ref{eq:torvrexp}), (\ref{eq:Thetaexp}),
+(\ref{eq:polbrexp}) and (\ref{eq:torbrexp}).
+We can make many useful time-savings by restricting
+the solution vectors to certain symmetries with
+respect to the equator.
+
+For the full details of the symmetry arguments for
+solutions to the dynamo equations, I refer the
+reader to \cite{gubzhang93}. A typical configuration
+is where the velocity, ${\bm u}$, is symmetric
+about the equator:
+\beq
+{\bm u}( r, \theta, \phi )  =
+{\bm u}( r, \pi - \theta, \phi ) 
+\label{eq:vecsymeq}
+\eeq
+and the magnetic field,
+${\bm B}$, is anti-symmetric about the equator:
+\beq
+{\bm B}( r, \theta, \phi )  =
+-{\bm B}( r, \pi - \theta, \phi ).
+\label{eq:vecantisymeq}
+\eeq
+Note that the condition (\ref{eq:vecsymeq}) implies
+that
+\beq
+\begin{array}{rcl}
+u_r( r, \theta, \phi ) &=& u_r( r, \pi - \theta, \phi ) \\
+u_{\theta}( r, \theta, \phi ) &=& - u_{\theta}( r, \pi - \theta, \phi ) \\
+u_{\phi}( r, \theta, \phi ) &=& u_{\phi}( r, \pi - \theta, \phi )
+\end{array}
+\eeq
+and that condition (\ref{eq:vecantisymeq}) implies
+that
+\beq
+\begin{array}{rcl}
+B_r( r, \theta, \phi ) &=& - B_r( r, \pi - \theta, \phi ) \\
+B_{\theta}( r, \theta, \phi ) &=& B_{\theta}( r, \pi - \theta, \phi ) \\
+B_{\phi}( r, \theta, \phi ) &=& - B_{\phi}( r, \pi - \theta, \phi ).
+\end{array}
+\eeq
+The alternative situation,
+\bed
+\begin{array}{rcl}
+{\bm u}( r, \theta, \phi )  &=& - {\bm u}( r, \pi - \theta, \phi ) \\
+{\bm B}( r, \theta, \phi )  &=& {\bm B}( r, \pi - \theta, \phi )
+\end{array}
+\eed
+is not a valid solution to the full dynamo problem
+due to the non-linear terms in the momentum
+equation (see \cite{gubzhang93}).
+
+In terms of our poloidal and toroidal scalars,
+the condition (\ref{eq:vecsymeq}) implies that
+the expansion (\ref{eq:polvrexp}) only contains
+terms with even $(l-m)$, and the expansion
+(\ref{eq:torvrexp}) only contains
+terms with odd $(l-m)$.
+Similarly, the condition (\ref{eq:vecantisymeq}) implies that
+the expansion (\ref{eq:polbrexp}) only contains
+terms with odd $(l-m)$, and the expansion
+(\ref{eq:torbrexp}) only contains
+terms with even $(l-m)$.
+In general, the temperature $\Theta$ should obey the
+same symmetry as is imposed upon the poloidal velocity
+scalar, $\polvr$. The heat source and buoyancy terms in
+equations (\ref{eq:programheat}) and (\ref{eq:programvort}) couple
+the spherical harmonics in the expansion (\ref{eq:polvrexp})
+uniquely with harmonics in Equation (\ref{eq:Thetaexp}).
+The one exception to this is the $l = m = 0$ harmonic
+which only receives contributions from the non-linear
+term ${\bm u} . \nabla \Theta$.
+
+\subsection{Representation in radius, $r$}
+\label{subsec:radrep}
+
+All of the codes presented here use finite differences
+to approximate radial derivatives. Let $f_{\alpha}(r)$ denote
+any of the radial functions in the expansions
+(\ref{eq:polvrexp}),
+(\ref{eq:torvrexp}), (\ref{eq:Thetaexp}),
+(\ref{eq:polbrexp}) and (\ref{eq:torbrexp}).
+$\alpha$ is an integer which uniquely identifies which
+component of the expansions $f$ refers to.
+$\alpha$ is an index which points to locations within
+property arrays - which will be covered in detail
+in the following section.
+(For example, $\alpha = 7$ might mean that
+$f_{\alpha}(r)$ is the radial function
+$\polbr_{3}^{2c}(r)$. The $7^{\rm th}$ component of each
+of the arrays described in Section \ref{subsec:solvecdesc}
+would provide information as to the identity of this
+radial function.)
+
+The number of radial grid nodes is given by the 
+integer number, \verb+NR+ ($N_r$). As a rule, I would
+never do a calculation with fewer than $25$ grid nodes,
+and the actual number of grid nodes necessary to adequately
+resolve a solution varies enormously with the parameter
+regime being studied and so some experimentation is
+generally required to find a suitable number.
+
+The radii at which the $N_r$ grid nodes lie are
+stored in the double precision array \verb+XARR+.
+The radius of the inner boundary, $r_{\rm i}$,
+is stored in \verb.XARR( 1 )., and the radius
+at the outer boundary, $r_{\rm o}$, is stored in
+\verb.XARR( NR ).. More generally, the radius
+at grid node $i$, $r_i$, with
+\beq
+r_{\rm i} \leq
+r_i \leq
+r_{\rm o}
+\label{eq:radialnodes}
+\eeq
+is stored in \verb-XARR( i )-: the difference
+between $r_{\rm i}$ and $r_i$ being appreciated.
+There is, in principle, no restriction on the
+values of $r_i$ which are permissible, other
+than the condition that
+$j_1 < j_2$ ought to imply that $r_{j_1} < r_{j_2}$.
+
+The user may provide any values to the array \verb+XARR+.
+Throughout my use of the codes, I have used three
+subroutines to set the elements of \verb+XARR+:-
+\begin{itemize}
+\item \verb.ESNAAS. Equally spaced radial nodes.
+\item \verb.ZCPAAS. Zeroes of Chebyshev polynomial $T_{N_r-2}$
+                    transformed from the interval $(-1,1)$ to
+                    the interval $(r_{\rm i},r_{\rm o})$.
+                    (Adapted from Daniele Funaro's routine
+                     ZECHGA.) This concentrates radial grid
+                     nodes close to the inner and outer
+                     boundaries.
+\item \verb.ZCPAA2. Non-negative zeroes of Chebyshev
+                    polynomial $T_{2N_r-2}$
+                    transformed from the interval $( 0,1)$ to
+                    the interval $(r_{\rm i},r_{\rm o})$.
+                    (Adapted from Daniele Funaro's routine
+                     ZECHGA.) This concentrates radial grid
+                     nodes close to the outer boundary.
+\end{itemize}
+Figure (\ref{fig:xarr_versions}) shows the different kinds
+of spacings possible with these three routines.
+The routine \verb+ZCPAA2+ was developed for the treatment
+of cases with no inner core: additional resolution close
+to the origin was never found to be very helpful.
+
+\begin{figure}[h]
+\centerline{\psfig{figure=FIGURES/xarr_versions.pdf,height=2.0in}}
+\caption[
+]
+{ \label{fig:xarr_versions} {\footnotesize
+Distributions of radial grid nodes with
+$r_{\rm i} = 0.25$,
+$r_{\rm o} = 1.25$ and $N_r = 40$.
+Subroutine used to generate $r$ values as shown.
+}}
+\end{figure}
+
+Ofcourse, there may be circumstances where completely
+different definitions give optimal results.
+For example,
+Emmanuel Dormy devised a scheme where nodes close
+to the boundaries follow a geometric progression whilst
+those between the boundaries are equally spaced. Full
+details are found in \cite{dormythesis}.
+
+The radial spacings array, \verb.XARR., is saved to file
+using the routine \verb+XARRWT+:
+\begin{verbatim}
+CALL XARRWT( NR, XARR, LU, FNAME, IFORM )
+\end{verbatim}
+\verb.LU. is the logical file unit (essentially an arbitrary
+integer: positive, neither 5 or 6, and not being used to
+label any other files). \verb.FNAME. is a character string
+which is the filename: the convention in the work here is
+to terminate the filenames with the characters
+``\verb+.xarr+''.
+Finally, the integer flag \verb.IFORM. specifies an 
+output format for the \verb+NR+ data which will be
+written. The only value for \verb.IFORM. I have ever
+applied is \verb.IFORM = 1. which writes the data in
+the format \verb+(5(1PD16.7))+.
+If other formats are required for these files,
+additional options for \verb.IFORM. should be made.
+Any changes made to the routine \verb.XARRWT. should
+be well documented and accompanied by an appropriate
+change to the routine \verb.XARRRD..
+Please inform me of any changes made to this code
+and I can keep my copies up to date with changes
+if it is useful to do so.
+
+An example \verb+.xarr+ file is as follows:
+\begin{scriptsize}
+\begin{verbatim}
+   40    1
+   5.3846154D-01   5.3888866D-01   5.4230125D-01   5.4910312D-01   5.5924780D-01
+   5.7266599D-01   5.8926605D-01   6.0893456D-01   6.3153718D-01   6.5691950D-01
+   6.8490814D-01   7.1531191D-01   7.4792312D-01   7.8251901D-01   8.1886323D-01
+   8.5670754D-01   8.9579341D-01   9.3585385D-01   9.7661521D-01   1.0177990D+00
+   1.0591240D+00   1.1003078D+00   1.1410692D+00   1.1811296D+00   1.2202155D+00
+   1.2580598D+00   1.2944040D+00   1.3289999D+00   1.3616111D+00   1.3920149D+00
+   1.4200035D+00   1.4453859D+00   1.4679885D+00   1.4876570D+00   1.5042570D+00
+   1.5176752D+00   1.5278199D+00   1.5346218D+00   1.5380344D+00   1.5384615D+00
+\end{verbatim}
+\end{scriptsize}
+The first line contains two numbers, \verb.NR. and 
+\verb.IFORM., and the following lines contain the radius values
+in the format defined by \verb.IFORM..
+This corresponds to $40$ grid nodes, with Chebyshev spacing
+(\verb.ZCPAAS.) for $r_{\rm i}/r_{\rm o} = 0.35$ and
+$r_{\rm o} - r_{\rm i} = 1.0$.
+
+Radial spacings files are read into programs
+using the routine \verb+XARRRD+:
+\begin{verbatim}
+CALL XARRRD( NR, NRMAX, XARR, LU, FNAME )
+\end{verbatim}
+where \verb.NRMAX. is the maximum number of
+radial grid nodes as defined in the array declarations.
+\verb+XARRRD+ reads the top line of the \verb+.xarr+ file
+first and will abort if (a) the file describes more grid
+nodes than the program has available or (b) the data
+format is not recognised. \verb+NR+ will overwrite any
+value previously held.
+
+\subsection{Describing the solution vector(s)}
+\label{subsec:solvecdesc}
+
+A solution vector contains $N_h$ spherical harmonic
+radial functions, each of which has a value at every one
+of $N_r$ radial grid nodes. Its total length is
+therefore $N_h \times N_r$.
+They can consist of any set of spherical
+harmonics - it is the user's responsibility to ensure that
+the solution vector consists of meaningful definitions!
+We shall denote the $j^{\rm th}$ spherical harmonic
+radial function $f_j( r )$, and the value of this
+function at the $i^{\rm th}$ radial grid node,
+$f_j( r_i )$.
+
+For each $j$, with $1 \leq j \leq N_h$, $f_j( r )$ is one
+of the radial functions in the expansions
+(\ref{eq:polvrexp}),
+(\ref{eq:torvrexp}), (\ref{eq:Thetaexp}),
+(\ref{eq:polbrexp}) and (\ref{eq:torbrexp}).
+Which one of these functions is stored in $f_j( r )$ is
+determined by the values of the $j^{\rm th}$ elements
+in the integer arrays \verb.MHT., \verb.MHL. and 
+\verb.MHM..
+
+The array \verb.MHT. defines what type of function
+is stored in the $f_j( r )$ functions. \newline
+\verb. . \newline
+\verb+MHT( j ) = 1+ $\rightarrow$ $f_j(r)$ is poloidal velocity
+ ($\polvr$). \newline
+\verb+MHT( j ) = 2+ $\rightarrow$ $f_j(r)$ is toroidal velocity
+ ($\torvr$). \newline
+\verb+MHT( j ) = 3+ $\rightarrow$ $f_j(r)$ is temperature
+ ($\Theta$). \newline
+\verb+MHT( j ) = 4+ $\rightarrow$ $f_j(r)$ is poloidal
+magnetic field ($\polbr$). \newline
+\verb+MHT( j ) = 5+ $\rightarrow$ $f_j(r)$ is toroidal
+magnetic field ($\torbr$). \newline
+
+The array \verb.MHL. gives the spherical harmonic
+degree, $l$, of the $P_l^m( \cos \theta )$ which the radial functions
+multiply.
+
+If radial function $j$ multiplies $\cos m \phi$, then
+\verb+MHM( j ) = M+.
+If radial function $j$ multiplies $\sin m \phi$, then
+\verb+MHM( j ) = -M+.
+
+One final array is necessary to describe the arrangement
+of the solution vector. The integer array
+\verb+INARR+ contains 3 elements.
+\verb+INARR( 2 ) = NR+ and 
+\verb+INARR( 3 ) = NH+: the integer function
+\verb+INDFUN+ also
+gives full details about \verb+INARR+.
+\verb+INARR( 1 )+ is set to the integer flag \verb+IFORMF+
+which indicates the order in
+which the elements are stored. Depending upon the problem
+being attempted, it may be best to store the $f_j( r_i )$
+in one of two different configurations. Given that
+all the codes use finite difference schemes for
+radial derivatives, the radial derivatives of
+the function $f_j( r )$ at radius $r_i$ will depend
+upon $f_j( r )$ at only a limited
+number of grid nodes.
+(We will see later that for the universal parameter
+\verb+NBN+ - the number of bounding nodes - the
+radial derivatives of $f_j( r )$ at $r_i$ will depend
+upon the values $f_j( r_k )$
+such that $i - {\rm NBN} \leq k \leq i + {\rm NBN}$.)
+The goal of arranging the solution vector is to minimize
+the size of banded matrices arising.
+
+\begin{figure}[h]
+\bed
+\begin{array}{cccc}
+(a) &
+\left[
+\begin{array}{c}
+f_1( r_1 ) \\
+f_2( r_1 ) \\
+\vdots     \\
+f_j( r_1 ) \\
+\vdots     \\
+f_{N_h}( r_1 ) \\
+\cdots     \\
+f_1( r_2 ) \\
+f_2( r_2 ) \\
+\vdots     \\
+f_j( r_2 ) \\
+\vdots     \\
+f_{N_h}( r_2 ) \\
+\cdots     \\
+           \\
+\vdots     \\
+           \\
+\cdots     \\
+f_1( r_i ) \\
+f_2( r_i ) \\
+\vdots     \\
+f_j( r_i ) \\
+\vdots     \\
+f_{N_h}( r_i ) \\
+\cdots     \\
+           \\
+\vdots     \\
+           \\
+\cdots     \\
+f_1( r_{N_r} ) \\
+f_2( r_{N_r} ) \\
+\vdots     \\
+f_j( r_{N_r} ) \\
+\vdots     \\
+f_{N_h}( r_{N_r} )
+\end{array}
+\right]
+&  ~~~~~~~~~~~~~~~~~~~~~~
+(b) &
+\left[
+\begin{array}{c}
+f_1( r_1 ) \\
+f_1( r_2 ) \\
+\vdots     \\
+f_1( r_i ) \\
+\vdots     \\
+f_1( r_{N_r} ) \\
+\cdots     \\
+f_2( r_1 ) \\
+f_2( r_2 ) \\
+\vdots     \\
+f_2( r_i ) \\
+\vdots     \\
+f_2( r_{N_r} ) \\
+\cdots     \\
+           \\
+\vdots     \\
+           \\
+\cdots     \\
+f_j( r_1 ) \\
+f_j( r_2 ) \\
+\vdots     \\
+f_j( r_i ) \\
+\vdots     \\
+f_j( r_{N_r} ) \\
+\cdots     \\
+           \\
+\vdots     \\
+           \\
+\cdots     \\
+f_{N_h}( r_1 ) \\
+f_{N_h}( r_2 ) \\
+\vdots     \\
+f_{N_h}( r_i ) \\
+\vdots     \\
+f_{N_h}( r_{N_r} )
+\end{array}
+\right]
+\end{array}
+\eed
+\caption[
+]
+{ \label{fig:solvecarrange} {\footnotesize
+Alternative arrangements of elements within the
+solution vector. (a) shows {\bf IFORMF = 3} and
+(b) shows {\bf IFORMF = 4}.
+}}
+\end{figure}
+
+If the system
+of equations being solved in the linear discretisation
+couples the radial functions $f_{j_1}$ and $f_{j_2}$
+with ${j_1}$ and ${j_2}$ distinct, then the bandwidth
+for the equation defining $f_j( r_i )$
+must cover all of the $f_l$ with $1 \leq l \leq N_h$
+for each of the grid nodes $r_k$ from
+$r_{i - {\rm NBN}}$ to $r_{i + {\rm NBN}}$.
+We therefore need to store the solution vector as
+displayed in Figure (\ref{fig:solvecarrange} a)
+and set the integer flag \verb+IFORMF = 3+.
+This configuration is necessary in the eigenvalue
+problems for thermal, shear or magnetic instabilities,
+and in the programs which use Newton-Raphson iteration
+to solve for steady, boundary-locked flows.
+
+If the system
+of equations being solved in the linear discretisation
+does not couple distinct radial functions, then we
+only require a bandwidth of \verb.2*NBN + 1.. We
+then arrange the solution vector as displayed in
+Figure (\ref{fig:solvecarrange} b)
+and set \verb+IFORMF = 4+.
+This configuration is necessary when time-stepping
+as, in these codes, only the diffusion terms are
+treated implicitly.
+
+If the double precision array \verb+VEC+ now contains
+our solution vector, then our solution
+is now completely described by the arrays
+\verb+INARR+,
+\verb+VEC+,
+\verb+XARR+,
+\verb+MHT+,
+\verb+MHL+ and
+\verb+MHM+. \newline
+
+{\bf Example}:- \newline
+If \begin{verbatim}
+ IND      = INDFUN( i, j, INARR )
+ MHT( j ) = 2
+ MHL( j ) = 6
+ MHM( j ) = -3
+\end{verbatim}
+then \verb+VEC( IND )+ contains the value
+${\torvr}_6^{3s}( r_i )$ from Equation
+(\ref{eq:torvrexp}), with $r_i$ stored in \verb+XARR( i )+. \newline
+
+Solution vectors are written out to file using the routine
+\verb+SVFWT+:
+\begin{verbatim}
+CALL SVFWT( INARR, LU, IFORM, SV, FNAME )
+\end{verbatim}
+where \verb+SV+ is the double precision array of
+length \verb+INARR( 2 )*INARR( 3 )+
+which stores the solution vector. Other parameters
+are dealt with in the coverage of the subroutine
+\verb+XARRWT+ in Section (\ref{subsec:radrep}).
+
+An example of a solution vector file is as follows:
+\begin{scriptsize}
+\begin{verbatim}
+    4   40    2    1
+   0.0000000D+00   8.0466569D-02   1.6041128D-01   2.3931566D-01   3.1666799D-01
+   3.9196661D-01   4.6472317D-01   5.3446583D-01   6.0074226D-01   6.6312266D-01
+   7.2120245D-01   7.7460496D-01   8.2298387D-01   8.6602540D-01   9.0345043D-01
+   9.3501624D-01   9.6051811D-01   9.7979065D-01   9.9270887D-01   9.9918900D-01
+   9.9918900D-01   9.9270887D-01   9.7979065D-01   9.6051811D-01   9.3501624D-01
+   9.0345043D-01   8.6602540D-01   8.2298387D-01   7.7460496D-01   7.2120245D-01
+   6.6312266D-01   6.0074226D-01   5.3446583D-01   4.6472317D-01   3.9196661D-01
+   3.1666799D-01   2.3931566D-01   1.6041128D-01   8.0466569D-02   1.2246468D-16
+   0.0000000D+00   2.6822190D-04   1.0694085D-03   2.3931566D-03   4.2222399D-03
+   6.5327768D-03   9.2944634D-03   1.2470869D-02   1.6019794D-02   1.9893680D-02
+   2.4040082D-02   2.8402182D-02   3.2919355D-02   3.7527767D-02   4.2161020D-02
+   4.6750812D-02   5.1227633D-02   5.5521470D-02   5.9562532D-02   6.3281970D-02
+   6.6612600D-02   6.9489621D-02   7.1851314D-02   7.3639722D-02   7.4801299D-02
+   7.5287536D-02   7.5055535D-02   7.4068548D-02   7.2296463D-02   6.9716237D-02
+   6.6312266D-02   6.2076701D-02   5.7009688D-02   5.1119549D-02   4.4422882D-02
+   3.6944599D-02   2.8717880D-02   1.9784058D-02   1.0192432D-02   1.5920408D-17
+\end{verbatim}
+\end{scriptsize}
+which accompanies the radial spacings file:
+\begin{scriptsize}
+\begin{verbatim}
+   40    1
+   0.0000000D+00   2.5641026D-02   5.1282051D-02   7.6923077D-02   1.0256410D-01
+   1.2820513D-01   1.5384615D-01   1.7948718D-01   2.0512821D-01   2.3076923D-01
+   2.5641026D-01   2.8205128D-01   3.0769231D-01   3.3333333D-01   3.5897436D-01
+   3.8461538D-01   4.1025641D-01   4.3589744D-01   4.6153846D-01   4.8717949D-01
+   5.1282051D-01   5.3846154D-01   5.6410256D-01   5.8974359D-01   6.1538462D-01
+   6.4102564D-01   6.6666667D-01   6.9230769D-01   7.1794872D-01   7.4358974D-01
+   7.6923077D-01   7.9487179D-01   8.2051282D-01   8.4615385D-01   8.7179487D-01
+   8.9743590D-01   9.2307692D-01   9.4871795D-01   9.7435897D-01   1.0000000D+00\end{verbatim}
+\end{scriptsize}
+
+The first line of the \verb+.vecs+ file gives 4 integers
+which are \verb+IFORMF+, \verb+NR+, \verb+NH+ and \verb+IFORM+.
+\begin{itemize}
+\item \verb+INARR( 1 ) = 4+ indicates that
+this solution vector is arranged as shown in
+Figure (\ref{fig:solvecarrange} b).
+\item \verb+INARR( 2 ) = 40+ indicates that
+there are 40 radial grid nodes.
+\item \verb+INARR( 3 ) = 2+ indicates that
+there are 2 spherical harmonic radial functions.
+\item \verb+IFORM = 1+ indicates that
+the \verb+40*2+ elements of the solution vector are
+stored in the \verb+(5(1PD16.7))+ format.
+\end{itemize}
+The \verb+.xarr+ file indicates that the 40 radial
+nodes are equally spaced between $0.0$ and $1.0$.
+There is not enough information from these two
+files to work out to which spherical harmonics the
+radial functions belong.
+
+Reading a solution vector from a file requires the use
+of the subroutine \verb+SVFRD+:
+\begin{verbatim}
+CALL SVFRD( INARR, LU, NRMAX, SV, FNAME )
+\end{verbatim}
+On calling \verb+SVFRD+, the number of spherical harmonic
+radial functions, $N_h$, must already be stored in
+\verb+INARR( 3 )+: this ensures that the vector file
+being read is compatible with the corresponding
+integer arrays. \newline
+
+{\bf Notes}:- \newline
+
+(a) The more recent time-stepping codes read in
+single solution vectors, for example in the
+double precision array \verb+SV+ (which has
+dimensions \verb+NR*NH+) with integer
+descriptor arrays \verb+MHT( NH )+,
+                  \verb+MHL( NH )+,
+                  \verb+MHM( NH )+ and
+                  \verb+INARR( 3 )+.
+They then calculate how many harmonics are
+poloidal velocity (\verb.NH1.),
+toroidal velocity (\verb.NH2.),
+temperature (\verb.NH3.),
+poloidal magnetic field (\verb.NH4.) and
+toroidal magnetic field (\verb.NH5.): such
+that \verb.NH1 + NH2 + NH3 + NH4 + NH5 = NH..
+The solution vector is then redistributed
+over the 5 arrays \verb+SV1+, 
+\verb+SV2+, \verb+SV3+, \verb+SV4+ and \verb+SV5+.
+For example,
+\verb+SV1( NH1*NR )+ is described by
+\verb+MT1( NH1 )+,
+\verb+ML1( NH1 )+,
+\verb+MM1( NH1 )+ and INARR1( 3 ) with
+\verb+INARR1( 1 ) = 4+,
+\verb+INARR1( 2 ) = NR+ and
+\verb+INARR1( 3 ) = NH1+.
+Although \verb.IFORMF. needs to be 4 in order for the
+time-stepping code to process it, the initial vector
+\verb+SV+ may be of any configuration
+(i.e. \verb+INARR( 1 )+ can be either 3 or 4), and the
+code will deal with it: the subroutine
+\verb+IIASCE+ sets the integer arrays
+\verb+MT1+,
+\verb+ML1+ and
+\verb+MM1+ whilst the routine \verb+MC2SCV+
+exchanges information between the vectors
+\verb+SV+ and \verb+SV1+. \newline
+
+(b) The values 1 and 2 are no longer valid for
+\verb+IFORMF+ - or \verb+INARR( 1 )+ in current
+versions of the code.
+
+
+\subsection{Interpolation of radial functions}
+\label{subsec:interpolation}
+
+Section (\ref{subsec:solvecdesc}) showed us how the
+solution vectors are stored. In the majority of
+the codes, the radial functions and their derivatives
+are only ever referred to at the $N_r$ discrete
+grid points as stored in the array \verb+XARR+.
+However, it is highly likely that we will need to be
+able to interpolate radial functions between
+the designated grid points.
+The most basic interpolation is ofcourse a straight
+line, although this will often be too poor an
+approximation and, besides, we may also want 
+information about higher derivatives.
+
+Consider an aribtrary function, $f(x)$.
+We may expand $f$ as a Taylor series about
+a point $x_0$:
+\beq
+\begin{array}{rcl}
+f( r_0 + h ) &=& f^{(0)}( x_0 )     ~~~~ +
+             ~~~ h          f^{(1)}( x_0 )    ~~~~  +
+             ~~~ \fr{ h^2 }{ 2! }  f^{(2)}( x_0 ) ~~~~     + \\
+             & & \fr{ h^3 }{ 3! }  f^{(3)}( x_0 )    ~~~~  +
+             ~~~ .....  ~~~~  +
+             ~~~ \fr{ h^n }{ n! }  f^{(n)}( x_0 )    ~~~~  + ~~~   .....
+\end{array}
+\label{eq:taylorexp}
+\eeq
+Here, $f^{(n)}( x_0 )$ denotes the $n^{\rm th}$ derivative of
+$f$ with respect to $x$, evaulated at the point $x_0$.
+Similarly, if we have
+$N_n$ such distinct points, $x_i$, with $1 \leq i \leq N_n$
+(uniqueness of the $x_i$ is essential) and 
+\beq
+h_i = x_i - x_0
+\eeq
+then
+\beq
+\begin{array}{cccc}
+\left[
+\begin{array}{c}
+f( x_1 ) \\
+f( x_2 ) \\
+\vdots   \\
+f( x_{N_n} )
+\end{array}
+\right] & = &
+\left[
+\begin{array}{cccc}
+d_{11}  & d_{12} & \cdots & d_{1{N_n}} \\
+d_{21}  & d_{22} & \cdots & d_{2{N_n}} \\
+ \vdots & \vdots & \ddots & \vdots \\
+d_{{N_n}1}  & d_{{N_n}2} & \cdots & d_{{N_n}{N_n}} \\
+\end{array}
+\right] &
+\left[
+\begin{array}{c}
+f^{(0)}( x_0 ) \\
+f^{(1)}( x_0 ) \\
+\vdots   \\
+f^{({N_n}-1)}( x_0 )
+\end{array}
+\right]
+\end{array}
+\eeq
+to within an error related to ${N_n}$.
+The element $d_{ij}$ of the matrix $\bm D$
+is given by
+\beq
+d_{ij} = \fr{ h_i^{j-1} }{(j-1)!}.
+\eeq
+Clearly, the inverse of this matrix gives us
+an expression for the derivatives (up to ${N_n}-1$)
+of $f$ evaluated at $x = x_0$:
+\beq
+\begin{array}{cccc}
+\left[
+\begin{array}{c}
+f^{(0)}( x_0 ) \\
+f^{(1)}( x_0 ) \\
+\vdots   \\
+f^{(N_n-1)}( x_0 )
+\end{array}
+\right] & = &
+\left[
+{\bm D}
+\right]^{-1} &
+\left[
+\begin{array}{c}
+f( x_1 ) \\
+f( x_2 ) \\
+\vdots   \\
+f( x_{N_n} )
+\end{array}
+\right]
+\end{array}
+\label{eq:findiffone}
+\eeq
+Note that this expression does not depend upon the
+grid nodes being uniformly spaced.
+The subroutine responsible for calculating these
+coefficients is \verb+GFDCFD+ (see source code and document
+\verb+DOC_appkeysubs.pdf+).
+All the finite difference calculations performed in these
+codes are based upon this principle.
+If \{$x_1$, $x_2$, $\cdots$, $x_{N_n}$\} are chosen
+to be a subset of \{$r_1$, $r_2$, $\cdots$, $r_{N_r}$\},
+and $x_0$ a radius $r$ with $r_{\rm i} \leq r \leq r_{\rm o}$,
+then coefficients calculated by
+\verb+GFDCFD+ will allow $f$ and its
+derivatives to be calculated at 
+this arbitrary radius.
+The subroutine \verb+SVRINT+ is designed for this purpose.
+
+\subsubsection{ EXAMPLE: The function RTPFCE }
+\label{subsubsec:rtpfcefunction}
+
+The double precision function \verb+RTPFCE+
+returns the value of the temperature, or any one
+of the vector components $v_{r}$, $v_{\theta}$, $v_{\phi}$,
+$B_{r}$, $B_{\theta}$ or $B_{\phi}$ at a given 
+$r$ (\verb+RAD+),
+$\theta$ (\verb+THE+) or
+$\phi$ (\verb+PHI+) within the sphere.
+It uses the \verb+SVRINT+ subroutine to interpolate
+the spherical harmonic radial functions at the 
+appropriate value of $r$.
+For example:
+\begin{verbatim}
+BTHE = RTPFCE( 5, INARR, NNDS, IWORK, MHT, MHL, MHM, RAD,
+               THE, PHI, VEC, XARR, WORK1, WORK2, COEFM )
+\end{verbatim}
+The source code documentation describes all of the inputs.
+
+\section{The finite difference scheme}
+\label{sec:finitediffscheme}
+
+\subsection{General finite difference formulae}
+\label{subsec:genfinitediffform}
+
+Whilst \verb+SVRINT+ will give us good approximations
+for values of radial functions and their derivatives
+at arbitrary radii, it is highly inefficient to perform
+such operations within a simulation code.
+Therefore, in all of the main programs, radial functions
+and their derivatives
+are only ever evaluated 
+at the grid nodes, $r_i$, as stored in the 
+\verb+XARR+ array. In other words, not only
+are the \{$x_1$, $x_2$, $\cdots$, $x_{N_n}$\}
+in Equation (\ref{eq:findiffone}) a subset of
+\{$r_1$, $r_2$, $\cdots$, $r_{N_r}$\}, but
+$x_0$ is also one of these grid points.
+
+The subroutine \verb+FDCMBD+ (see source code and the document 
+\verb+DOC_appkeysubs.pdf+) creates an array
+of finite difference coefficients for the radial derivatives
+of functions by the principle described in
+Section (\ref{subsec:interpolation}).
+\verb+FDCMBD+ limits the subset of radial
+grid nodes to
+\{$r_{\rm lc}$,  $\cdots$, $r_{\rm rc}$\},
+where ${\rm lc}$ is given in the calling sequence
+to \verb+FDCMBD+ by the integer variable
+\verb+NLMC+, and ${\rm rc}$ is given by \verb+NRMC+.
+The finite difference coefficients are calculated
+such that a derivative can be calculated for any
+$r_i$ within the range
+\{$r_{\rm ln}$,  $\cdots$, $r_{\rm rn}$\},
+where ${\rm ln} \geq {\rm lc}$ and ${\rm rn} \leq {\rm rc}$.
+${\rm ln}$ and ${\rm rn}$ are respectively specified
+within the code by \verb+NLMN+ and \verb+NRMN+.
+
+For a radial grid node $r_i$, with
+$i \geq ({\rm lc} + {\rm NBN})$ and
+$i \leq ({\rm rc} - {\rm NBN})$, the number of nodes
+in the stencil, $N_n$, will be 
+$2 \times {\rm NBN} + 1$.
+For grid nodes $r_i$ with
+${\rm lc} \leq i < ({\rm lc} + {\rm NBN})$
+or $({\rm rc} - {\rm NBN}) < i \leq {\rm r}$,
+then, for the same bandwidth ${\rm NBN}$, there
+are fewer grid nodes whose values can be used to
+calculate derivatives and our stencil size, $N_n$,
+is therefore smaller.
+In general, the size of our stencil for a grid node
+$r_i$ is given by
+\beq
+N_n = {\rm min}( {\rm NBN}, i - {\rm lc }) ~~~ + ~~~
+      {\rm min}( {\rm NBN}, {\rm rc } - i ) ~~~ + ~~~ 1.
+\eeq
+It must be ensured that the minimum value of
+$N_n$ occuring in the range
+${\rm ln} \leq i \leq {\rm rn}$ is atleast
+one greater than the highest derivative required:
+and ideally somewhat more in order that any
+kind of accuracy is achieved.
+
+\subsection{Finite differences including boundary conditions}
+\label{subsec:boundaryfinitediffform}
+
+We are generally using finite difference formulae to
+solve ordinary differential equations in radius and
+we therefore need a way of implementing boundary conditions.
+
+If a radial function is subject to homogeneous boundary
+conditions, then the value of the function at the boundary
+can be determined by the values of the function at
+neighbouring radial grid nodes.
+
+The simplest case is that $f( r_{\rm i} )$
+($f( r_1 )$) or $f( r_{\rm o} )$ ($f( r_{N_r} )$)
+is equal to zero. However, we may also
+have a condition such as $df/dr = 0$. The value of
+$f$ at the boundary (i.e. $f( r_1 )$ or
+$f( r_{N_r} )$) will not be zero but, with the
+help of a one-sided difference approximation for $df/dr$
+at the boundary, can be expressed in terms
+of \{$f( r_2 )$, $f( r_3 )$, $\cdots$, $f( r_{{\rm NBN} + 1 })$\}
+for the inner boundary or \{$f( r_{N_r - 1} )$,
+$\cdots$, $f( r_{N_r - {\rm NBN}} )$\} at the outer boundary.
+In other words, we can replace Equation (\ref{eq:findiffone})
+with
+\beq
+\begin{array}{cccc}
+\left[
+\begin{array}{c}
+f^{(0)}( x_0 ) \\
+f^{(1)}( x_0 ) \\
+\vdots   \\
+f^{(N_n-1)}( x_0 )
+\end{array}
+\right] & = &
+\left[
+{\bm D}
+\right]^{-1}
+\left[
+{\bm A}
+\right] &
+\left[
+\begin{array}{c}
+f( x_1 ) \\
+f( x_2 ) \\
+\vdots   \\
+f( x_{N_n} )
+\end{array}
+\right]
+\end{array}
+\label{eq:findifftwo}
+\eeq
+where that ${\bm A}$ matrix returns $f( x_1 )$,
+$f( x_2 )$ to $f( x_K )$ as a linear function of
+$f( x_2 )$ to $f( x_K )$ only. 
+${\bm A}$ therefore has a column which is zero.
+Indeed, if there are two boundary conditions being
+imposed at a given boundary, then ${\bm A}$ returns $f( x_1 )$,
+$f( x_2 )$ to $f( x_K )$ as a linear function of
+$f( x_3 )$ to $f( x_K )$ only.
+${\bm A}$ therefore has two columns which are zero.
+If $f( r_1 )$ is determined by the boundary conditions
+then we remove this node from the solution vector
+and simply solve for the values
+\{$f( r_2 )$, $f( r_3 )$, $\cdots$, $f( r_{{\rm NBN} + 1 })$\}.
+The elements of ${\bm A}$ modify the finite difference
+coefficients such that the boundary condition is implicit
+in the expressions for radial derivatives. In practice,
+this means that the the contributions from $f( r_1 )$
+are simply added to the coefficients for
+\{$r_2$, $r_3$, $\cdots$, $r_{{\rm NBN} + 1 }$\},
+the exact manner of which is determined by the 
+discretised boundary condition: the
+linear relationship between $f( r_1 )$ and
+$f( r_2 )$ to $f( r_{{\rm NBN} + 1 } )$.
+
+The nasty calculation of the ${\bm A}$ matrix in the
+{\bf LEOPACK} codes
+is painlessly performed by the routine \verb+LDGNMF+
+(see the file \verb+DOC_appkeysubs.pdf+).
+This routine takes two integer flags which determine
+the boundary conditions to be applied at the inner
+and outer boundaries.
+The integer flags \verb+IIBC+ and \verb+IOBC+ can 
+(currently) be set to the values as shown in
+tables (\ref{tab:iibcoptions}) and 
+(\ref{tab:iobcoptions}).
+
+\begin{table}
+\begin{tabular}{|c|l|}
+\hline
+\verb+IIBC+ & Inner boundary condition. \\
+\hline
+\hline
+\verb+1+ & None imposed \\
+\hline
+\verb+2+ & Function must vanish at boundary. \\
+\hline
+\verb+3+ & First derivative must vanish at boundary. \\
+\hline
+\verb+4+ & Both function and first derivative must vanish. \\
+\hline
+\verb+5+ & Both function and second derivative must vanish. \\
+\hline
+\verb+6+ & $rdf/dr - f(r) = 0$ \\
+\hline
+\verb+7+ & $r df/dr - l f(r) = 0$ with $l=$\verb+L+. \\
+\hline
+\end{tabular}
+\caption{ 
+\label{tab:iibcoptions}
+Current options for setting boundary conditions at
+the inner boundary: values of {\bf IIBC}.}
+\end{table}
+
+\begin{table}
+\begin{tabular}{|c|l|}
+\hline
+\verb+IOBC+ & Outer boundary condition. \\
+\hline
+\hline
+\verb+1+ & None imposed \\
+\hline
+\verb+2+ & Function must vanish at boundary. \\
+\hline
+\verb+3+ & First derivative must vanish at boundary. \\
+\hline
+\verb+4+ & Both function and first derivative must vanish. \\
+\hline
+\verb+5+ & Both function and second derivative must vanish. \\
+\hline
+\verb+6+ & $rdf/dr - f(r) = 0$ \\
+\hline
+\verb+7+ & $r df/dr + (l+1) f(r) = 0$ with $l=$\verb+L+. \\
+\hline
+\end{tabular}
+\caption{ 
+\label{tab:iobcoptions}
+Current options for setting boundary conditions at
+the outer boundary: values of {\bf IOBC}.}
+\end{table}
+
+The user never deals directly with {\bf LDGNMF};
+this routine is called from the most important
+of the finite difference coefficient routines,
+{\bf SVFDCF} 
+(see the file \verb+DOC_appkeysubs.pdf+).
+Since the ${\bm A}$ matrix in Equation (\ref{eq:findifftwo})
+is different for every boundary condition applied,
+a separate set of finite difference coefficients
+needs to be stored for every kind of radial function
+which satisfies a different boundary condition.
+The number of these sets, or {\it schemes}, has
+a (maximum) number \verb.NDCS.
+which must be declared at the outset. 
+This is because the arrays of finite difference coefficients
+have \verb.NDCS. as a dimension; not all of these
+schemes need be used in a calculation.
+
+The properties of each of the schemes are stored in
+three integer arrays,
+\verb.MHIBC., \verb.MHOBC. and \verb.LARR.,
+each of dimension \verb.NDCS.. 
+For scheme \verb+IS+ with 
+$1 \leq $\verb+ IS +$ \leq $\verb. NDCS.,
+\verb.MHIBC( IS ). is the value of \verb.IIBC.
+(see table \ref{tab:iibcoptions}) and
+\verb.MHOBC( IS ). is the value of \verb.IOBC.
+(see table \ref{tab:iobcoptions}).
+If \verb.MHIBC( IS ). and \verb.MHOBC( IS ). are
+set to $7$, then the scheme denotes a poloidal
+magnetic field harmonic matching to a potential
+field. The spherical harmonic degrees, $l$,
+for those radial functions is stored in \verb.LARR( IS )..
+By setting \verb.LARR( IS ). to \verb.-1., finite
+difference scheme \verb.IS. is always ignored, and
+this is a way of dealing with finite difference schemes
+which are never referred to.
+For a spherical harmonic radial function number \verb+IH+,
+which you will recall has its identity defined by the
+array elements \verb+MHT( IH )+, \verb+MHL( IH )+ and
+\verb+MHM( IH )+, the finite difference scheme is identified
+by the integer array element \verb+MHP( IH )+.
+
+The integer arrays \verb+MHT+, \verb+MHL+ and \verb+MHM+,
+along with the boundary conditions which the defined
+radial functions satisfy, are stored in a file with the
+suffix \verb+.ints+.
+
+The \verb+.ints+ file has a first
+line which indicates the number of
+harmonic radial functions, \verb+NH+,
+stored in the corresponding
+\verb+.vecs+ file.
+The following \verb+NH+ lines contain five integer numbers;
+line number \verb.IH+1. of the \verb+.ints+ file
+contains the numbers
+\verb+MHT( IH )   MHL( IH )   MHM( IH )   IIBC    IOBC+.
+
+Two examples are found in the directory
+\begin{verbatim}
+$LEOPACK_DIR/EXAMPLES/FUNDAMENTALS
+\end{verbatim}
+The three files
+\verb+case0.ints+,
+\verb+case0.vecs+ and
+\verb+case0.xarr+, completely describe a solution
+to the non-magnetic (Case 0) benchmark from \cite{bench}.
+The first line of the file \verb+case0.ints+ simply
+reads \verb+503+. This is the number of spherical
+harmonic radial functions stored in the vector
+\verb+case0.vecs+. This must be the same as the third
+number of the first line of \verb+case0.vecs+.
+The time-stepping codes read in the 
+\verb+.ints+ file first and if the first number in this
+file does not equal the third number in the first line
+of the \verb+.vecs+ file, the program knows that
+the \verb+.ints+ file and \verb+.vecs+ file cannot
+describe the same solution, and the program aborts 
+with an error message.
+So we have \verb+503+ spherical harmonic radial functions.
+Line \verb+2+ of \verb+case0.ints+ reads
+\begin{verbatim}
+ 1   2    0  4  4
+\end{verbatim}
+This means that \verb+MHT( 1 ) = 1+,
+\verb+MHL( 1 ) = 2+ and \verb+MHM( 1 ) = 0+.
+We then know that the first of our radial functions
+corresponds to $\polvr_{2}^{0c}( r )$ (c.f. Equation
+\ref{eq:polvrexp}). We see also that \verb+IIBC+ and
+\verb+IOBC+ are both equal to \verb+4+, and so we
+have the boundary conditions
+\beq
+~ \polvr_{2}^{0c}( r_{\rm i} ) = ~ \polvr_{2}^{0c}( r_{\rm o} ) = 0
+\eeq
+and 
+\beq
+\pdiff{[~\polvr_{2}^{0c}( r )~]}{r} \biggl|_{r_{\rm i}} =
+\pdiff{[~\polvr_{2}^{0c}( r )~]}{r} \biggl|_{r_{\rm o}} = 0
+\eeq
+(c.f. tables \ref{tab:iibcoptions} and
+\ref{tab:iobcoptions}).
+This means that the poloidal velocity, or atleast
+this particular spherical harmonic radial function,
+must satisfy rigid boundary conditions.
+Every line of \verb+case0.ints+ which begins with a number
+\verb+1+ indicates a poloidal velocity radial function.
+The values of \verb+IIBC+ and \verb+IOBC+ ought to be the
+same for each such function; i.e. if one line of
+\verb+case0.ints+ begins with \verb+1+ and ends with
+\verb+4  4+, then every line of \verb+case0.ints+ which
+begins with \verb+1+ ought to end with
+\verb+4  4+. Otherwise, we will have some poloidal
+velocity radial functions satisfying different boundary
+conditions to other poloidal
+velocity radial functions. This is never actually
+checked for in programs. The only safeguard against this
+is that if, when reading in a \verb+.ints+ file, the
+number of permitted finite difference schemes
+(\verb+NDCS+) is exceeded then the program will abort
+with an error message.
+If line number \verb+2+ of \verb+case0.ints+ had read
+\begin{verbatim}
+ 1   2    0  5  5
+\end{verbatim}
+then we would be imposing the boundary conditions
+\beq
+~ \polvr_{2}^{0c}( r_{\rm i} ) = ~ \polvr_{2}^{0c}( r_{\rm o} ) = 0
+\eeq
+and
+\beq
+\pdifftw{[~\polvr_{2}^{0c}( r )~]}{r} \biggl|_{r_{\rm i}} =
+\pdifftw{[~\polvr_{2}^{0c}( r )~]}{r} \biggl|_{r_{\rm o}} = 0.
+\eeq
+This would correspond to stress-free boundaries.
+Editting every line of \verb+case0.ints+ beginning with
+\verb+1+, such that the \verb+4  4+ at the end of the line
+was changed to a \verb+5  5+, would mean that when a time-stepping
+code, e.g. {\bf o2ubtctsc2.exe}, next read in the three files
+\verb+case0.ints+,
+\verb+case0.vecs+ and
+\verb+case0.xarr+, the poloidal boundary conditions would
+be treated as stress-free.
+Line \verb+92+ of file \verb+case0.ints+ reads
+\begin{verbatim}
+ 2   5   -4  2  2
+\end{verbatim}
+which indicates that \verb+MHT( 91 ) = 2+,
+\verb+MHL( 91 ) = 5+ and \verb+MHM( 91 ) = -4+.
+We then know that radial function $91$
+corresponds to $\torvr_{5}^{4s}( r )$ (c.f. Equation
+\ref{eq:torvrexp}).
+The inner and outer boundary flags are both $2$ which,
+by tables (\ref{tab:iibcoptions}) and (\ref{tab:iobcoptions}),
+means that this function vanishes at both boundaries.
+Similarly, all lines in the file \verb+case0.ints+ which
+begin with \verb+2+, end with \verb+2  2+. This
+is consistent with the rigid boundary condition
+\beq
+~ \torvr_{5}^{4s}( r_{\rm i} ) = ~ \torvr_{5}^{4s}( r_{\rm o} ) = 0.
+\eeq
+If every line of the file \verb+case0.ints+ which
+begins with \verb+2+ were to end in
+\verb+6  6+, and every line of \verb+case0.ints+
+beginning with \verb+1+ were to end in
+\verb+5  5+, then a stress-free boundary condition
+would be applied to both the inner and outer
+boundaries.
+The last line of \verb+case0.ints+
+reads
+\begin{verbatim}
+ 3  36  -28  2  2
+\end{verbatim}
+which means that \verb+MHT( 503 ) = 3+,
+\verb+MHL( 503 ) = 36+ and \verb+MHM( 503 ) = -28+.
+We then know that radial function $503$
+corresponds to $\Theta_{36}^{28s}( r )$ (c.f. Equation
+\ref{eq:Thetaexp}). \newline
+
+{\bf Question}: \newline
+
+How would you convert the solution described by
+\verb+case0.ints+,
+\verb+case0.vecs+ and
+\verb+case0.xarr+ to satisfy a fixed heat-flux at
+the outer boundary as opposed to a fixed temperature? \newline
+
+{\bf Answer}: \newline
+
+For every line of the file 
+\verb+case0.ints+ which begins with a number
+\verb+3+, change the final two numbers from
+\verb+2  2+ to
+\verb+2  3+. This makes the radial derivative of
+each $\Theta$ function zero at the outer boundary
+which, by Fourier's Law, means that there is no
+net heat-flux across the boundary contributed by
+the $\Theta$ functions. (The actual heat-flux at
+the boundary is then controlled by parameters
+$b_1$, $b_2$ and $c_h$ as given in equations
+\ref{eq:basicstatedef} and
+\ref{eq:programvort}.)
+Ofcourse, we have not changed the actual
+solution vector, \verb+case0.vecs+, in this
+operation and so for the change to actually
+be implemented, we will need to run the time-stepping
+code (for example {\bf o2ubtctsc2.exe}) for a time
+for the solution vector to adjust. There might be some
+unpleasant numerical behaviour in a transition period
+(small timestep required), although I have yet to find
+a case where such a change simply failed to work. \newline
+
+{\bf Question}: \newline
+
+What is the value of the radial function
+$\torvr_{33}^{20c}(r)$ at a radius $r = 0.89579341$
+in this solution? \newline
+
+{\bf Answer}: \newline
+
+Firstly we need to find out the harmonic number,
+\verb+IH+, corresponding to $\torvr_{33}^{20c}(r)$
+and the radial grid node number, \verb+IR+, corresponding to 
+$r = 0.89579341$.
+The definition of $\torvr_{33}^{20c}(r)$ from
+Equation (\ref{eq:torvrexp}) tells us that
+\verb+MHT( IH ) = 2+ (toroidal velocity function),
+\verb+MHL( IH ) = 33+ (spherical harmonic degree, $l$)
+and \verb+MHM( IH ) = 20+ (since $m = 20$ and we have a
+$\cos m \phi$ dependence).
+
+Examining the file \verb+case0.ints+ reveals that
+line number \verb+415+ reads
+\begin{verbatim}
+ 2  33   20  2  2
+\end{verbatim}
+and so we conclude that \verb+IH = 414+.
+
+Examining the first line of \verb+case0.xarr+
+shows that we have \verb+40+ radial grid nodes which
+are stored in format \verb+IFORM = 1+ (i.e.
+\verb+(5(1PD16.7))+ format).
+There are therefore $5$ numbers per line.
+$r = 0.89579341$ is found as the second number on line
+five - and hence the fourth line of data.
+It is therefore the radius at grid node
+\verb.IR = (4-1)*5 + 2 = 17..
+
+We finally examine the file \verb+case0.vecs+ to find
+the value of radial function \verb+414+ at grid node
+\verb+17+. The first line of \verb+case0.vecs+ reads
+\begin{verbatim}
+    4   40  503    1
+\end{verbatim}
+which means that $503$ radial functions (check against
+\verb+case0.ints+), each represented
+at $40$ grid nodes (check against
+\verb+case0.xarr+) are stored in format\verb+IFORM = 1+ (i.e.
+\verb+(5(1PD16.7))+ format) with \verb+INARR( 1 ) = 4+:
+see the integer function \verb+INDFUN+ and Figure 
+(\ref{fig:solvecarrange}).
+From \verb+indfun.f+, the index in the solution vector
+for \verb+IR = 17+, \verb+NR = 40+ and \verb+IH = 414+ is
+given by
+\begin{verbatim}
+INDEX = ( IH - 1 )*NR + IR
+      = ( 414 - 1 )*40 + 17
+      = 413*40 + 17
+      = 16537
+\end{verbatim}
+Our answer is therefore stored in the $16537^{\rm th}$
+element of our vector.
+Now, performing an integer division of
+$16537$ by $5$ (the number of data per line)
+shows that
+\begin{verbatim}
+16537 = 3307*5 + 2
+\end{verbatim}
+Since the first line of \verb+case0.vecs+ contains
+integer parameters, our value is found as the second
+element of line $3309$ is 
+\verb+-2.2468647D-06+. \newline
+
+Examining more closely the file \verb+case0.ints+ shows that
+for poloidal velocity, toroidal velocity and temperature,
+the highest spherical harmonic degree, $l$, is $36$.
+In terms of the nomenclature in equations
+(\ref{eq:polvrexp}),
+(\ref{eq:torvrexp}) and
+(\ref{eq:Thetaexp}),
+this means that $L1 = L2 = L3 = 36$.
+In addition, there are no wavenumbers higher than $m = 28$ and so
+$M_{\rm max} = 28$. Finally, all wavenumbers, $m$, are multiples
+of $4$ and so $m_0 = 4$. \newline
+
+{\bf Input and output of integers files}: \newline
+
+A \verb+.ints+ file is written by a call to the
+subroutine \verb+HMFWT+: details on usage are found
+in the source code 
+(or see the file \verb+DOC_appkeysubs.pdf+).
+
+Reading in a \verb+.ints+ file can be done in one
+of two ways, depending upon whether or not
+the boundary conditions of the radial functions are
+important. (They are not, for example, if we are simply
+plotting figures or estimating kinetic energy integrals.)
+
+Assuming that the boundary conditions matter, as they
+most often will(!!), we read the indices and boundary
+conditions with the subroutine
+\verb+HMFRD+: details on usage are found
+in the source code 
+(or see the file \verb+DOC_appkeysubs.pdf+).
+
+If boundary conditions are irrelevant it is probably
+simplest to call the routine \verb+BIHFRD+.
+
+%The following examples
+%illustrate the allocation of finite difference
+%schemes to spherical harmonic radial functions. \newline
+%
+%{\bf Example 1} \newline
+%
+%In a simple convection calculation (i.e. without
+%a magnetic field, and temperature with homogeneous
+%boundary conditions), \verb.NDCS. would be typically
+%set to 3. One set of coefficients is required
+%for the poloidal velocity radial functions,
+%$\polvr$, one set for the toroidal velocity,
+%$\torvr$, and one set of the temperature,
+%$\Theta$. The time-stepping program for such a
+%system is \verb+o2ubtctsc2.exe+ (see Section
+%\ref{sec:o2ubtctsc2}).
+%
+%In the preamble of the main program, we declare
+%in advance the integer parameters
+%\verb+NDCS = 3+ (the number of permitted finite
+%difference schemes), \verb+NH1MAX = 520+ (the 
+%maximum number of $\polvr$ radial functions: adjust
+%as necessary to the size of problem being solved),
+%\verb+NH2MAX = 520+ (the 
+%maximum number of $\torvr$ radial functions,
+%\verb+NH3MAX = 520+ (the 
+%maximum number of $\Theta$ radial functions) and
+%finally
+%\verb.NHMAX = NH1MAX + NH2MAX + NH3MAX. (the total
+%maximum number of spherical harmonic radial functions).
+%In addition, we need to declare \verb+NBN+, the number
+%of bounding nodes (\verb+NBN = 3+), \verb.NCFM., the
+%leading dimension of the finite difference coefficient
+%arrays (\verb.NCFM = 2*NBN + 1.) and \verb+NDRVM+,
+%the highest derivative required, which is \verb+4+ (due
+%to the $D_l^2$ operator: see Appendix \ref{app:sphervec}).
+%The maximum permitted number of
+%radial grid nodes is defined by \verb+NRMAX+.
+%
+%We then declare the arrays
+%\begin{verbatim}
+% INTEGER          MHT( NHMAX ), MHL( NHMAX ), MHM( NHMAX ),
+%1                 MHP( NHMAX ), LARR( NDCS ), MHIBC( NDCS ),
+%2                 MHOBC( NDCS )
+%\end{verbatim}
+%which will fully define the radial functions and
+%their appropriate boundary conditions.
+%We then define the array containing the finite
+%difference coefficients for taking derivatives of,
+%and solving for, the solution vector:
+%\begin{verbatim}
+%DOUBLE PRECISION  SVFDC( NCFM, NRMAX, NDRVM+1, NDCS )
+%\end{verbatim}
+%and the array
+%\begin{verbatim}
+%DOUBLE PRECISION  FDCM( NCFM, NRMAX, 1 )
+%\end{verbatim}
+%which stores the coefficients for taking radial derivatives
+%using only a subset of the grid nodes, without reference
+%to the boundary conditions.
+%We only ever need a first derivative from such functions
+%(in taking the curl of scaloidal, spheroidal and toroidal
+%vectors: Appendix \ref{app:sphervec}) and hence the
+%\verb+1+ as the final dimension to \verb.FDCM.
+
+%However well I tried to document the routine
+%{\bf LDGNMF}, I never cease to be amazed at how
+%confusing this source code is. If further boundary
+%conditions are to be included to this code, then
+%simply add additional options for \verb+IIBC+
+%and \verb+IOBC+. Application of these boundary
+%conditions takes considerable care!
+
+\section{ Time-stepping schemes }
+\label{sec:timesteppingscheme}
+
+Our solution vector consists of the functions
+${\bm u}$, $\Theta$ and ${\bm B}$ in the form
+described in the previous sections.
+We may therefore use $({\bm u}, \Theta, {\bm B})$ to
+denote our solution vector generally, and
+$({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})$ to denote
+the solution vector at time $t = t_i$.
+
+We may rewrite our MHD equations (\ref{eq:programheat}),
+(\ref{eq:programvort}) and (\ref{eq:programind}) respectively
+\beq
+\begin{array}{rcl}
+c_a \pdiff{ \Theta }{ t } &=& c_d \Lap \Theta +
+ F_{\Theta}( {\bm u}, \Theta, {\bm B})
+\end{array}
+\label{eq:programheatabbrev}
+\eeq
+\beq
+\begin{array}{rcl}
+c_e \pdiff{\bm \omega}{ t } &=& c_i \Lap {\bm \omega}
+          + {\bm F}_{\bm \omega}( {\bm u}, \Theta, {\bm B})
+\end{array}
+\label{eq:programvortabbrev}
+\eeq
+and 
+\beq
+\begin{array}{rcl}
+c_k \pdiff{\bm B}{ t } &=& c_l \Lap {\bm B}
+          + {\bm F}_{\bm B}( {\bm u}, \Theta, {\bm B}),
+\end{array}
+\label{eq:programindabbrev}
+\eeq
+where the forcing terms, $F_{\Theta}$, ${\bm F}_{\bm \omega}$ and
+${\bm F}_{\bm B}$ are given respectively by
+\beq
+\begin{array}{rcl}
+F_{\Theta}( {\bm u}, \Theta, {\bm B}) &= ~~~~&
+c_d \varepsilon \Lap T_{\rm a} + b_1 u_r r
+ + b_2 \fr{ u_r }{ r^2 }
+        - c_c {\bm u} . \nabla (\Theta + \varepsilon T_{\rm a} ),
+\end{array}
+\label{eq:forcethetadef}
+\eeq
+\beq
+\begin{array}{rcl}
+{\bm F}_{\bm \omega}( {\bm u}, \Theta, {\bm B}) &= &
+- c_f \curl ({\bm u} . \nabla {\bm u})
+- c_g \curl ({\bm k} \times {\bm u}) \\ & &
++ c_h \curl \left[
+(\Theta + \varepsilon T_{\rm a}) {\bm r} \right]
++ c_j \curl \left[ (\curl {\bm B}) \times {\bm B} \right]
+\end{array}
+\label{eq:forceomegadef}
+\eeq
+and 
+\beq
+\begin{array}{rcl}
+{\bm F}_{\bm B}( {\bm u}, \Theta, {\bm B}) &= &
+c_m \curl ( {\bm u } \times {\bm B} ).
+\end{array}
+\label{eq:forcebdef}
+\eeq
+Over one time-step, the time derivatives
+$\partial \Theta / \partial t$,
+$\partial {\bm \omega} / \partial t$ and
+$\partial {\bm B}/ \partial t$,
+are approximated by
+\beq
+\begin{array}{rcl}
+\pdiff{ \Theta }{ t } &=& c\left(\pdiff{ \Theta }{ t }\right)^{i}
+                      + (1-c)\left(\pdiff{ {\Theta } }{ t }\right)^{i+1} \\
+\end{array}
+\label{eq:thetaimpexp}
+\eeq
+\beq
+\begin{array}{rcl}
+\pdiff{ \bm \omega }{ t } &=& c\left(\pdiff{ \bm \omega }{ t }\right)^{i}
+                      + (1-c)\left(\pdiff{ \bm \omega }{ t }\right)^{i+1} \\
+\end{array}
+\label{eq:omegaimpexp}
+\eeq
+and
+\beq
+\begin{array}{rcl}
+\pdiff{ \bm B }{ t } &=& c\left(\pdiff{ \bm B }{ t }\right)^{i}
+                      + (1-c)\left(\pdiff{ {\bm B } }{ t }\right)^{i+1} \\
+\end{array}
+\label{eq:bimpexp}
+\eeq
+where the superscript $i$ refers to quantities at the time
+$t = t_i$ and the superscript $i+1$ refers to quantities at the time
+$t = t_i + \Delta t$.
+The factor $c$ must be between $0$ and $1$: $c = 0.5$ implies
+a Crank-Nicolson scheme, $c < 0.5$ implies a slightly more
+implicit scheme and $c > 0.5$ implies a slightly more
+explicit scheme. In the inputs to the codes in this collection,
+$c$ is generally referred to as \verb+CFAC+.
+Reintroducing equations (\ref{eq:programheatabbrev}),
+(\ref{eq:programvortabbrev}) and (\ref{eq:programindabbrev}) gives
+\beq
+\begin{array}{rcl}
+c_a \pdiff{ \Theta }{ t } &=& c\left(c_a \pdiff{ \Theta }{ t }\right)^{i}
+   ~~~~  +  ~~~~(1-c)\left(c_a \pdiff{ {\Theta } }{ t }\right)^{i+1} \\
+c_a \left( \fr{\Theta^{i+1} - \Theta^{i}}{ \Delta t } \right)
+  &=& c \left[
+c_d \Lap \Theta^{i} +
+ F_{\Theta}( {\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \right]
+\\ & ~~~~ + &
+   (1-c) \left[
+c_d \Lap \Theta^{i+1} +
+ F_{\Theta}( {\bm u}^{i+1}, \Theta^{i+1}, {\bm B}^{i+1}) \right],
+\end{array}
+\label{eq:thetaimpexpf}
+\eeq
+\beq
+\begin{array}{rcl}
+c_e \pdiff{ \bm \omega }{ t } &=&
+ c\left(c_e \pdiff{ \bm \omega }{ t }\right)^{i}
+  ~~~~+ ~~~~ (1-c)\left(c_e \pdiff{ \bm \omega }{ t }\right)^{i+1} \\
+c_e \left( \fr{{\bm \omega}^{i+1} - {\bm \omega}^{i}}{ \Delta t } \right)
+  &=& c  \left[
+c_i \Lap {\bm \omega}^{i} +
+{\bm F}_{\bm \omega}( {\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \right]
+\\ & ~~~~ + &
+  (1-c) \left[
+c_i \Lap {\bm \omega}^{i+1} +
+ {\bm F}_{\bm \omega}( {\bm u}^{i+1}, \Theta^{i+1}, {\bm B}^{i+1}) \right]
+\end{array}
+\label{eq:omegaimpexpf}
+\eeq
+and
+\beq
+\begin{array}{rcl}
+c_k \pdiff{ \bm B }{ t } &=& c\left(c_k \pdiff{ \bm B }{ t }\right)^{i}
+  ~~~~ + ~~~~ (1-c)\left(c_k \pdiff{ {\bm B } }{ t }\right)^{i+1} \\
+c_k \left( \fr{{\bm B}^{i+1} - {\bm B}^{i}}{ \Delta t } \right)
+  &=& c  \left[
+c_l \Lap {\bm B}^{i} +
+ {\bm F}_{\bm B}( {\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \right]
+\\ & ~~~~ + &
+  (1-c) \left[
+c_l \Lap {\bm B}^{i+1} +
+ {\bm F}_{\bm B}( {\bm u}^{i+1}, \Theta^{i+1}, {\bm B}^{i+1}) \right].
+\end{array}
+\label{eq:bimpexpf}
+\eeq
+Since the forcing terms, 
+$F_{\Theta}$, ${\bm F}_{\bm \omega}$ and
+${\bm F}_{\bm B}$ involve non-linear terms, it is not possible
+to simply rearrange equations
+(\ref{eq:thetaimpexpf}),
+(\ref{eq:omegaimpexpf}) and
+(\ref{eq:bimpexpf}) to make $\Theta^{i+1}$,
+${\bm u}^{i+1}$ and ${\bm B}^{i+1}$ the subjects
+which may be solved for.
+We therefore need an iterative scheme.
+A predictor,
+$({\bm u}_{(0)}^{i+1}, \Theta_{(0)}^{i+1},
+ {\bm B}_{(0)}^{i+1})$,
+for $({\bm u}^{i+1}, \Theta^{i+1}, {\bm B}^{i+1})$ is first formed
+by solving the equations
+\beq
+\begin{array}{lccl}
+\left[ c_a + \Delta t c_d ( c - 1 ) \nabla^2
+\right] \Theta_{(0)}^{i+1}
+&=& & \left[
+c_a + \Delta t c_d c \nabla^2
+\right] \Theta^{i} \\ & & + &
+\Delta t . F_{\Theta}
+({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \\  \\
+\left[
+c_e + \Delta t c_i ( c - 1 ) \nabla^2
+\right] \curl {\bm u}_{(0)}^{i+1}
+&=&& \left[
+c_e + \Delta t c_i c \nabla^2
+\right] \curl {\bm u}^{i} \\ & & + &
+\Delta t . {\bm F}_{\bm w} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \\
+ \\
+\left[
+c_k + \Delta t c_l ( c - 1 ) \nabla^2
+\right] {\bm B}_{(0)}^{i+1} &=&&
+\left[
+c_k + \Delta t c_l c \nabla^2
+\right] {\bm B}^{i}
+\\ & & + & \Delta t . {\bm F}_{\bm B}
+({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}).
+\end{array}
+\label{eq:predictoreqnone}
+\eeq
+Once we have our initial guess, we then iterate towards
+our solution, $({\bm u}^{i+1}, \Theta^{i+1}, {\bm B}^{i+1})$,
+using
+\beq
+\begin{array}{lccl}
+\left[ c_a + \Delta t c_d ( c - 1 ) \nabla^2
+\right] \Theta_{(j)}^{i+1}
+&=& & \left[
+c_a + \Delta t c_d c \nabla^2
+\right] \Theta^{i} \\
+ & & + & c \Delta t . {\bm F}_{\Theta}
+({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \\
+ & & + & (1-c) \Delta t . {\bm F}_{\Theta}
+({\bm u}_{(j-1)}^{i+1},
+ \Theta_{(j-1)}^{i+1}, {\bm B}_{(j-1)}^{i+1}) \\ \\
+\left[
+c_e + \Delta t c_i ( c - 1 ) \nabla^2
+\right] \curl {\bm u}_{(j)}^{i+1}
+&=&& \left[
+c_e + \Delta t c_i c \nabla^2
+\right] \curl {\bm u}^{i} \\ & & + &
+c \Delta t . {\bm F}_{\bm \omega} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \\
+& & + &
+(1-c) \Delta t . {\bm F}_{\bm \omega}
+ ({\bm u}_{(j-1)}^{i+1},
+ \Theta_{(j-1)}^{i+1}, {\bm B}_{(j-1)}^{i+1}) \\ \\
+\left[
+c_k + \Delta t c_l ( c - 1 ) \nabla^2
+\right] {\bm B}_{(j)}^{i+1} &=&&
+\left[
+c_k + \Delta t c_l c \nabla^2
+\right] {\bm B}^{i}
+\\ & & + & c \Delta t . {\bm F}_{\bm B}
+({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \\
+& & + & (1-c) \Delta t . {\bm F}_{\bm B}
+({\bm u}_{(j-1)}^{i+1},
+ \Theta_{(j-1)}^{i+1}, {\bm B}_{(j-1)}^{i+1}), \\
+\end{array}
+\label{eq:correctoreqnone}
+\eeq
+terminating when we are satisfied that the $j^{\rm th}$
+iteration,
+$({\bm u}_{(j)}^{i+1},
+\Theta_{(j)}^{i+1},
+{\bm B}_{(j)}^{i+1})$,
+is a close enough approximation.
+The maximum number of iterations allowed
+in the time stepping
+codes is generally called \verb+ITMX+.
+The iteration terminates when the numerical norm
+between successive iterations,
+\beq
+N_j = | ({\bm u}_{(j)}^{i+1},
+\Theta_{(j)}^{i+1},
+{\bm B}_{(j)}^{i+1}) -
+({\bm u}_{(j-1)}^{i+1},
+\Theta_{(j-1)}^{i+1},
+{\bm B}_{(j-1)}^{i+1}) |
+\eeq
+is less than a given tolerance, usually specified
+in the time-stepping codes as \verb+DTOL+.
+It is best to ensure that as few iterations as possible
+are required: $j=1$ being the ideal. If more than $1$
+iteration is required per time-step then it is probably
+more effective to use a smaller, cheaper time-step than
+to labour over the evaluation of many iterations
+for a larger time-step.
+
+All the current time-stepping codes use a fixed time-step.
+A cleverer kind of code will judge from the changes in
+elements of the solution vector or forcing terms whether
+a new size for time-step is necessary.
+Applying this is quite a high priority if we are to
+look at anything but the simplest of time-dependences.
+
+From our formalism in previous sections,
+we may define our solution vector,
+$({\bm u}, \Theta, {\bm B})$, in terms of the five
+scalar quantities; 
+$\polvr$,
+$\torvr$,
+$\Theta$,
+$\polbr$ and
+$\torbr$. (See equations \ref{eq:magpoltor}
+and \ref{eq:velpoltor} for poloidal and toroidal
+scalar notation.)
+These functions can each be expanded in terms of
+spherical harmonics:
+\begin{eqnarray}
+\polvr(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+ \polvr \right]_{\alpha}(r, t)
+~Y_{\alpha}( \theta, \phi ) \\
+\torvr(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+ \torvr \right]_{\alpha}(r, t)
+~Y_{\alpha}( \theta, \phi ) \\
+\Theta(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+ \Theta \right]_{\alpha}(r, t)
+~Y_{\alpha}( \theta, \phi ) \\
+\polbr(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+ \polbr \right]_{\alpha}(r, t)
+~Y_{\alpha}( \theta, \phi ) \\
+\torbr(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+ \torbr \right]_{\alpha}(r, t)
+~Y_{\alpha}( \theta, \phi )
+\end{eqnarray}
+c.f. equations (\ref{eq:polvrexp}),
+(\ref{eq:torvrexp}),
+(\ref{eq:Thetaexp}),
+(\ref{eq:polbrexp}) and
+(\ref{eq:torbrexp}) with the spherical harmonic,
+$Y_{\alpha}( \theta, \phi )$ defined by 
+\beq
+Y_{\alpha}( \theta, \phi ) = P_{l_{\alpha}}^{m_{\alpha}}( \cos \theta )
+\CS_{\alpha} m_{\alpha} \phi,
+\eeq
+(see the file \verb+DOC_sphervec.pdf+ for details).
+The forcing term 
+$F_{\Theta}( {\bm u}, \Theta, {\bm B})$ is a scalar
+and can also be expanded in spherical harmonics with
+\beq
+F_{\Theta}(r, t, \theta, \phi) = 
+\sum_{\alpha} \left[ F_{\Theta} \right]_{\alpha}(r, t)
+Y_{\alpha}( \theta, \phi ).
+\eeq
+It is clear from the definitions of the vector forcing terms
+${\bm F}_{\bm \omega}$ and 
+${\bm F}_{\bm B}$ that they are divergence free and
+can therefore also be expressed in poloidal and
+toroidal decompositions:
+\beq
+{\bm F}_{\bm \omega}
+= \curl \curl \left[ ~ \polfo( r, t, \theta, \phi )~
+ {\bm r} ~ \right] ~~ + ~~
+                \curl \left[ ~ \torfo( r, t, \theta, \phi )~
+ {\bm r} ~ \right]
+\label{eq:fopoltor}
+\eeq
+and
+\beq
+{\bm F}_{\bm B}
+= \curl \curl \left[ ~ \polfb( r, t, \theta, \phi )~
+ {\bm r} ~ \right] ~~ + ~~
+                \curl \left[ ~ \torfb( r, t, \theta, \phi )~
+ {\bm r} ~ \right].
+\label{eq:fbpoltor}
+\eeq
+The four scalars are all given the same kinds of
+expansions:
+\begin{eqnarray}
+\polfo(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+\polfo \right]_{\alpha}(r, t)
+Y_{\alpha}( \theta, \phi ) \\
+\torfo(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+\torfo \right]_{\alpha}(r, t)
+Y_{\alpha}( \theta, \phi ) \\
+\polfb(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+\polfb \right]_{\alpha}(r, t)
+Y_{\alpha}( \theta, \phi ) \\
+\torfb(r, t, \theta, \phi) &=& \sum_{\alpha}~ \left[
+\torfb \right]_{\alpha}(r, t)
+Y_{\alpha}( \theta, \phi ).
+\end{eqnarray}
+We introduce the notation
+\beq
+\left[
+\polvr^i
+\right]_{\alpha}( r ) =
+\left[
+\polvr
+\right]_{\alpha}(r, t_i ),
+\eeq
+and
+$\left[
+\polvr^{i+1}_{(j)} \right]_{\alpha}(r)$ for the
+$j^{\rm th}$ iteration towards the value
+$\left[
+\polvr
+\right]_{\alpha}(r, t_i + \Delta t )$.
+The same convention is applied to
+$\torvr$,
+$\Theta$,
+$\polbr$,
+$\torbr$,
+$\polfo$,
+$\torfo$,
+$F_{\Theta}$,
+$\polfb$ and
+$\torfb$.
+Now we know (see file \verb+DOC_sphervec.pdf+) that
+\beq
+\Lap \sum_{\alpha} \Theta_{\alpha}(r, t) Y_{\alpha} =
+\sum_{\alpha} {\mathcal {D} }_{l_{\alpha}}
+\Theta_{\alpha}(r,t) Y_{\alpha},
+\eeq
+the ${\mathcal {D} }_{l}$ operator being defined by
+\begin{eqnarray}
+{\mathcal {D} }_l f &=& \fr{1}{r} \fr{d^2}{dr^2}
+\left( r f \right) - \fr{ l(l+1) }{ r^2 } f 
+\label{eq:dldefone} \\
+   &=& \fr{1}{r^2} \fr{d}{dr} 
+\left( r^2 \fr{ d f }{ dr } \right) - \fr{ l(l+1) }{ r^2 } f 
+\label{eq:dldeftwo} \\
+   &=& \fr{d^2 f }{dr^2 } + \fr{2}{r} \fr{d f}{dr}
+- \fr{ l(l+1) }{ r^2 } f.
+\label{eq:dldefthree}
+\end{eqnarray}
+In other words, the $\Lap$ operator does not couple
+distinct spherical harmonic radial functions.
+We may therefore consider the equation
+\beq
+\begin{array}{rcl}
+\left[ c_a + \Delta t c_d ( c - 1 ) \nabla^2
+\right] \Theta_{(0)}^{i+1} &=~~~~&
+\left[
+c_a + \Delta t c_d c \nabla^2
+\right] \Theta^{i} \\ &~~~~+& \Delta t . F_{\Theta}
+({\bm u}^{i}, \Theta^{i}, {\bm B}^{i}) \\
+\end{array}
+\eeq
+separately for each spherical harmonic radial
+function, $\alpha$:
+\beq
+\begin{array}{rcl}
+\left[ c_a + \Delta t c_d ( c - 1 ) \nabla^2
+\right] \left[ \Theta_{(0)}^{i+1} \right]_{\alpha}(r) &=~~~~&
+\left[
+c_a + \Delta t c_d c \nabla^2
+\right] \left[ \Theta^{i} \right]_{\alpha}(r) \\
+ &~~~~+& \Delta t . \left[ 
+F_{\Theta} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r), \\
+\end{array}
+\label{eq:separatealphaheat}
+\eeq
+where
+$\left[ 
+F_{\Theta} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r)$ has been evaluated using the
+spherical scalar transform from the non-linear and
+inhomogeneous terms in the heat equation.
+Equation (\ref{eq:separatealphaheat}) can further
+be written
+\beq
+\begin{array}{rcl}
+\left[ c_a + \Delta t c_d ( c - 1 ) {\mathcal {D} }_{l_{\alpha}}
+\right] \left[ \Theta_{(0)}^{i+1} \right]_{\alpha}(r) &=~~~~&
+\left[
+c_a + \Delta t c_d c {\mathcal {D} }_{l_{\alpha}}
+\right] \left[ \Theta^{i} \right]_{\alpha}(r)
+ \\ &~~~~+& \Delta t . \left[ 
+F_{\Theta} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r). \\
+\end{array}
+\label{eq:thetamatrixeqone}
+\eeq
+The terms $\left[ c_a + \Delta t c_d ( c - 1 )
+{\mathcal {D} }_{l_{\alpha}}
+\right]$ and $\left[
+c_a + \Delta t c_d c {\mathcal {D} }_{l_{\alpha}}
+\right]$ act as linear operators on the $\Theta_{\alpha}(r)$
+radial functions.
+In our finite difference discretisation,
+Equation (\ref{eq:thetamatrixeqone}) becomes the matrix
+equation
+\beq
+{\bm A}_{3,l_{\alpha}}
+\left[ \Theta_{(0)}^{i+1} \right]_{\alpha}(r) =
+{\bm B}_{3,l_{\alpha}}
+\left[ \Theta^{i} \right]_{\alpha}(r)
+ + \Delta t . \left[ 
+F_{\Theta} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r)
+\label{eq:thetamatrixeqtwo}
+\eeq
+where the matrices ${\bm A}_{3,l_{\alpha}}$ and
+${\bm B}_{3,l_{\alpha}}$ are defined by
+\beq
+{\bm A}_{3,l} = \left[ c_a + \Delta t c_d ( c - 1 ) {\mathcal {D} }_l
+\right]
+\eeq
+and
+\beq
+{\bm B}_{3,l} = \left[
+c_a + \Delta t c_d c {\mathcal {D} }_l
+\right].
+\eeq
+Here, $\left[ \Theta_{(0)}^{i+1} \right]_{\alpha}(r)$,
+$\left[ \Theta^{i} \right]_{\alpha}(r)$ and
+$\left[
+F_{\Theta} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r)$ are all vectors of length $N_r$, the
+number of radial grid nodes.
+Due to the short range finite difference interactions,
+the \verb+NR*NR+ matrices ${\bm A}_{3,l_{\alpha}}$
+and ${\bm B}_{3,l_{\alpha}}$ are banded with a 
+band width of \verb.2*NBN + 1..
+Since each spherical harmonic is decoupled at the
+linear algebra stage, we may simply construct a
+single solution vector for all of the \verb+NH3+
+temperature radial functions; this is a double precision
+vector of length \verb+NR*NH3+ with the elements
+arranged in the \verb+IFORMF = 4+ format as shown in
+Figure (\ref{fig:solvecarrange} b).
+This arrangement allows for all of the
+\verb+NH3+ matrices ${\bm A}_{3,l_{\alpha}}$
+to be stored in a banded matrix with length
+\verb+NR*NH3+ and band width \verb.2*NBN + 1..
+The ${\bm B}_{3,l_{\alpha}}$ matrices can be stored
+similarly.
+The arrays which stores all the matrices
+${\bm A}_{3,l_{\alpha}}$
+and ${\bm B}_{3,l_{\alpha}}$ are respectively
+termed \verb+AM3+ and \verb+BM3+ in the code
+and are both
+generated as a function of parameters
+\verb+CA+,
+\verb+CD+,
+\verb+CFAC+ and
+\verb+DELTAT+ by the subroutine \verb+TMTSMF+.
+
+The ${\bm A}_{3,l_{\alpha}}$
+and ${\bm B}_{3,l_{\alpha}}$ matrices
+are precalculated before the time-step procedure is initiated.
+Aswell as forming the predictor (Equation
+\ref{eq:thetamatrixeqtwo}), the same arrays
+\verb+AM3+ and \verb+BM3+ are also used to correct the
+solution vector by the iterative equation
+\beq
+\begin{array}{rcl}
+{\bm A}_{3,l_{\alpha}}
+\left[ \Theta_{(j)}^{i+1} \right]_{\alpha}(r) &=~~~~~&
+{\bm B}_{3,l_{\alpha}}
+\left[ \Theta^{i} \right]_{\alpha}(r)
+ + c. \Delta t . \left[
+F_{\Theta} ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r) \\
+&~~~~~+& 
+(1-c). \Delta t . \left[
+F_{\Theta} ({\bm u}^{i+1}_{(j-1)},
+ \Theta^{i+1}_{(j-1)},
+ {\bm B}^{i+1}_{(j-1)})
+\right]_{\alpha}(r)
+\end{array}
+\eeq
+
+We know that
+\beq
+\Lap \left[ \curl
+\curl \left( \left[ \polbr \right]_{\alpha}(r)
+ Y_{\alpha} {\bm r } \right) \right]
+= \curl \curl \left( {\mathcal {D}}_{l_{\alpha}}
+ \left[ \polbr \right]_{\alpha}(r) Y_{\alpha} {\bm r } \right)
+\eeq
+and
+\beq
+\Lap \left[ 
+\curl \left( \left[ \torbr \right]_{\alpha}(r)
+ Y_{\alpha} {\bm r } \right) \right]
+= \curl \left( {\mathcal {D}}_{l_{\alpha}}
+ \left[ \torbr \right]_{\alpha}(r) Y_{\alpha} {\bm r } \right)
+\eeq
+(see file \verb+DOC_sphervec.pdf+).
+Applying these results to Equation
+(\ref{eq:predictoreqnone}),
+the predictors for the poloidal and toroidal
+magnetic field scalars can then be written
+\beq
+{\bm A}_{4,l_{\alpha}}
+\left[ \polbr_{(0)}^{i+1} \right]_{\alpha}(r) =
+{\bm B}_{4,l_{\alpha}}
+\left[ \polbr^{i} \right]_{\alpha}(r)
+ + \Delta t . \left[
+\polfb ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r)
+\eeq
+and
+\beq
+{\bm A}_{5,l_{\alpha}}
+\left[ \torbr_{(0)}^{i+1} \right]_{\alpha}(r) =
+{\bm B}_{5,l_{\alpha}}
+\left[ \torbr^{i} \right]_{\alpha}(r)
+ + \Delta t . \left[
+\torfb ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r).
+\eeq
+The matrices ${\bm A}_{4,l_{\alpha}}$ and
+${\bm B}_{4,l_{\alpha}}$ are defined by
+\beq
+{\bm A}_{4,l} = \left[ c_k + \Delta t c_l ( c - 1 ) {\mathcal {D} }_l
+\right]
+\eeq
+and
+\beq
+{\bm B}_{4,l} = \left[
+c_k + \Delta t c_l c {\mathcal {D} }_l
+\right]
+\eeq
+and are returned in the double precision arrays
+\verb+AM4+ and
+\verb+BM4+ by the subroutine
+\verb+PFTSMF+.
+Similarly, the matrices ${\bm A}_{5,l_{\alpha}}$ and
+${\bm B}_{5,l_{\alpha}}$ are defined by
+\beq
+{\bm A}_{5,l} = \left[ c_k + \Delta t c_l ( c - 1 ) {\mathcal {D} }_l
+\right]
+\eeq
+and
+\beq
+{\bm B}_{5,l} = \left[
+c_k + \Delta t c_l c {\mathcal {D} }_l
+\right]
+\eeq
+and are returned in the double precision arrays
+\verb+AM5+ and
+\verb+BM5+ by the subroutine
+\verb+TFTSMF+.
+These arrays are also used for the iterative correction
+of the poloidal and toroidal
+magnetic field scalars:
+\beq
+\begin{array}{rcl}
+{\bm A}_{4,l_{\alpha}}
+\left[ \polbr_{(j)}^{i+1} \right]_{\alpha}(r) &=~~~~~&
+{\bm B}_{4,l_{\alpha}}
+\left[ \polbr^{i} \right]_{\alpha}(r)
+ + c. \Delta t . \left[
+\polfb ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r) \\
+&~~~~~+&
+(1-c). \Delta t . \left[
+\polfb ({\bm u}^{i+1}_{(j-1)},
+ \Theta^{i+1}_{(j-1)},
+ {\bm B}^{i+1}_{(j-1)})
+\right]_{\alpha}(r)
+\end{array}
+\eeq and
+\beq
+\begin{array}{rcl}
+{\bm A}_{5,l_{\alpha}}
+\left[ \torbr_{(j)}^{i+1} \right]_{\alpha}(r) &=~~~~~&
+{\bm B}_{5,l_{\alpha}}
+\left[ \torbr^{i} \right]_{\alpha}(r)
+ + c. \Delta t . \left[
+\torfb ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r) \\
+&~~~~~+&
+(1-c). \Delta t . \left[
+\torfb ({\bm u}^{i+1}_{(j-1)},
+ \Theta^{i+1}_{(j-1)},
+ {\bm B}^{i+1}_{(j-1)})
+\right]_{\alpha}(r).
+\end{array}
+\eeq
+%From Equation (\ref{eq:pollapeq}),
+From Equations (33) in the file \verb+DOC_sphervec.pdf+
+the curl of a poloidal velocity vector is a toroidal
+vector:
+\beq
+\curl \left[~~ \curl \curl \left(~~ \left[
+\polvr \right]_{\alpha}( r )
+Y_{\alpha} {\bm r } ~~\right) ~~\right] =
+\curl \left( ~~
+- {\mathcal {D} }_{l_{\alpha}} \left[
+\polvr \right]_{\alpha}( r )
+Y_{\alpha} {\bm r } ~~
+\right)
+\eeq
+and the curl of the toroidal velocity vector
+is (trivially!) a poloidal vector:
+\beq
+\curl \left[~~ \curl 
+ \left( ~~ \left[
+\torvr \right]_{\alpha}( r )
+Y_{\alpha} {\bm r } ~~ \right) ~~\right] =
+\curl \curl \left( ~~
+\left[ \torvr \right]_{\alpha}( r )
+Y_{\alpha} {\bm r } ~~
+\right).
+\eeq
+% Applying equations (\ref{eq:laptorvec})
+% and (\ref{eq:lappolvec})
+Applying equations (54) and (55) from the file \verb+DOC_sphervec.pdf+
+reveals that
+\beq
+\curl \Lap \left[ \curl
+\curl \left(~~ \left[ \polvr \right]_{\alpha}(r)
+ Y_{\alpha} {\bm r }~~ \right) \right]
+= \curl \left(~~ -{\mathcal {D}}^2_{l_{\alpha}}
+ \left[ \polvr \right]_{\alpha}(r) Y_{\alpha} {\bm r }~~ \right)
+\eeq
+and
+\beq
+\curl \Lap \left[~~
+\curl \left(~~ \left[ \torvr \right]_{\alpha}(r)
+ Y_{\alpha} {\bm r }~~ \right)~~ \right]
+= \curl \curl \left(~~ {\mathcal {D}}_{l_{\alpha}}
+ \left[ \torvr \right]_{\alpha}(r) Y_{\alpha} {\bm r }~~ \right),
+\eeq
+where the ${\mathcal {D} }_l^2$ operator is defined
+by
+\beq
+{\mathcal {D} }_l^2 f = f^{\prime \prime \prime \prime }
++ 4 \fr{ f^{\prime \prime \prime} }{ r }
+- 2l(l+1) \fr{ f^{\prime \prime } }{ r^2 }
++ (l+2)(l+1)l(l-1) \fr{ f }{ r^4 },
+\label{eq:dltwodef}
+\eeq
+where $^{\prime}$ denotes differentiation with respect to $r$.
+
+Consequently, we form our velocity scalar function
+predictors using
+\beq
+{\bm A}_{1,l_{\alpha}}
+\left[ \polvr_{(0)}^{i+1} \right]_{\alpha}(r) =
+{\bm B}_{1,l_{\alpha}}
+\left[ \polvr^{i} \right]_{\alpha}(r)
+ + \Delta t . \left[
+\torfo ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r)
+\eeq
+and
+\beq
+{\bm A}_{2,l_{\alpha}}
+\left[ \torvr_{(0)}^{i+1} \right]_{\alpha}(r) =
+{\bm B}_{2,l_{\alpha}}
+\left[ \torvr^{i} \right]_{\alpha}(r)
+ + \Delta t . \left[
+\polfo ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r).
+\eeq
+The matrices ${\bm A}_{1,l_{\alpha}}$ and
+${\bm B}_{1,l_{\alpha}}$ are defined by
+\beq
+{\bm A}_{1,l} = \left[ - c_e {\mathcal {D} }_l
+ - \Delta t c_i ( c - 1 ) {\mathcal {D} }_l^2
+\right]
+\eeq
+and
+\beq
+{\bm B}_{1,l} = \left[
+- c_e {\mathcal {D} }_l
+- \Delta t c_i c {\mathcal {D} }_l^2
+\right]
+\eeq
+and are returned in the double precision arrays
+\verb+AM1+ and
+\verb+BM1+ by the subroutine
+\verb+PVTSMF+.
+Similarly,
+the matrices ${\bm A}_{2,l_{\alpha}}$ and
+${\bm B}_{2,l_{\alpha}}$ are defined by
+\beq
+{\bm A}_{2,l} = \left[ c_e + \Delta t c_i ( c - 1 ) {\mathcal {D} }_l
+\right]
+\eeq
+and
+\beq
+{\bm B}_{2,l} = \left[
+c_e + \Delta t c_i c {\mathcal {D} }_l
+\right]
+\eeq
+and are returned in the double precision arrays
+\verb+AM2+ and
+\verb+BM2+ by the subroutine
+\verb+TVTSMF+.
+These arrays are also used for the iterative correction
+of the poloidal and toroidal
+magnetic field scalars:
+\beq
+\begin{array}{rcl}
+{\bm A}_{1,l_{\alpha}}
+\left[ \polvr_{(j)}^{i+1} \right]_{\alpha}(r) &=~~~~~&
+{\bm B}_{1,l_{\alpha}}
+\left[ \polvr^{i} \right]_{\alpha}(r)
+ + c. \Delta t . \left[
+\torfo ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r) \\
+&~~~~~+&
+(1-c). \Delta t . \left[
+\torfo ({\bm u}^{i+1}_{(j-1)},
+ \Theta^{i+1}_{(j-1)},
+ {\bm B}^{i+1}_{(j-1)})
+\right]_{\alpha}(r)
+\end{array}
+\eeq and
+\beq
+\begin{array}{rcl}
+{\bm A}_{2,l_{\alpha}}
+\left[ \torvr_{(j)}^{i+1} \right]_{\alpha}(r) &=~~~~~&
+{\bm B}_{2,l_{\alpha}}
+\left[ \torvr^{i} \right]_{\alpha}(r)
+ + c. \Delta t . \left[
+\polfo ({\bm u}^{i}, \Theta^{i}, {\bm B}^{i})
+\right]_{\alpha}(r) \\
+&~~~~~+&
+(1-c). \Delta t . \left[
+\polfo ({\bm u}^{i+1}_{(j-1)},
+ \Theta^{i+1}_{(j-1)},
+ {\bm B}^{i+1}_{(j-1)})
+\right]_{\alpha}(r).
+\end{array}
+\eeq
+
