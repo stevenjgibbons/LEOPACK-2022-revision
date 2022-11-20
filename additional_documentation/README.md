@@ -5,3 +5,5 @@ The file DOC_sphervec.pdf is taken from one of the appendices from my PhD thesis
 The file DOC_appkeysubs.pdf provides some information about key subroutines in the package.
 
 The file DOC_fundamentals.pdf provides the basic equations and details about the numerical representation of functions.
+
+The LaTeX files are just provided for the interested reader.
