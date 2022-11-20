@@ -172,4 +172,22 @@ workflow001_seismic_heatflux
 ----------------------------
 
 (added 2022/11/19) 
-Generate a seismic-based heat-flux pattern
+
+Generate a seismic-based heat-flux pattern for use as boundary conditions
+
+workflow002_Benchmark_cases01_initial_conditions
+------------------------------------------------
+
+(added 2022/11/19) 
+
+Provide starting conditions for the Case0 and Case1 benchmark convection and dynamo calculations in https://doi.org/10.1016/S0031-9201(01)00275-8
+
+additional_documentation
+========================
+
+(added 2022/11/20)
+
+Additional pdf (and tex) files describing the equations and the numerical representations which may be useful to the reader.
+
+
+
