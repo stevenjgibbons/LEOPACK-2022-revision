@@ -67,6 +67,8 @@ Directories:
 
 *WORKFLOWS* (added 2022-11-19: contains a growing number of examples of use of the programs)
 
+*additional_documentation* (added 2022-11-19): contains a number of additional documents, partly distilled from my PhD Thesis.
+
 (Programs for the linear onset of thermal convection)
 =====================================================
 
