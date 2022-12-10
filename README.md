@@ -53,117 +53,119 @@ This README file will be adapted with every directory I add.
 Directories:
 ============
 
-linalg (added 2022-10-18: contains all the BLAS, LAPACK, and ARPACK routines needed)
+*linalg* (added 2022-10-18: contains all the BLAS, LAPACK, and ARPACK routines needed)
 
-subs (added 2022-10-18: contains all the FORTRAN77 subroutines needed for the codes)
+*subs* (added 2022-10-18: contains all the FORTRAN77 subroutines needed for the codes)
 
-gsubs (added 2022-10-18: contains all the graphics subroutines that call PGPLOT routines)
+*gsubs* (added 2022-10-18: contains all the graphics subroutines that call PGPLOT routines)
 
-lib, bin (added 2022-10-18: made to contain the libraries and graphics code binaries on compilation)
+*lib*, *bin* (added 2022-10-18: made to contain the libraries and graphics code binaries on compilation)
 
-gprograms (source code for each of the GRAPHICS programs)
+*gprograms* (source code for each of the GRAPHICS programs)
 
-programs (source code for each of the non-graphics programs: these need to be compiled with the subroutine libraries and are not self-contained like the stand-alone codes in the directories LEOPACK_xxxx )
+*programs* (source code for each of the non-graphics programs: these need to be compiled with the subroutine libraries and are not self-contained like the stand-alone codes in the directories LEOPACK_xxxx )
+
+*WORKFLOWS* (added 2022-11-19: contains a growing number of examples of use of the programs)
 
 (Programs for the linear onset of thermal convection)
 =====================================================
 
-LEOPACK_linons1 (added 2022-10-16: Linear Onset of Thermal Convection 1)
+**LEOPACK_linons1** (added 2022-10-16: Linear Onset of Thermal Convection 1)
 
-LEOPACK_linons2 (added 2022-10-16: Linear Onset of Thermal Convection 2)
+**LEOPACK_linons2** (added 2022-10-16: Linear Onset of Thermal Convection 2)
 
-LEOPACK_sbrlinons1 (added 2022-10-24: Solid Body Rotation Linear Onset of Thermal Convection 1)
+**LEOPACK_sbrlinons1** (added 2022-10-24: Solid Body Rotation Linear Onset of Thermal Convection 1)
 
-LEOPACK_sbrlinonsd (added 2022-10-24: Solid Body Rotation Linear Onset of Thermal Convection Drift Rate Solve)
+**LEOPACK_sbrlinonsd** (added 2022-10-24: Solid Body Rotation Linear Onset of Thermal Convection Drift Rate Solve)
 
 (Programs for boundary locked convection)
 =========================================
 
-LEOPACK_blscnlsc (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution Calculate)
+**LEOPACK_blscnlsc** (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution Calculate)
 
-LEOPACK_blscnlsic (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate)
+**LEOPACK_blscnlsic** (added 2022-10-16: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate)
 
-LEOPACK_blscnlsic_evecs (added 2022-10-17: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate with Eigenvectors)
+**LEOPACK_blscnlsic_evecs** (added 2022-10-17: Boundary Locked Steady Convection Non-Linear Solution and Instability Calculate with Eigenvectors)
 
 (Programs for the Kinematic Dynamo Problem)
 ===========================================
 
-LEOPACK_djiepgrf (added 2022-10-30: Dudley James velocity Instability Eigenvalue Problem Growth Rate Find)
+**LEOPACK_djiepgrf** (added 2022-10-30: Dudley James velocity Instability Eigenvalue Problem Growth Rate Find)
 
-LEOPACK_kriepgrf (added 2022-10-30: Kumar Roberts velocity Instability Eigenvalue Problem Growth Rate Find)
+**LEOPACK_kriepgrf** (added 2022-10-30: Kumar Roberts velocity Instability Eigenvalue Problem Growth Rate Find)
 
-LEOPACK_krcmrnif (added 2022-10-30: Kumar Roberts velocity Critical Magnetic Reynolds Number Iterative Find)
+**LEOPACK_krcmrnif** (added 2022-10-30: Kumar Roberts velocity Critical Magnetic Reynolds Number Iterative Find)
 
-LEOPACK_krddmcmrnif (added 2022-10-30: Kumar Roberts velocity Diamond DM parametrization Critical Magnetic Reynolds Number Iterative Find)
+**LEOPACK_krddmcmrnif** (added 2022-10-30: Kumar Roberts velocity Diamond DM parametrization Critical Magnetic Reynolds Number Iterative Find)
 
-LEOPACK_krssgeps (added 2022-10-30: Kumar Roberts velocity Steady Solution Generalized Eigenvalue Problem Solve)
+**LEOPACK_krssgeps** (added 2022-10-30: Kumar Roberts velocity Steady Solution Generalized Eigenvalue Problem Solve)
 
 (Programs for full dynamo problem)
 ==================================
 
-LEOPACK_o2ubcdts2 (added 2022-10-23: Uniform Boundary Convective Dynamo Time Step Code 2)
+**LEOPACK_o2ubcdts2** (added 2022-10-23: Uniform Boundary Convective Dynamo Time Step Code 2)
 
-LEOPACK_cicibcdts2 (added 2022-10-17: Conducting Inner Core Inhomogeneous Boundary Convective Dynamo Time-Step code)
+**LEOPACK_cicibcdts2** (added 2022-10-17: Conducting Inner Core Inhomogeneous Boundary Convective Dynamo Time-Step code)
 
-LEOPACK_cicmubcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Uniform Boundary Convective Dynamo Time-Step code)
+**LEOPACK_cicmubcdts2** (added 2022-10-18: Conducting Inner Core and Mantle Uniform Boundary Convective Dynamo Time-Step code)
 
-LEOPACK_cicubcdts2 (added 2022-10-22: Conducting Inner Core Uniform Boundary Convective Dynamo Time-Step code)
+**LEOPACK_cicubcdts2** (added 2022-10-22: Conducting Inner Core Uniform Boundary Convective Dynamo Time-Step code)
 
-LEOPACK_cicmibcdts2 (added 2022-10-18: Conducting Inner Core and Mantle Inhomogeneous Boundary Convective Dynamo Time-Step code)
+**LEOPACK_cicmibcdts2** (added 2022-10-18: Conducting Inner Core and Mantle Inhomogeneous Boundary Convective Dynamo Time-Step code)
 
 (Programs for non-magnetic thermal convection)
 ==============================================
 
-LEOPACK_o2ibtctsc2 (added 2022-10-23: Inhomog. Boundary Thermal Conv. Time Step Code 2 )
+**LEOPACK_o2ibtctsc2** (added 2022-10-23: Inhomog. Boundary Thermal Conv. Time Step Code 2 )
 
-LEOPACK_o2ubtctsc2 (added 2022-10-23: Uniform Boundary Thermal Conv. Time Step Code 2 )
+**LEOPACK_o2ubtctsc2** (added 2022-10-23: Uniform Boundary Thermal Conv. Time Step Code 2 )
 
 (Programs for manipulation of solution vectors)
 ===============================================
 
-LEOPACK_itfvf (added 2022-10-23: Inhomogeneous Temperature Function Vector Form)
+**LEOPACK_itfvf** (added 2022-10-23: Inhomogeneous Temperature Function Vector Form)
 
-LEOPACK_msvip (added 2022-10-23: Multiple Solution Vector Ingestion Program)
+**LEOPACK_msvip** (added 2022-10-23: Multiple Solution Vector Ingestion Program)
 
-LEOPACK_rsvfg (added 2022-10-23: Random Solution Vector File Generate)
+**LEOPACK_rsvfg** (added 2022-10-23: Random Solution Vector File Generate)
 
-LEOPACK_iic2cicsc (added 2022-10-22: Insulating Inner Core 2 Conducting Inner Core Solution Convert)
+**LEOPACK_iic2cicsc** (added 2022-10-22: Insulating Inner Core 2 Conducting Inner Core Solution Convert)
 
-LEOPACK_svenspec (added 2022-10-24: Solution Vector Energy SPECtrum)
+**LEOPACK_svenspec** (added 2022-10-24: Solution Vector Energy SPECtrum)
 
-LEOPACK_cicm2ocdisplay (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
+**LEOPACK_cicm2ocdisplay** (added 2022-10-18: Conducting Inner Core and Mantle 2 Outer Core Display)
 
-LEOPACK_svpnsmap (added 2022-10-30: Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
+**LEOPACK_svpnsmap** (added 2022-10-30: Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
 
-LEOPACK_cicsvpnsmap (added 2022-10-30: Conducting Inner Core Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
+**LEOPACK_cicsvpnsmap** (added 2022-10-30: Conducting Inner Core Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
 
-LEOPACK_cicmsvpnsmap (added 2022-10-30: Conducting Inner Core and Mantle Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
+**LEOPACK_cicmsvpnsmap** (added 2022-10-30: Conducting Inner Core and Mantle Solution Vector Perturbation and New Spatial Mesh Adaptation Program)
 
-LEOPACK_mfcanal1 (added 2022-10-30: Magnetic Field Component Analysis version 1)
+**LEOPACK_mfcanal1** (added 2022-10-30: Magnetic Field Component Analysis version 1)
 
 
 (Programs for displaying solutions)
 ===================================
 
-GRAPHICS_arrows_const_r3 (added 2022-10-29: Constant radius plot with arrows)
+**GRAPHICS_arrows_const_r3** (added 2022-10-29: Constant radius plot with arrows)
 
-GRAPHICS_arrows_z_eq_merid4 (added 2022-10-29: Constant z or meridian plot with arrows)
+**GRAPHICS_arrows_z_eq_merid4** (added 2022-10-29: Constant z or meridian plot with arrows)
 
-GRAPHICS_cic_arrows_z_eq_merid4 (added 2022-10-29: Conducting Inner Core Constant z or meridian plot with arrows)
+**GRAPHICS_cic_arrows_z_eq_merid4** (added 2022-10-29: Conducting Inner Core Constant z or meridian plot with arrows)
 
-GRAPHICS_cicm_arrows_z_eq_merid4 (added 2022-10-29: Conducting Inner Core and Mantle Constant z or meridian plot with arrows)
+**GRAPHICS_cicm_arrows_z_eq_merid4** (added 2022-10-29: Conducting Inner Core and Mantle Constant z or meridian plot with arrows)
 
-GRAPHICS_continent_arrows_const_r3 (added 2022-10-29: Constant radius plot with arrows with Continents)
+**GRAPHICS_continent_arrows_const_r3** (added 2022-10-29: Constant radius plot with arrows with Continents)
 
-GRAPHICS_continent_full_sphere_plot (added 2022-10-29: Full Sphere Plot with Continents)
+**GRAPHICS_continent_full_sphere_plot** (added 2022-10-29: Full Sphere Plot with Continents)
 
-GRAPHICS_cutout_sphere_plot (added 2022-10-29: Cut Out Sphere Plot)
+**GRAPHICS_cutout_sphere_plot** (added 2022-10-29: Cut Out Sphere Plot)
 
-GRAPHICS_full_sphere_plot (added 2022-10-29: Full Sphere Plot)
+**GRAPHICS_full_sphere_plot** (added 2022-10-29: Full Sphere Plot)
 
-GRAPHICS_ps_2plot_z_eq_merid2 (added 2022-10-29: Side-by-side Constant z or meridian plots)
+**GRAPHICS_ps_2plot_z_eq_merid2** (added 2022-10-29: Side-by-side Constant z or meridian plots)
 
-GRAPHICS_shc_sphere_plot (added 2022-10-29: Spherical Harmonic Coefficient Sphere Plot)
+**GRAPHICS_shc_sphere_plot** (added 2022-10-29: Spherical Harmonic Coefficient Sphere Plot)
 
 WORKFLOWS
 =========
