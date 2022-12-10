@@ -35,21 +35,23 @@ sbrlinonsd < Figure2_sbrlinonsd.input
 
 will generate files
 
-Figure2_sbrlinonsd_OUTPUT.run001.ints
-Figure2_sbrlinonsd_OUTPUT.run001.veci
-Figure2_sbrlinonsd_OUTPUT.run001.vecr
-Figure2_sbrlinonsd_OUTPUT.run001.xarr
-Figure2_sbrlinonsd_OUTPUT.run002.ints
-Figure2_sbrlinonsd_OUTPUT.run002.veci
-Figure2_sbrlinonsd_OUTPUT.run002.vecr
-Figure2_sbrlinonsd_OUTPUT.run002.xarr
-Figure2_sbrlinonsd_OUTPUT.run003.ints
-Figure2_sbrlinonsd_OUTPUT.run003.veci
-Figure2_sbrlinonsd_OUTPUT.run003.vecr
-Figure2_sbrlinonsd_OUTPUT.run003.xarr
-Figure2_sbrlinonsd_OUTPUT.run004.ints
-Figure2_sbrlinonsd_OUTPUT.run004.veci
-Figure2_sbrlinonsd_OUTPUT.run004.vecr
-Figure2_sbrlinonsd_OUTPUT.run004.xarr
+Figure2_sbrlinonsd_OUTPUT.run001.ints  
+Figure2_sbrlinonsd_OUTPUT.run001.veci  
+Figure2_sbrlinonsd_OUTPUT.run001.vecr  
+Figure2_sbrlinonsd_OUTPUT.run001.xarr  
+Figure2_sbrlinonsd_OUTPUT.run002.ints  
+Figure2_sbrlinonsd_OUTPUT.run002.veci  
+Figure2_sbrlinonsd_OUTPUT.run002.vecr  
+Figure2_sbrlinonsd_OUTPUT.run002.xarr  
+Figure2_sbrlinonsd_OUTPUT.run003.ints  
+Figure2_sbrlinonsd_OUTPUT.run003.veci   
+Figure2_sbrlinonsd_OUTPUT.run003.vecr  
+Figure2_sbrlinonsd_OUTPUT.run003.xarr  
+Figure2_sbrlinonsd_OUTPUT.run004.ints  
+Figure2_sbrlinonsd_OUTPUT.run004.veci  
+Figure2_sbrlinonsd_OUTPUT.run004.vecr  
+Figure2_sbrlinonsd_OUTPUT.run004.xarr  
 
+An input file for plotting the contours and arrows for the first panel of Figure 2 is
 
+Figure2topleft_arrows_z_eq_merid4.input
