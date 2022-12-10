@@ -186,6 +186,13 @@ workflow002_Benchmark_cases01_initial_conditions
 
 Provide starting conditions for the Case0 and Case1 benchmark convection and dynamo calculations in https://doi.org/10.1016/S0031-9201(01)00275-8
 
+workflow003_GAFD_2007paper_examples
+-----------------------------------
+
+(added 2022/12/10)
+
+Input files to generate the results in the paper https://doi.org/10.1080/03091920701472550
+
 additional_documentation
 ========================
 
