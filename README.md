@@ -3,6 +3,8 @@ A set of FORTRAN77 codes for convection and magnetic field generation in rotatin
 
 Steven J. Gibbons (NGI) 2022-10-16
 
+![Image of the Earth's magnetic field at the Core-Mantle Boundary: a sort of logo for LEOPACK](CMBtancyl.PNG)
+
 Between November 2001 and February 2002, I was working at the Institutt for geologi at the
 University of Oslo, Norway, completing a postdoc position funded through the University of
 Leeds in the UK. In this time, I collected and documented a set of codes for thermal convection and 
