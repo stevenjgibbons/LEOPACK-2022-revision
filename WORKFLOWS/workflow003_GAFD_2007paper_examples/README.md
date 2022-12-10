@@ -55,3 +55,19 @@ Figure2_sbrlinonsd_OUTPUT.run004.xarr
 An input file for plotting the contours and arrows for the first panel of Figure 2 is
 
 Figure2topleft_arrows_z_eq_merid4.input
+
+The file Y22_coeffs.txt contains only a single
+line specifying the spherical harmonic to have as the outer boundary heat flux.
+
+We generate the vectors to contain this thermal boundary condition using
+
+itfvf < itfvf.input
+
+and this generates the files
+
+Y22_flux_function.ints   
+Y22_flux_function.vecs   
+Y22_flux_function.xarr   
+
+
+
