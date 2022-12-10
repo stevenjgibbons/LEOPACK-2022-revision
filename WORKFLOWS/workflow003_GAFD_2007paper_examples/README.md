@@ -24,3 +24,32 @@ You can see that the values of NH, NR, M in the two input files
 correspond to the numbers in the tables.
 The outputs are in the files
 Table1_column1.res and Table1_column2.res respectively.
+
+The files Figure2_sbrlinonsd.input and Figure4_sbrlinonsd.input
+are input files for the sbrlinonsd program to calculate the solutions
+displayed in Figures 2 and 4 respectively.
+
+Running
+
+sbrlinonsd < Figure2_sbrlinonsd.input
+
+will generate files
+
+Figure2_sbrlinonsd_OUTPUT.run001.ints
+Figure2_sbrlinonsd_OUTPUT.run001.veci
+Figure2_sbrlinonsd_OUTPUT.run001.vecr
+Figure2_sbrlinonsd_OUTPUT.run001.xarr
+Figure2_sbrlinonsd_OUTPUT.run002.ints
+Figure2_sbrlinonsd_OUTPUT.run002.veci
+Figure2_sbrlinonsd_OUTPUT.run002.vecr
+Figure2_sbrlinonsd_OUTPUT.run002.xarr
+Figure2_sbrlinonsd_OUTPUT.run003.ints
+Figure2_sbrlinonsd_OUTPUT.run003.veci
+Figure2_sbrlinonsd_OUTPUT.run003.vecr
+Figure2_sbrlinonsd_OUTPUT.run003.xarr
+Figure2_sbrlinonsd_OUTPUT.run004.ints
+Figure2_sbrlinonsd_OUTPUT.run004.veci
+Figure2_sbrlinonsd_OUTPUT.run004.vecr
+Figure2_sbrlinonsd_OUTPUT.run004.xarr
+
+
