@@ -5,3 +5,12 @@ workflow001_seismic_heatflux  (added 2022/11/19)
 
 Generate a thermal boundary condition vector from Guy Masters' spherical harmonic coefficient file.
 
+workflow002_Benchmark_cases01_initial_conditions (added 2022/11/19)
+
+Generate initial conditions for the Case0 and Case1 solutions for the Benchmark dynamo paper:
+A numerical dynamo benchmark, Christensen et al. (2001) https://doi.org/10.1016/S0031-9201(01)00275-8 
+
+workflow003_GAFD_2007paper_examples (added 2022/12/10)
+
+Examples from the paper "Convection in rotating spherical fluid shells with inhomogeneous heat flux at the outer boundary",
+Gibbons et al. (2007) https://doi.org/10.1080/03091920701472550
