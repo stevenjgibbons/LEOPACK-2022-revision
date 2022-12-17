@@ -1,0 +1,16 @@
+* input file for arrows_z_eq_merid4.exe
+*
+Pr0.6_cg200_ch1200_e0.30.eqtemp          : Filename stem
+plotvec.ints                             : integers
+plotvec.vecs                             : vectorfile
+plotvec.xarr                             : radialfile
+ 40   140   3                            : NRAD  NTHE   NNDS
+ 0.10  0.90   0.10   0.90     7.0   1.0  : xleft xright ybot ytop
+  0.0   2.00         2    0.5            : tfirst  tlast  iview  coord
+ 14   6    4    7   0                    : nlev idev  icont  icomp   ias
+  120.0   0.0 1.0   1.00   4             : huepos, hueneg, csat, scal, iw
+ 120.0   0.0   0.55  5    1              : rphue rpsat rplight ipw ips
+   0.0   0.0   0.55  6    3              : rnhue rnsat rnlight inw ins
+  3   0.16   1.0                         : npba  rlong  rhead
+*  1        0.0       0.0                : icontour  valmin   valmax
+   2       -0.30      0.30               : icontour  valmin   valmax
