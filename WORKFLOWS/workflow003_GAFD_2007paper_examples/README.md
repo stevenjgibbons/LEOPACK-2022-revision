@@ -70,4 +70,34 @@ Y22_flux_function.vecs
 Y22_flux_function.xarr   
 
 
+There are two input files for the inhomogeneous thermal boundary convection time-stepping program o2ibtctsc3.
+These are:
+
+Pr6.0_cg200_ch1900_e0.30.o2ibtctsc3.input
+
+and
+
+Pr0.6_cg200_ch1200_e0.30.o2ibtctsc3.input
+
+
+All of the input files necessary for these time-integrations to happen are found in this directory.
+
+Assume that we want to plot the output from one of these simulations.
+We need to form a temporary solution vector which includes both our homogeneous boundary condition solution vector and our inhomogeneous boundary function.
+For this we use the program msvip.
+
+e.g.
+
+msvip < Pr0.6_cg200_ch1200_e0.30.msvip.input
+
+This generates the files
+
+plotvec.ints   
+plotvec.vecs   
+plotvec.xarr   
+
+These can then be plotted using any of the graphics programs. There is a sample input file Pr0.6_cg200_ch1200_e0.30.arrows_z_eq_merid4.input. e.g.
+
+arrows_z_eq_merid4 < Pr0.6_cg200_ch1200_e0.30.arrows_z_eq_merid4.input
+ 
 
