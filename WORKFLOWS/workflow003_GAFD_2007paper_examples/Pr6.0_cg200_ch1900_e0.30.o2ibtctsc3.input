@@ -1,0 +1,21 @@
+* input file for o2ibtctsc3.exe
+*
+Pr6.0_cg200_ch1900_e0.30OUTPUT             : Filename stem
+Pr6.0_cg200_ch1900_e0.30.ints              : .ints file
+Pr6.0_cg200_ch1900_e0.30.vecs              : .vecs file
+Pr6.0_cg200_ch1900_e0.30.xarr              : .xarr file
+Y22_flux_function.ints                     : boundary temp. harms
+Y22_flux_function.vecs                     : boundary temp. vecs
+Y22_flux_function.xarr                     : boundary temp. xarrs
+  0.30                                     : SCAL
+   -2             : NTHP (-1 --> LH+2, -2 --> 3*LH/2 )
+ 1.0   1.0   0.0           1.0   1.0       : CA  CB1  CB2   CC   CD
+ 0.16666666   0.16666666 200.0 1900.0  1.0 : CE   CF   CG   CH   CI
+ 0.4     0.0005    0.0000                  : CFAC    DELTAT   STIME
+* ioutf is set to 0 for no output, 1 for file and 6 for screen
+* nts is the total number of time-steps required
+* ntsbb is the number of time-steps between backups
+* ntsbs is the number of time-steps between snapshots
+   0    10    4000    20                : IOUTF  NTS NTSBB NTSBS
+   6     10.0                           : ITMX   DTOL
+   1     20    20                       : NTSBSE NTSBLE NTSBME
