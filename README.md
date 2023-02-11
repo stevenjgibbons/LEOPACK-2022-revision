@@ -50,6 +50,14 @@ that came with the original package. I found this rather difficult to navigate
 and, in the years that followed, I soon lost track of which programs were present.
 This README file will be adapted with every directory I add.
 
+The image below provides an at-a-glance overview of the main programs in LEOPACK.
+
+![Overview of the main programs provided in the LEOPACK-2022-revision](code_overview.png)
+
+The image below provides an at-a-glance overview of the graphics programs in LEOPACK.
+
+![Overview of the graphics programs provided in the LEOPACK-2022-revision](graphics_code_overview.png)
+
 Directories:
 ============
 
