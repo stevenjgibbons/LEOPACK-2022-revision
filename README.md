@@ -7,6 +7,8 @@ Steven J. Gibbons (NGI) 2022-10-16
 
 Release v1.0.0 (February 11, 2023) is permanently archived under Zenodo with DOI: 10.5281/zenodo.7632478 
 
+https://doi.org/10.5281/zenodo.7632478 
+
 [![DOI](https://zenodo.org/badge/552359296.svg)](https://zenodo.org/badge/latestdoi/552359296)
 
 Between November 2001 and February 2002, I was working at the Institutt for geologi at the
