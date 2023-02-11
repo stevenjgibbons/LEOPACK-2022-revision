@@ -5,6 +5,10 @@ Steven J. Gibbons (NGI) 2022-10-16
 
 ![Image of the Earth's magnetic field at the Core-Mantle Boundary: a sort of logo for LEOPACK](CMBtancyl.PNG)
 
+Release v1.0.0 (February 11, 2023) is permanently archived under Zenodo with DOI: 10.5281/zenodo.7632478 
+
+[![DOI](https://zenodo.org/badge/552359296.svg)](https://zenodo.org/badge/latestdoi/552359296)
+
 Between November 2001 and February 2002, I was working at the Institutt for geologi at the
 University of Oslo, Norway, completing a postdoc position funded through the University of
 Leeds in the UK. In this time, I collected and documented a set of codes for thermal convection and 
