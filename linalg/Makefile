@@ -37,7 +37,9 @@ ARLIB=  ../lib/arlib.a
 #
 FORTRAN= gfortran
 #
+# Comment out one of the following two lines:
 OPTIM=	-O3
+# OPTIM=        -O3 -fallow-argument-mismatch
 #
 all:	$(LALIB) $(BLLIB) $(ARLIB)
 #
