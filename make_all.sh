@@ -1,86 +1,43 @@
 #!/bin/sh
-#
-# Compile linons1
-#
-cd LEOPACK_linons1
-make linons1
-cd ..
-#
-# Compile linons2
-#
-cd LEOPACK_linons2
-make linons2
-cd ..
-#
-# Compile blscnlsc
-#
-cd LEOPACK_blscnlsc
-make blscnlsc
-cd ..
-#
-# Compile blscnlsic
-#
-cd LEOPACK_blscnlsic
-make blscnlsic
-cd ..
-#
-# Compile blscnlsic_evecs
-#
-cd LEOPACK_blscnlsic_evecs
-make blscnlsic_evecs
-cd ..
-#
-# Compile cicubcdts2
-#
-cd LEOPACK_cicubcdts2
-make cicubcdts2
-cd ..
-#
-# Compile cicibcdts2
-#
-cd LEOPACK_cicibcdts2
-make cicibcdts2
-cd ..
-#
-# Compile cicmubcdts2
-#
-cd LEOPACK_cicmubcdts2
-make cicmubcdts2
-cd ..
-#
-# Compile cicmibcdts2
-#
-cd LEOPACK_cicmibcdts2
-make cicmibcdts2
-cd ..
-#
-# Compile iic2cicsc
-#
-cd LEOPACK_iic2cicsc
-make iic2cicsc
-cd ..
-#
-# Compile itfvf
-#
-cd LEOPACK_itfvf
-make itfvf
-cd ..
-#
-# Compile o2ibtctsc2
-#
-cd LEOPACK_o2ibtctsc2
-make o2ibtctsc2
-cd ..
-#
-# Compile o2ubtctsc2
-#
-cd LEOPACK_o2ubtctsc2
-make o2ubtctsc2
-cd ..
-#
-# Compile o2ubcdts2
-#
-cd LEOPACK_o2ubcdts2
-make o2ubcdts2
-cd ..
+for program in  \
+	blscnlsc \
+	blscnlsic \
+	blscnlsic_evecs \
+	cicibcdts2 \
+	cicm2ocdisplay \
+	cicmibcdts2 \
+	cicmsvpnsmap \
+	cicmubcdts2 \
+	cicsvpnsmap \
+	cicubcdts2 \
+	djiepgrf \
+	iic2cicsc \
+	itfvf \
+	krcmrnif \
+	krddmcmrnif \
+	kriepgrf \
+	krssgeps \
+	linons1 \
+	linons2 \
+	mfcanal1 \
+	msvip \
+	o2ibtctsc2 \
+	o2ubcdts2 \
+	o2ubtctsc2 \
+	rsvfg \
+	sbrlinons1 \
+	sbrlinonsd \
+	svenspec \
+	svpnsmap
+do
+  dir=LEOPACK_${program}
+  if test ! -d ${dir}
+  then
+    echo No directory ${dir} found ...
+    exit 1
+  fi
+  cd ${dir}
+  make ${program}
+  cd ..
+done
 #
