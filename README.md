@@ -217,4 +217,26 @@ additional_documentation
 Additional pdf (and tex) files describing the equations and the numerical representations which may be useful to the reader.
 
 
+# Note on GNU Fortran compilers
+
+(Steven J Gibbons 2023/03/02)
+Please take a look at the following if codes will not compile.
+This issue was discovered using gfortran v11.3.0 on Ubuntu 22
+
+https://forum.mmm.ucar.edu/threads/how-to-fix-error-rank-mismatch-between-actual-argument-at-1-and-actual-argument-at-2.11998/#post-27521
+
+This error affects only the external codes in the linalg directory and those stand along programs with eigenvalue problems.
+If this issue occurs then add the term -fallow-argument-mismatch to the end of the line OPTIM= in the relevant Makefile
+
+e.g.
+
+change
+
+OPTIM = -O3
+
+to
+
+OPTIM = -O3  -fallow-argument-mismatch
+
+This will end up giving a warning but will allow the code to compile as before.
 
