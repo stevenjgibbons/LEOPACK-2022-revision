@@ -220,6 +220,8 @@ Additional pdf (and tex) files describing the equations and the numerical repres
 # Note on GNU Fortran compilers
 
 (Steven J Gibbons 2023/03/02)
+
+
 Please take a look at the following if codes will not compile.
 This issue was discovered using gfortran v11.3.0 on Ubuntu 22
 
@@ -240,3 +242,14 @@ OPTIM = -O3  -fallow-argument-mismatch
 
 This will end up giving a warning but will allow the code to compile as before.
 
+Makefiles in the affected directories have two lines:
+
+OPTIM = -O3
+
+OPTIM = -O3  -fallow-argument-mismatch
+
+If you run the script
+
+GNU_test.sh
+
+it will tell you which of these two lines to comment out using #
