@@ -227,7 +227,7 @@ This issue was discovered using gfortran v11.3.0 on Ubuntu 22
 
 https://forum.mmm.ucar.edu/threads/how-to-fix-error-rank-mismatch-between-actual-argument-at-1-and-actual-argument-at-2.11998/#post-27521
 
-This error affects only the external codes in the linalg directory and those stand along programs with eigenvalue problems.
+This error affects only the external codes in the linalg directory and those stand-alone programs with eigenvalue problems.
 If this issue occurs then add the term -fallow-argument-mismatch to the end of the line OPTIM= in the relevant Makefile
 
 e.g.
@@ -253,3 +253,31 @@ If you run the script
 GNU_test.sh
 
 it will tell you which of these two lines to comment out using #
+
+The Makefiles affected are in the following directories:
+
+* linalg
+
+* LEOPACK_blscnlsic
+
+* LEOPACK_blscnlsic_evecs
+
+* LEOPACK_djiepgrf
+
+* LEOPACK_krcmrnif
+
+* LEOPACK_krddmcmrnif
+
+* LEOPACK_kriepgrf
+
+* LEOPACK_krssgeps
+
+* LEOPACK_linons1
+
+* LEOPACK_linons2
+
+* LEOPACK_sbrlinons1
+
+* LEOPACK_sbrlinonsd
+
+
