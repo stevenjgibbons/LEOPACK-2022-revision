@@ -1,0 +1,16 @@
+#
+# Makefile for PROGRAMS directory.
+#
+OPTIM=        -O3 -fallow-argument-mismatch
+FORTRAN= gfortran
+#
+all:	\
+        krcmrnif
+#
+krcmrnif:	krcmrnif.f
+	$(FORTRAN) -o ./krcmrnif krcmrnif.f $(OPTIM)
+	\rm -f *.o
+#
+clean:
+	sh clean.sh
+#
