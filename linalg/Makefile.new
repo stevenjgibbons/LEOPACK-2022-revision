@@ -1,0 +1,66 @@
+#
+# Makefile for linear algebra subroutines.
+# Steve Gibbons Thu Nov 22 14:44:37 WET 2001
+#
+# ONLY compile these IF you do not already have optimised
+# libraries on your system. If, for example, there is
+# an optimised BLAS library on your system then you
+# should not compile the library $(BLLIB). Edit the
+# line 
+# all:    $(LALIB) $(BLLIB) $(ARLIB)
+# so that it reads
+# all:    $(LALIB) $(ARLIB)
+# and then type make.
+#
+BLASSOURCES= \
+    dnrm2.f idamax.f daxpy.f dgemv.f dcopy.f dgemm.f \
+    dger.f dscal.f dswap.f dtrsm.f dtbsv.f dtrmm.f   \
+    dtrmv.f ddot.f dasum.f dgemv.f drot.f dgbmv.f
+#
+LAPACKSOURCES= \
+    dgbtrf.f dgbtrs.f dgetrf.f dgetri.f dgbtf2.f dlaswp.f \
+    xerbla.f dgetf2.f dtrtri.f dtrti2.f ilaenv.f lsame.f \
+    dlahqr.f dgeqr2.f dlacpy.f dlaset.f dorm2r.f dtrevc.f \
+    dtrsen.f dlabad.f dlanv2.f dlarfg.f dlarf.f dlaln2.f \
+    dlacon.f dtrexc.f dtrsyl.f dlarnv.f dlartg.f dlassq.f \
+    dladiv.f dlaexc.f dlasy2.f dlaruv.f dlarfx.f dlapy2.f \
+    dlamch.f dlanhs.f dlange.f dlascl.f dgetrs.f
+#
+ARPACKSOURCES= \
+    dnaupd.f dneupd.f dnaup2.f dvout.f ivout.f second.f dstatn.f \
+    dmout.f dgetv0.f dnaitr.f dnconv.f dneigh.f dngets.f dnapps.f \
+    dlaqrb.f dsortc.f
+#
+LALIB=  ../lib/lalib.a
+BLLIB=  ../lib/bllib.a
+ARLIB=  ../lib/arlib.a
+#
+FORTRAN= gfortran
+#
+OPTIM=	-O3 -fallow-argument-mismatch
+#
+all:	$(LALIB) $(BLLIB) $(ARLIB)
+#
+.PRECIOUS:      $(LALIB) $(BLLIB) $(ARLIB)
+#
+$(LALIB):	$(LAPACKSOURCES)
+	$(FORTRAN) $(OPTIM) $? -c
+	ar rv $(LALIB) *.o
+	ranlib $(LALIB)
+	chmod 644 $(LALIB)
+	\rm *.o
+#
+$(BLLIB):	$(BLASSOURCES)
+	$(FORTRAN) $(OPTIM) $? -c
+	ar rv $(BLLIB) *.o
+	ranlib $(BLLIB)
+	chmod 644 $(BLLIB)
+	\rm *.o
+#
+$(ARLIB):	$(ARPACKSOURCES)
+	$(FORTRAN) $(OPTIM) $? -c
+	ar rv $(ARLIB) *.o
+	ranlib $(ARLIB)
+	chmod 644 $(ARLIB)
+	\rm *.o
+#
