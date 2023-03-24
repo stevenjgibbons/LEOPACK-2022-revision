@@ -11,6 +11,9 @@ https://doi.org/10.5281/zenodo.7632478
 
 [![DOI](https://zenodo.org/badge/552359296.svg)](https://zenodo.org/badge/latestdoi/552359296)
 
+[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
+[![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-silver-lightgrey)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
+
 Between November 2001 and February 2002, I was working at the Institutt for geologi at the
 University of Oslo, Norway, completing a postdoc position funded through the University of
 Leeds in the UK. In this time, I collected and documented a set of codes for thermal convection and 
