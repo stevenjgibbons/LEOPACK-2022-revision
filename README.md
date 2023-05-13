@@ -5,11 +5,11 @@ Steven J. Gibbons (NGI) 2022-10-16
 
 ![Image of the Earth's magnetic field at the Core-Mantle Boundary: a sort of logo for LEOPACK](CMBtancyl.PNG)
 
-Release v1.0.0 (February 11, 2023) is permanently archived under Zenodo with DOI: 10.5281/zenodo.7632478 
+Release v1.0.1 (May 13, 2023) is permanently archived under Zenodo with DOI: 10.5281/zenodo.7932800 
+ 
+https://doi.org/10.5281/zenodo.7932800
 
-https://doi.org/10.5281/zenodo.7632478 
-
-[![DOI](https://zenodo.org/badge/552359296.svg)](https://zenodo.org/badge/latestdoi/552359296)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7932800.svg)](https://doi.org/10.5281/zenodo.7932800)
 
 [![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
 [![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-silver-lightgrey)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
