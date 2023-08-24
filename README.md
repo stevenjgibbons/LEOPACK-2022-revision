@@ -284,4 +284,12 @@ The Makefiles affected are in the following directories:
 * LEOPACK_sbrlinonsd
 
 
-**Running the script fix_Makefiles.sh should put the correct makefiles in all the correct directories**
+**Running the script fix_Makefiles.sh should put the correct makefiles in all the correct directories**   
+
+
+
+Questions regarding the use of the codes  
+========================================  
+
+It is my hope that these codes will be useful and I welcome any use of them. I am interested in hearing about any research performed with their use and I will respond to any questions regarding the programs' operation. The normal caveats will of course apply; I would ask you to send me the exact input files that you are using so that I can reproduce the problem.
+  
