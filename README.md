@@ -43,7 +43,14 @@ https://sites.astro.caltech.edu/~tjp/pgplot/
 As of today's date, I can obtain and compile the PGPLOT software from this source
 and it still works (tested on Ubuntu 20 Linux). (In the original programs you could choose
 gif, png, and postscript as output. I currently only get the postscript output to work.
-I have not yet understood why the other formats are not working.)
+I have not yet understood why the other formats are not working.)  
+
+If one of the graphics programs generates a postscript file output.ps, you can generate
+a pdf file (output.pdf) using  
+psconvert output.ps -Tf -A  
+and a png file (output.png) using  
+psconvert output.ps -TG -A  
+where psconvert is part of the GMT software (https://www.generic-mapping-tools.org/).
 
 To compile the graphics programs, make sure that the line
 PGPLOT_LIB= [location of libpgplot.a]
