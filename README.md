@@ -7,7 +7,15 @@ Steven J. Gibbons (NGI) 2022-10-16
 
 Release v1.0.1 (May 13, 2023) is permanently archived under Zenodo with DOI: 10.5281/zenodo.7932800 
  
-https://doi.org/10.5281/zenodo.7932800
+https://doi.org/10.5281/zenodo.7932800  
+
+An overview of the codes is provided in the following publication:  
+
+Gibbons, S., Willis, A., Davies, C., Gubbins, D. (2023).  
+A set of codes for numerical convection and geodynamo calculations,  
+*RAS Techniques and Instruments*,  
+https://doi.org/10.1093/rasti/rzad043  
+
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7932800.svg)](https://doi.org/10.5281/zenodo.7932800)
 
@@ -299,4 +307,12 @@ Questions regarding the use of the codes
 ========================================  
 
 It is my hope that these codes will be useful and I welcome any use of them. I am interested in hearing about any research performed with their use and I will respond to any questions regarding the programs' operation. The normal caveats will of course apply; I would ask you to send me the exact input files that you are using so that I can reproduce the problem.
+
+If you use the codes, we would like you to refer to the following publication:  
+
+Gibbons, S., Willis, A., Davies, C., Gubbins, D. (2023).  
+A set of codes for numerical convection and geodynamo calculations,  
+*RAS Techniques and Instruments*,  
+https://doi.org/10.1093/rasti/rzad043  
+
   
