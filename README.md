@@ -315,4 +315,7 @@ A set of codes for numerical convection and geodynamo calculations,
 *RAS Techniques and Instruments*,  
 https://doi.org/10.1093/rasti/rzad043  
 
+![Screenshot from the above paper https://doi.org/10.1093/rasti/rzad043 ](PromoScreenshot.png)
+
+
   
