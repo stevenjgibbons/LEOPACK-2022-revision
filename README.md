@@ -9,18 +9,17 @@ Release v1.0.1 (May 13, 2023) is permanently archived under Zenodo with DOI: 10.
  
 https://doi.org/10.5281/zenodo.7932800  
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7932800.svg)](https://doi.org/10.5281/zenodo.7932800)
+
+[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
+[![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-silver-lightgrey)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
+
 An overview of the codes is provided in the following publication:  
 
 Gibbons, S., Willis, A., Davies, C., Gubbins, D. (2023).  
 A set of codes for numerical convection and geodynamo calculations,  
 *RAS Techniques and Instruments*,  
 https://doi.org/10.1093/rasti/rzad043  
-
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7932800.svg)](https://doi.org/10.5281/zenodo.7932800)
-
-[![SQAaaS badge](https://github.com/EOSC-synergy/SQAaaS/raw/master/badges/badges_150x116/badge_software_silver.png)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
-[![SQAaaS badge shields.io](https://img.shields.io/badge/sqaaas%20software-silver-lightgrey)](https://api.eu.badgr.io/public/assertions/OGC9CpKSQzmYdC4jbWdDsw "SQAaaS silver badge achieved")
 
 Between November 2001 and February 2002, I was working at the Institutt for geologi at the
 University of Oslo, Norway, completing a postdoc position funded through the University of
