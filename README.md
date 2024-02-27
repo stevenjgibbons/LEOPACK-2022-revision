@@ -54,9 +54,13 @@ I have not yet understood why the other formats are not working.)
 
 If one of the graphics programs generates a postscript file output.ps, you can generate
 a pdf file (output.pdf) using  
-psconvert output.ps -Tf -A  
+```
+psconvert output.ps -Tf -A
+```
 and a png file (output.png) using  
-psconvert output.ps -TG -A  
+```
+psconvert output.ps -TG -A
+```
 where psconvert is part of the GMT software (https://www.generic-mapping-tools.org/).  
 
 To compile the graphics programs, make sure that the line
@@ -250,25 +254,25 @@ If this issue occurs then add the term -fallow-argument-mismatch to the end of t
 e.g.
 
 change
-
+```
 OPTIM = -O3
-
+```
 to
-
+```
 OPTIM = -O3  -fallow-argument-mismatch
-
+```
 This will end up giving a warning but will allow the code to compile as before.
 
 Makefiles in the affected directories have two lines:
 
+```
 OPTIM = -O3
-
 OPTIM = -O3  -fallow-argument-mismatch
-
+```
 If you run the script
-
+```
 GNU_test.sh
-
+```
 it will tell you which of these two lines to comment out using #
 
 The Makefiles affected are in the following directories:
